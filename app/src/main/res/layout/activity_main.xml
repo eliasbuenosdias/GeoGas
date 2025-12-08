@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- CABECERA PERSONALIZADA (simulando Toolbar) -->
+    <LinearLayout
+        android:id="@+id/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/header_gradient"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true">
+
+        <!-- Título a la izquierda -->
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GeoGas"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Botón de filtros a la derecha -->
+        <LinearLayout
+            android:id="@+id/toolbar_filters_container"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_circle_background_small"
+            android:gravity="center"
+            android:elevation="2dp">
+
+            <ImageButton
+                android:id="@+id/toolbar_filters_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_filter_pro"
+                android:contentDescription="Filtros"
+                android:scaleType="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Mapa (debajo de la cabecera) -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/custom_toolbar" />
+
+    <!-- PANEL DE DETALLES -->
+    <include
+        android:id="@+id/detail_panel"
+        layout="@layout/panel_detalles_gasolinera"
+        android:layout_width="340dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone" />
+
+    <!-- PANEL DE FILTROS -->
+    <include
+        android:id="@+id/filters_panel"
+        layout="@layout/filters_panel"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:visibility="gone" />
+
+    <!-- BOTÓN DE UBICACIÓN PROFESIONAL -->
+    <LinearLayout
+        android:id="@+id/btn_location_container"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/btn_circle_background_small"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btn_my_location"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_location_pro"
+            android:contentDescription="Mi ubicación"
+            android:scaleType="center" />
+
+    </LinearLayout>
+
+    <!-- SPLASH SCREEN -->
+    <include
+        android:id="@+id/splashScreen"
+        layout="@layout/splash_screen" />
+
+</RelativeLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splashContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0e0e0e"
+    android:visibility="visible">
+
+    <!-- Logo/Icono de la app -->
+    <TextView
+        android:id="@+id/splashLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="⛽"
+        android:textColor="#2996EB"
+        android:textSize="64sp"
+        android:textStyle="bold" />
+
+    <!-- Nombre de la app -->
+    <TextView
+        android:id="@+id/splashAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/splashLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="GeoGas"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- Contenedor VERTICAL: spinner ARRIBA, barra ABAJO -->
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/splashProgressText"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Spinner circular giratorio - ARRIBA -->
+        <ProgressBar
+            android:id="@+id/splashSpinner"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="12dp"
+        android:indeterminateTint="#2996EB"
+        android:indeterminate="true"
+        android:visibility="visible" />
+
+        <!-- Barra de progreso horizontal - ABAJO -->
+        <ProgressBar
+            android:id="@+id/splashProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:progressTint="#2996EB"
+            android:progressBackgroundTint="#444444"
+            android:max="100"
+            android:progress="0" />
+
+    </LinearLayout>
+
+    <!-- Texto del porcentaje -->
+    <TextView
+        android:id="@+id/splashProgressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/splashLoadingText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:text="0%"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <!-- Texto de carga dinámico -->
+    <TextView
+        android:id="@+id/splashLoadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:text="Inicializando..."
+        android:textColor="#AAAAAA"
+        android:textSize="12sp"
+        android:textStyle="normal" />
+
+    <!-- Versión de la app -->
+    <TextView
+        android:id="@+id/splashVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="v1.0"
+        android:textColor="#666666"
+        android:textSize="10sp" />
+
+</RelativeLayout>

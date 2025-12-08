@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <View
+        android:layout_width="4dp"
+        android:layout_height="20dp"
+        android:background="#2996EB"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/section_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sección"
+        android:textColor="#1A1A1A"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

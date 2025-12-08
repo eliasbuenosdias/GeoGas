@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/filters_panel"
+    android:layout_width="320dp"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:visibility="gone"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <!-- CABECERA SIMPLE SIN BOTÓN DE FILTROS -->
+        <LinearLayout
+            android:id="@+id/filters_header"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/header_gradient"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <!-- Título -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Filtros"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="start" />
+
+            <!-- Solo botón cerrar -->
+            <ImageButton
+                android:id="@+id/btn_close_filters"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@android:color/white" />
+
+        </LinearLayout>
+
+        <!-- CONTENIDO DESPLAZABLE -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/filters_header"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- SECCIÓN: UBICACIÓN -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ubicación"
+                    android:textColor="#2996EB"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Provincia -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxStrokeColor="#2996EB"
+                    app:hintTextColor="#2996EB">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/filter_provincia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Provincia"
+                        android:inputType="text"
+                        android:completionThreshold="1" /> <!-- Muestra sugerencias desde el primer carácter -->
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Municipio -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxStrokeColor="#2996EB"
+                    app:hintTextColor="#2996EB">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/filter_municipio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Municipio"
+                        android:inputType="text"
+                        android:completionThreshold="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- SECCIÓN: GASOLINERA -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="Gasolinera"
+                    android:textColor="#2996EB"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- AutoCompleteTextView para Gasolinera -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxStrokeColor="#2996EB"
+                    app:hintTextColor="#2996EB">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/filter_gasolinera"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre de la gasolinera..."
+                        android:inputType="text"
+                        android:completionThreshold="1"
+                        android:dropDownHeight="300dp"
+                        android:dropDownVerticalOffset="0dp"
+                        android:dropDownHorizontalOffset="0dp"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- SECCIÓN: COMBUSTIBLES -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Combustibles"
+                    android:textColor="#2996EB"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <CheckBox
+                        android:id="@+id/filter_gasolina95"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Gasolina 95" />
+
+                    <CheckBox
+                        android:id="@+id/filter_gasolina98"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Gasolina 98" />
+
+                    <CheckBox
+                        android:id="@+id/filter_diesel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Diésel Standard" />
+
+                    <CheckBox
+                        android:id="@+id/filter_diesel_premium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Diésel Premium" />
+
+                    <CheckBox
+                        android:id="@+id/filter_glp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GLP" />
+
+                </LinearLayout>
+
+                <!-- SECCIÓN: SERVICIOS -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Servicios"
+                    android:textColor="#2996EB"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <CheckBox
+                        android:id="@+id/filter_24h"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Solo 24 horas" />
+
+                    <CheckBox
+                        android:id="@+id/filter_favoritas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Solo favoritas" />
+
+                </LinearLayout>
+
+                <!-- SECCIÓN: PRECIOS -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Precios Máximos"
+                    android:textColor="#2996EB"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxStrokeColor="#2996EB"
+                    app:hintTextColor="#2996EB">
+
+                    <EditText
+                        android:id="@+id/filter_precio_max_gasolina95"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Precio max. Gasolina 95"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxStrokeColor="#2996EB"
+                    app:hintTextColor="#2996EB">
+
+                    <EditText
+                        android:id="@+id/filter_precio_max_diesel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Precio max. Diésel"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- BOTONES DE ACCIÓN -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+
+                    <Button
+                        android:id="@+id/btn_apply_filters"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Aplicar"
+                        android:layout_marginEnd="8dp"
+                        android:background="#2996EB"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/btn_clear_filters"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Limpiar"
+                        android:layout_marginStart="8dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="#2996EB" />
+
+                </LinearLayout>
+
+                <!-- CONTADOR DE RESULTADOS -->
+                <TextView
+                    android:id="@+id/filter_results_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="0 gasolineras encontradas"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

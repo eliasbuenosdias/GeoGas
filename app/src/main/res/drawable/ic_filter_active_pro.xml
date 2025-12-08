@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="24"
+    android:viewportWidth="24">
+
+    <!-- Filtro con punto indicador -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M4,4 L20,4 L20,6 L4,6 Z" /> <!-- Línea superior -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M6,10 L18,10 L18,12 L6,12 Z" /> <!-- Línea media -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M8,16 L16,16 L16,18 L8,18 Z" /> <!-- Línea inferior -->
+    <!-- Punto indicador (usando path en lugar de circle) -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M21,3 L23,3 L23,5 L21,5 Z" /> <!-- Cuadrado 2x2 como punto -->
+
+</vector>

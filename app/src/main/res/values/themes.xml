@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Tema base para la aplicación -->
+    <style name="Base.Theme.GeoGas" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Personaliza tu tema aquí -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="Theme.GeoGas" parent="Base.Theme.GeoGas" />
+</resources>

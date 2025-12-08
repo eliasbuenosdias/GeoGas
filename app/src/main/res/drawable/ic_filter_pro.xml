@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Filtro simple (triángulo invertido con líneas) -->
+    <path
+        android:fillColor="#2996EB"
+        android:pathData="M4,4 L20,4 L20,6 L4,6 Z" /> <!-- Línea superior -->
+    <path
+        android:fillColor="#2996EB"
+        android:pathData="M6,10 L18,10 L18,12 L6,12 Z" /> <!-- Línea media -->
+    <path
+        android:fillColor="#2996EB"
+        android:pathData="M8,16 L16,16 L16,18 L8,18 Z" /> <!-- Línea inferior -->
+
+</vector>
