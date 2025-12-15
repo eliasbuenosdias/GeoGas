@@ -1,17 +1,14 @@
 /*
- * GeoGas - Sistema de monitoreo de gasolineras de España]
- * Copyright (C) 2025 [Elias Prieto Parrilla]
+ * GeoGas - Sistema de monitorización gasolineras de España
+ * Copyright (c) 2025 [Tu Nombre]
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * GeoGas es software libre; se puede usar, estudiar, compartir y modificar
+ * según los términos de la GNU General Public License, versión 3 o cualquier
+ * versión posterior publicada por la Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Quien redistribuya este programa, con o sin modificaciones, debe conservar
+ * esta nota e incluir el código fuente completo bajo los mismos términos.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * Este programa se proporciona tal cual, sin garantía expresa ni implícita.
+ * Revisa el archivo LICENSE para obtener el texto completo de la licencia.
  */
