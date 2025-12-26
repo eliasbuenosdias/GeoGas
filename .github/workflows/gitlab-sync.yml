@@ -1,0 +1,29 @@
+name: Sincronizar a GitLab
+
+on:
+  push:
+    branches:
+      - master    # Importante: Tu repositorio usa 'master' según el archivo adjunto
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sincronizar a GitLab
+        uses: wangchucheng/git-repo-sync-gitlab@v0.1.0
+        with:
+          # Esta es la dirección de TU repositorio en GitLab (el destino)
+          # Nota: Asegúrate de que esta URL funcione en tu navegador
+          target-url: https://gitlab.com/eliasbuenosdias1-group/GeoGas
+          
+          # Tu nombre de usuario en GitLab
+          target-username: aichumailla
+          
+          # El token que guardaste en los Secretos de GitHub
+          target-token: ${{ secrets.GITLAB_TOKEN }}
