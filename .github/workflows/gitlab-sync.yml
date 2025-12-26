@@ -20,7 +20,7 @@ jobs:
           # Tu usuario real de GitLab
           USERNAME: "aichumailla"
           # El token secreto que guardaste en GitHub
-          TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          TOKEN: ${{ secrets.GEOGAS }}
           # La parte de la URL después de "https://gitlab.com/"
           # Es IMPORTANTE que coincida con la estructura Grupo/Proyecto
           GITLAB_PATH: "eliasbuenosdias1-group/GeoGas.git"
