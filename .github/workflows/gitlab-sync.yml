@@ -3,27 +3,34 @@ name: Sincronizar a GitLab
 on:
   push:
     branches:
-      - master    # Importante: Tu repositorio usa 'master' según el archivo adjunto
+      - master
   workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del código
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Sincronizar a GitLab
-        uses: wangchucheng/git-repo-sync-gitlab@v0.1.0
-        with:
-          # Esta es la dirección de TU repositorio en GitLab (el destino)
-          # Nota: Asegúrate de que esta URL funcione en tu navegador
-          target-url: https://gitlab.com/eliasbuenosdias1-group/GeoGas
+      - name: Empujar a GitLab
+        env:
+          # Tu usuario real de GitLab
+          USERNAME: "aichumailla"
+          # El token secreto que guardaste en GitHub
+          TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          # La parte de la URL después de "https://gitlab.com/"
+          # Es IMPORTANTE que coincida con la estructura Grupo/Proyecto
+          GITLAB_PATH: "eliasbuenosdias1-group/GeoGas.git"
+        run: |
+          # Construimos la URL completa con credenciales incrustadas
+          # Formato: https://USUARIO:TOKEN@gitlab.com/GRUPO/PROYECTO.git
+          REMOTE_URL="https://${USERNAME}:${TOKEN}@gitlab.com/${GITLAB_PATH}"
           
-          # Tu nombre de usuario en GitLab
-          target-username: aichumailla
+          echo "Configurando remoto GitLab..."
+          git remote add gitlab "$REMOTE_URL"
           
-          # El token que guardaste en los Secretos de GitHub
-          target-token: ${{ secrets.GITLAB_TOKEN }}
+          echo "Empujando cambios a la rama master..."
+          git push gitlab master --force
