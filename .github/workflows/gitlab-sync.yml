@@ -60,4 +60,7 @@ jobs:
           echo "Añadiendo enlace al APK de GitHub como asset..."
 
           curl --silent --show-error --fail \
-               --header "PRIVA
+               --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+               --header "Content-Type: application/json" \
+               --data "{\"name\": \"GeoGas APK (GitHub)\", \"url\": \"${GITHUB_APK_URL}\"}" \
+               --request POST "${API}/releases/${TAG_NAME}/assets/links" || echo "El asset ya existe o no se pudo crear"
