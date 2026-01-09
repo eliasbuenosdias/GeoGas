@@ -40,7 +40,7 @@ jobs:
           TAG_NAME: "v1.0.0"
           GITHUB_APK_URL: "https://github.com/eliasbuenosdias/GeoGas/releases/download/v1.0.0/GeoGas-1.0.0.apk"
         run: |
-          API="https://gitlab.com/api/v4/projects/${GITLAB_PROJECT_ID}"
+          API="https://gitlab.com/api/v4/projects/${77120516}"
 
           echo "Creando/actualizando release ${TAG_NAME} en GitLab..."
 
