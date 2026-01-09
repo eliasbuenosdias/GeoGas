@@ -15,25 +15,58 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Empujar a GitLab
+      - name: Empujar a GitLab (rama + tags)
         env:
-          # Tu usuario real de GitLab
           USERNAME: "aichumailla"
-          # El token secreto que guardaste en GitHub
           TOKEN: ${{ secrets.GEOGAS }}
-          # La parte de la URL después de "https://gitlab.com/"
-          # Es IMPORTANTE que coincida con la estructura Grupo/Proyecto
           GITLAB_PATH: "eliasbuenosdias1-group/GeoGas.git"
         run: |
-          # Construimos la URL completa con credenciales incrustadas
-          # Formato: https://USUARIO:TOKEN@gitlab.com/GRUPO/PROYECTO.git
+          # URL completa del remoto GitLab
           REMOTE_URL="https://${USERNAME}:${TOKEN}@gitlab.com/${GITLAB_PATH}"
           
           echo "Configurando remoto GitLab..."
-          git remote add gitlab "$REMOTE_URL"
+          git remote add gitlab "$REMOTE_URL" || git remote set-url gitlab "$REMOTE_URL"
           
           echo "Empujando cambios a la rama master..."
           git push gitlab master --force
-
+          
           echo "Empujando tags..."
           git push gitlab --tags --force
+
+      - name: Crear/actualizar release en GitLab con APK
+        env:
+          GITLAB_TOKEN: ${{ secrets.GEOGAS }}
+          # ID numérico del proyecto en GitLab (míralo en Settings > General)
+          GITLAB_PROJECT_ID: "AQUI_EL_ID_NUMERICO"
+          TAG_NAME: "v1.0.0"
+          # Ruta del APK dentro del repo Git (por ejemplo en una carpeta releases/)
+          APK_PATH: "releases/GeoGas-1.0.0.apk"
+          # Ruta “grupo/proyecto” SIN .git para construir la URL de GitLab
+          GITLAB_PROJECT_PATH: "eliasbuenosdias1-group/GeoGas"
+        run: |
+          API="https://gitlab.com/api/v4/projects/${GITLAB_PROJECT_ID}"
+
+          echo "Creando/actualizando release ${TAG_NAME} en GitLab..."
+
+          # Crear release (si no existe)
+          curl --silent --show-error --fail \
+               --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+               --header "Content-Type: application/json" \
+               --data "{\"name\": \"GeoGas ${TAG_NAME}\", \"tag_name\": \"${TAG_NAME}\"}" \
+               --request POST "${API}/releases" || \
+          # Si ya existe, actualizar solo el nombre
+          curl --silent --show-error --fail \
+               --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+               --header "Content-Type: application/json" \
+               --data "{\"name\": \"GeoGas ${TAG_NAME}\"}" \
+               --request PUT "${API}/releases/${TAG_NAME}"
+
+          echo "Añadiendo enlace al APK como asset de la release..."
+
+          APK_URL="https://gitlab.com/${GITLAB_PROJECT_PATH}/-/raw/${TAG_NAME}/${APK_PATH}"
+
+          curl --silent --show-error --fail \
+               --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+               --header "Content-Type: application/json" \
+               --data "{\"name\": \"GeoGas APK\", \"url\": \"${APK_URL}\"}" \
+               --request POST "${API}/releases/${TAG_NAME}/assets/links" || echo "El asset ya existe o no se pudo crear"
