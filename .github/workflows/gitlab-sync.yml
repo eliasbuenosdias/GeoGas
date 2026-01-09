@@ -34,3 +34,6 @@ jobs:
           
           echo "Empujando cambios a la rama master..."
           git push gitlab master --force
+
+          echo "Empujando tags..."
+          git push gitlab --tags --force
