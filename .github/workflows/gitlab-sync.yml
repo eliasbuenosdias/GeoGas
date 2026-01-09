@@ -70,3 +70,36 @@ jobs:
                --header "Content-Type: application/json" \
                --data "{\"name\": \"GeoGas APK\", \"url\": \"${APK_URL}\"}" \
                --request POST "${API}/releases/${TAG_NAME}/assets/links" || echo "El asset ya existe o no se pudo crear"
+
+                     - name: Crear/actualizar release en GitLab con enlace a la APK de GitHub
+        env:
+          GITLAB_TOKEN: ${{ secrets.GEOGAS }}
+          GITLAB_PROJECT_ID: "77120516"
+          TAG_NAME: "v1.0.0"
+          GITHUB_APK_URL: "https://github.com/eliasbuenosdias/GeoGas/releases/download/v1.0.0/GeoGas-1.0.0.apk"
+        run: |
+          API="https://gitlab.com/api/v4/projects/${GITLAB_PROJECT_ID}"
+
+          echo "Creando/actualizando release ${TAG_NAME} en GitLab..."
+
+          # Crear release (si no existe)
+          curl --silent --show-error --fail \
+               --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+               --header "Content-Type: application/json" \
+               --data "{\"name\": \"GeoGas ${TAG_NAME}\", \"tag_name\": \"${TAG_NAME}\"}" \
+               --request POST "${API}/releases" || \
+          # Si ya existe, actualizar solo el nombre
+          curl --silent --show-error --fail \
+               --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+               --header "Content-Type: application/json" \
+               --data "{\"name\": \"GeoGas ${TAG_NAME}\"}" \
+               --request PUT "${API}/releases/${TAG_NAME}"
+
+          echo "Añadiendo enlace al APK de GitHub como asset..."
+
+          curl --silent --show-error --fail \
+               --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+               --header "Content-Type: application/json" \
+               --data "{\"name\": \"GeoGas APK (GitHub)\", \"url\": \"${GITHUB_APK_URL}\"}" \
+               --request POST "${API}/releases/${TAG_NAME}/assets/links" || echo "El asset ya existe o no se pudo crear"
+
