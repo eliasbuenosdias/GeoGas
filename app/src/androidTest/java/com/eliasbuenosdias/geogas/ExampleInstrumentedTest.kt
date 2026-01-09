@@ -1,4 +1,4 @@
-package com.example.geogas
+package com.eliasbuenosdias.geogas
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
