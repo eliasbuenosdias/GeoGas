@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.geogas"
+    namespace = "com.eliasbuenosdias.geogas"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.geogas"
+        applicationId = "com.eliasbuenosdias.geogas"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
