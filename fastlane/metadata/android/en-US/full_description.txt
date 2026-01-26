@@ -1,2 +1,8 @@
-Description:
-GeoGas allows users to monitor price data from Spain gas Station.
+<i>GeoGas</i> allows users to locate the cheapest gas stations in their area, facilitating fuel savings through a geolocation system and real-time price comparison.
+
+<b>Key Features:</b>
+
+* Automatic Geolocation: Detects your location and shows the nearest gas stations
+* Price Comparison: View up-to-date prices for gasoline, diesel, and other fuels
+* Advanced Search: Filter by fuel type, distance, and hours
+* Favorites System: Save your favorite gas stations for quick access
