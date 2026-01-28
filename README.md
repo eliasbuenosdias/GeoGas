@@ -1,5 +1,11 @@
 # GeoGas - Encuentra las Gasolineras Más Baratas
 
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png" height="80" alt="Get it at IzzyOnDroid">](https://apt.izzysoft.de/packages/com.eliasbuenosdias.geogas)
+
+[![IzzyOnDroid Yearly Downloads](https://img.shields.io/badge/dynamic/json?url=https://dlstats.izzyondroid.org/iod-stats-collector/stats/basic/yearly/rolling.json&query=$.['com.eliasbuenosdias.geogas']&label=IzzyOnDroid%20yearly%20downloads)](https://apt.izzysoft.de/packages/<packageName>)
+
+[![RB Status](https://shields.rbtlog.dev/simple/<packageName>?style=for-the-badge)](https://shields.rbtlog.dev/com.eliasbuenosdias.geogas)
+
 ## 📖 Descripción del Proyecto
 
 GeoGas es una aplicación móvil desarrollada como trabajo de fin de ciclo para el Grado Superior de Desarrollo de Aplicaciones Multiplataforma en el IES Venancio Blanco. La aplicación permite a los usuarios localizar las gasolineras más económicas en su zona, facilitando el ahorro en combustible mediante un sistema de geolocalización y comparación de precios en tiempo real.
