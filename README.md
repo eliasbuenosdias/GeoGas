@@ -4,7 +4,7 @@
 
 [![IzzyOnDroid Yearly Downloads](https://img.shields.io/badge/dynamic/json?url=https://dlstats.izzyondroid.org/iod-stats-collector/stats/basic/yearly/rolling.json&query=$.['com.eliasbuenosdias.geogas']&label=IzzyOnDroid%20yearly%20downloads)](https://apt.izzysoft.de/packages/com.eliasbuenosdias.geogas)
 
-[![RB Status](https://shields.rbtlog.dev/simple/com.eliasbuenosdias.geogas>?style=for-the-badge)](https://shields.rbtlog.dev/com.eliasbuenosdias.geogas)
+[![RB Status](https://shields.rbtlog.dev/simple/com.eliasbuenosdias.geogas?style=for-the-badge)](https://shields.rbtlog.dev/com.eliasbuenosdias.geogas)
 
 ## 📖 Descripción del Proyecto
 
