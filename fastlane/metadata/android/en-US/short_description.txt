@@ -1,2 +1,1 @@
-Description:
-GeoGas allows users to monitor price data from Spain gas Station
+GeoGas allows users to monitor price data from Spanish gas stations
