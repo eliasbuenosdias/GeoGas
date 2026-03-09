@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Colores principales para Material Components -->
-    <color name="colorPrimary">#2996EB</color>
-    <color name="colorPrimaryDark">#111111</color>
-    <color name="colorAccent">#03DAC5</color>
+    <!-- Nord (Dark Theme) -->
+    <color name="colorPrimary">#88C0D0</color> <!-- Frost Blue -->
+    <color name="colorPrimaryDark">#2E3440</color> <!-- Nord0 -->
+    <color name="colorAccent">#EBCB8B</color> <!-- Gold/Gold -->
 
-    <!-- Colores de superficie y fondo en modo oscuro -->
-    <color name="backgroundColor">#121212</color>
-    <color name="surfaceColor">#1E1E1E</color>
+    <!-- Backgrounds & Surfaces -->
+    <color name="backgroundColor">#2E3440</color> <!-- Nord0 -->
+    <color name="surfaceColor">#3B4252</color> <!-- Nord1 -->
+    <color name="surfaceColorGlass">#E63B4252</color> <!-- 90% Nord1 -->
+    <color name="fieldBackgroundColor">#1A88C0D0</color> <!-- 10% Frozen Blue -->
     
-    <!-- Colores de texto en modo oscuro -->
-    <color name="textColorPrimary">#E1E1E1</color>
-    <color name="textColorSecondary">#A0A0A0</color>
-    <color name="textColorAccent">#4AA9FF</color>
+    <!-- Text Colors -->
+    <color name="textColorPrimary">#D8DEE9</color> <!-- Nord4 -->
+    <color name="textColorSecondary">#94A3B8</color> <!-- Custom grey or Nord5 -->
+    <color name="textColorAccent">#88C0D0</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
     <!-- Colores para los botones en modo oscuro -->
     <color name="button_background">#1E1E1E</color>

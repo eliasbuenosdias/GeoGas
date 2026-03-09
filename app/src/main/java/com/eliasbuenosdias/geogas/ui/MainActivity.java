@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_GeoGas);
         super.onCreate(savedInstanceState);
         setupOsmdroidConfig();
         setContentView(R.layout.activity_main);
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         filtersContainer.setVisibility(View.VISIBLE);
         int width = filtersContainer.getWidth();
         if (width <= 0)
-            width = (int) (320 * getResources().getDisplayMetrics().density); // Fallback size
+            width = (int) (360 * getResources().getDisplayMetrics().density); // Fallback size
 
         filtersContainer.setTranslationX(-width);
         filtersContainer.animate().translationX(0).setDuration(300).start();
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         int width = filtersContainer.getWidth();
         if (width <= 0)
-            width = (int) (320 * getResources().getDisplayMetrics().density);
+            width = (int) (360 * getResources().getDisplayMetrics().density);
 
         filtersContainer.animate().translationX(-width)
                 .setDuration(300).withEndAction(() -> filtersContainer.setVisibility(View.GONE)).start();

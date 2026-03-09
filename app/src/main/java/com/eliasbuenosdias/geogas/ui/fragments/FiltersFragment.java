@@ -88,7 +88,7 @@ public class FiltersFragment extends Fragment {
     private void setupAdapter(AutoCompleteTextView view, List<String> data) {
         if (getContext() == null || data == null)
             return;
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_item,
                 data);
         view.setAdapter(adapter);
     }
@@ -120,6 +120,27 @@ public class FiltersFragment extends Fragment {
     }
 
     private void setupListeners() {
+        // Mejorar la experiencia de los AutoCompleteTextView
+        View.OnClickListener clickListener = v -> {
+            if (v instanceof AutoCompleteTextView) {
+                ((AutoCompleteTextView) v).showDropDown();
+            }
+        };
+
+        filterProvincia.setOnClickListener(clickListener);
+        filterMunicipio.setOnClickListener(clickListener);
+        filterGasolinera.setOnClickListener(clickListener);
+
+        // Mostrar dropdown al recibir foco
+        View.OnFocusChangeListener focusListener = (v, hasFocus) -> {
+            if (hasFocus && v instanceof AutoCompleteTextView) {
+                ((AutoCompleteTextView) v).showDropDown();
+            }
+        };
+        filterProvincia.setOnFocusChangeListener(focusListener);
+        filterMunicipio.setOnFocusChangeListener(focusListener);
+        filterGasolinera.setOnFocusChangeListener(focusListener);
+
         if (btnApplyFilters != null) {
             btnApplyFilters.setOnClickListener(v -> {
                 updateFiltrosFromUI();

@@ -5,12 +5,30 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorAccent</item> <!-- Secondary often used for widgets -->
         <item name="android:windowBackground">@color/backgroundColor</item>
         <item name="colorSurface">@color/surfaceColor</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        
+        <!-- Selection Widgets & Interaction -->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/fieldBackgroundColor</item>
+        <item name="android:listSelector">@color/fieldBackgroundColor</item>
+        <item name="checkboxStyle">@style/Widget.MaterialComponents.CompoundButton.CheckBox</item>
+        <item name="android:listChoiceBackgroundIndicator">@color/fieldBackgroundColor</item>
+        <item name="android:popupBackground">@color/surfaceColor</item>
+        
+        <!-- Botones redondeados por defecto -->
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
     </style>
 
-
     <style name="Theme.GeoGas" parent="Base.Theme.GeoGas" />
+
+    <!-- Tema de inicio para evitar el doble logo en Android 12+ -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorPrimaryDark</item>
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="postSplashScreenTheme">@style/Theme.GeoGas</item>
+    </style>
 </resources>

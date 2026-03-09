@@ -1,8 +1,18 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     //alias(libs.plugins.kotlin.compose)
 }
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 
 android {
     namespace = "com.eliasbuenosdias.geogas"
@@ -27,8 +37,19 @@ android {
         includeInBundle = false
     }
 
+    signingConfigs {
+        create("release") {
+            val storeFilePath = System.getenv("KEYSTORE_FILE_PATH") ?: keystoreProperties["storeFile"] as String? ?: "../geogas-release.jks"
+            storeFile = file(storeFilePath)
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: keystoreProperties["storePassword"] as String? ?: ""
+            keyAlias = System.getenv("KEY_ALIAS") ?: keystoreProperties["keyAlias"] as String? ?: ""
+            keyPassword = System.getenv("KEY_PASSWORD") ?: keystoreProperties["keyPassword"] as String? ?: ""
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -58,6 +79,7 @@ dependencies {
     //implementation(libs.androidx.compose.ui.tooling.preview)
     //implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.splashscreen)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

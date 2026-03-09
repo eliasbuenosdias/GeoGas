@@ -4,34 +4,41 @@
     android:id="@+id/detail_panel_card"
     android:layout_width="340dp"
     android:layout_height="match_parent"
-    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="@color/surfaceColorGlass"
+    app:cardCornerRadius="16dp"
     app:cardElevation="16dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    android:layout_margin="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/surfaceColor">
+        android:background="@android:color/transparent">
 
 
         <!-- CABECERA FIJA CON GRADIENTE -->
         <LinearLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:minHeight="60dp"
             android:layout_alignParentTop="true"
             android:background="@drawable/header_gradient"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:gravity="center_vertical">
 
             <!-- Botón cerrar -->
             <ImageButton
                 android:id="@+id/btn_close_panel"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="?selectableItemBackgroundBorderless"
+                android:padding="8dp"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
-                app:tint="@android:color/white" />
+                app:tint="@android:color/white"
+                android:scaleType="centerInside" />
 
             <Space
                 android:layout_width="0dp"
@@ -41,12 +48,14 @@
             <!-- Botón favorito en cabecera -->
             <ImageButton
                 android:id="@+id/btn_favorite"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="?selectableItemBackgroundBorderless"
+                android:padding="8dp"
                 android:src="@android:drawable/btn_star_big_off"
                 android:contentDescription="Añadir a favoritos"
-                app:tint="@android:color/white" />
+                app:tint="@android:color/white"
+                android:scaleType="centerInside" />
 
         </LinearLayout>
 
@@ -65,8 +74,29 @@
                 android:orientation="vertical">
 
                 <!-- SECCIÓN: INFORMACIÓN PRINCIPAL -->
-                <include layout="@layout/section_header"
-                    android:id="@+id/section_info" />
+                <!-- SECCIÓN: INFORMACIÓN PRINCIPAL -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/textColorAccent"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Información General"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -156,8 +186,29 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- SECCIÓN: PRECIOS GASOLINA -->
-                <include layout="@layout/section_header"
-                    android:id="@+id/section_gasolina" />
+                <!-- SECCIÓN: PRECIOS GASOLINA -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/textColorAccent"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precios Gasolina"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -176,8 +227,29 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- SECCIÓN: PRECIOS DIÉSEL -->
-                <include layout="@layout/section_header"
-                    android:id="@+id/section_diesel" />
+                <!-- SECCIÓN: PRECIOS DIÉSEL -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/textColorAccent"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precios Diésel"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -196,8 +268,29 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- SECCIÓN: COMBUSTIBLES ALTERNATIVOS -->
-                <include layout="@layout/section_header"
-                    android:id="@+id/section_alternativos" />
+                <!-- SECCIÓN: COMBUSTIBLES ALTERNATIVOS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/textColorAccent"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Combustibles Alternativos"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -216,8 +309,29 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- SECCIÓN: INFORMACIÓN ADICIONAL -->
-                <include layout="@layout/section_header"
-                    android:id="@+id/section_adicional" />
+                <!-- SECCIÓN: INFORMACIÓN ADICIONAL -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/textColorAccent"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Información Adicional"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"

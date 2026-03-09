@@ -2,26 +2,31 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/filters_panel"
-    android:layout_width="320dp"
+    android:layout_width="360dp"
     android:layout_height="match_parent"
     android:layout_alignParentStart="true"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="16dp">
+    app:cardBackgroundColor="@color/surfaceColorGlass"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="16dp"
+    app:cardUseCompatPadding="true"
+    android:layout_margin="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/surfaceColor">
+        android:background="@android:color/transparent">
 
 
         <!-- CABECERA SIMPLE SIN BOTÓN DE FILTROS -->
         <LinearLayout
             android:id="@+id/filters_header"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:minHeight="60dp"
             android:background="@drawable/header_gradient"
             android:orientation="horizontal"
-            android:padding="16dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
             android:gravity="center_vertical">
 
             <!-- Título -->
@@ -38,11 +43,13 @@
             <!-- Solo botón cerrar -->
             <ImageButton
                 android:id="@+id/btn_close_filters"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="?selectableItemBackgroundBorderless"
+                android:padding="8dp"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
-                app:tint="@android:color/white" />
+                app:tint="@android:color/white"
+                android:scaleType="centerInside" />
 
         </LinearLayout>
 
@@ -51,7 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/filters_header"
-            android:padding="16dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:scrollbarStyle="outsideOverlay">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,47 +78,77 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
 
-                <!-- Provincia -->
+                <!-- Provincia Label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Provincia"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="4dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="@color/textColorAccent"
-                    app:hintTextColor="@color/textColorAccent">
+                    android:layout_marginBottom="12dp"
+                    app:boxBackgroundMode="none"
+                    android:background="@drawable/field_pill_background"
+                    android:addStatesFromChildren="true"
+                    app:hintEnabled="false"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/field_icon_color_selector">
 
                     <AutoCompleteTextView
                         android:id="@+id/filter_provincia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Provincia"
+                        android:hint="Escribe o selecciona..."
                         android:inputType="text"
-                        android:completionThreshold="1" /> <!-- Muestra sugerencias desde el primer carácter -->
+                        android:completionThreshold="1"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="12dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/field_text_color_selector"
+                        android:textColorHint="@color/field_hint_color_selector"
+                        android:selectAllOnFocus="true"
+                        android:popupBackground="@color/surfaceColor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Municipio -->
+                <!-- Municipio Label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Municipio"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="4dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="@color/textColorAccent"
-                    app:hintTextColor="@color/textColorAccent">
+                    app:boxBackgroundMode="none"
+                    android:background="@drawable/field_pill_background"
+                    android:addStatesFromChildren="true"
+                    app:hintEnabled="false"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/field_icon_color_selector">
 
                     <AutoCompleteTextView
                         android:id="@+id/filter_municipio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Municipio"
+                        android:hint="Escribe o selecciona..."
                         android:inputType="text"
-                        android:completionThreshold="1" />
+                        android:completionThreshold="1"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="12dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/field_text_color_selector"
+                        android:textColorHint="@color/field_hint_color_selector"
+                        android:selectAllOnFocus="true"
+                        android:popupBackground="@color/surfaceColor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,29 +163,44 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
 
-                <!-- AutoCompleteTextView para Gasolinera -->
+                <!-- Gasolinera Label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre de la Gasolinera"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="4dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="@color/textColorAccent"
-                    app:hintTextColor="@color/textColorAccent">
+                    app:boxBackgroundMode="none"
+                    android:background="@drawable/field_pill_background"
+                    android:addStatesFromChildren="true"
+                    app:hintEnabled="false"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/field_icon_color_selector">
 
                     <AutoCompleteTextView
                         android:id="@+id/filter_gasolinera"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nombre de la gasolinera..."
+                        android:hint="Buscar por marca..."
                         android:inputType="text"
                         android:completionThreshold="1"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="12dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/field_text_color_selector"
+                        android:textColorHint="@color/field_hint_color_selector"
                         android:dropDownHeight="300dp"
                         android:dropDownVerticalOffset="0dp"
                         android:dropDownHorizontalOffset="0dp"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:selectAllOnFocus="true"
+                        android:popupBackground="@color/surfaceColor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,31 +224,41 @@
                         android:id="@+id/filter_gasolina95"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Gasolina 95" />
+                        android:text="Gasolina 95"
+                        android:textColor="@color/textColorPrimary"
+                        app:buttonTint="@color/colorPrimary" />
 
                     <CheckBox
                         android:id="@+id/filter_gasolina98"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Gasolina 98" />
+                        android:text="Gasolina 98"
+                        android:textColor="@color/textColorPrimary"
+                        app:buttonTint="@color/colorPrimary" />
 
                     <CheckBox
                         android:id="@+id/filter_diesel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Diésel Standard" />
+                        android:text="Diésel Standard"
+                        android:textColor="@color/textColorPrimary"
+                        app:buttonTint="@color/colorPrimary" />
 
                     <CheckBox
                         android:id="@+id/filter_diesel_premium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Diésel Premium" />
+                        android:text="Diésel Premium"
+                        android:textColor="@color/textColorPrimary"
+                        app:buttonTint="@color/colorPrimary" />
 
                     <CheckBox
                         android:id="@+id/filter_glp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="GLP" />
+                        android:text="GLP"
+                        android:textColor="@color/textColorPrimary"
+                        app:buttonTint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -217,13 +282,17 @@
                         android:id="@+id/filter_24h"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Solo 24 horas" />
+                        android:text="Solo 24 horas"
+                        android:textColor="@color/textColorPrimary"
+                        app:buttonTint="@color/colorPrimary" />
 
                     <CheckBox
                         android:id="@+id/filter_favoritas"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Solo favoritas" />
+                        android:text="Solo favoritas"
+                        android:textColor="@color/textColorPrimary"
+                        app:buttonTint="@color/colorPrimary" />
 
                 </LinearLayout>
 
@@ -237,43 +306,73 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
 
+                <!-- Gasolina 95 Label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Precio max. Gasolina 95"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="4dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="@color/textColorAccent"
-                    app:hintTextColor="@color/textColorAccent">
+                    app:boxBackgroundMode="none"
+                    android:background="@drawable/field_pill_background"
+                    android:addStatesFromChildren="true"
+                    app:hintEnabled="false"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/field_icon_color_selector">
 
                     <EditText
                         android:id="@+id/filter_precio_max_gasolina95"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Precio max. Gasolina 95"
-                        android:inputType="numberDecimal" />
+                        android:hint="Ej: 1.65"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="12dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/field_text_color_selector"
+                        android:textColorHint="@color/field_hint_color_selector"
+                        android:selectAllOnFocus="true" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Diésel Label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Precio max. Diésel"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="4dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:boxCornerRadiusTopStart="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="#2996EB"
-                    app:hintTextColor="#2996EB">
+                    app:boxBackgroundMode="none"
+                    android:background="@drawable/field_pill_background"
+                    android:addStatesFromChildren="true"
+                    app:hintEnabled="false"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/field_icon_color_selector">
 
                     <EditText
                         android:id="@+id/filter_precio_max_diesel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Precio max. Diésel"
-                        android:inputType="numberDecimal" />
+                        android:hint="Ej: 1.50"
+                        android:inputType="numberDecimal"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="12dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/field_text_color_selector"
+                        android:textColorHint="@color/field_hint_color_selector"
+                        android:selectAllOnFocus="true" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -282,28 +381,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="24dp"
+                    android:paddingBottom="16dp">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_apply_filters"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
                         android:text="Aplicar"
                         android:layout_marginEnd="8dp"
-                        android:background="@color/textColorAccent"
-                        android:textColor="@android:color/white" />
+                        app:cornerRadius="28dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:elevation="4dp" />
 
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_clear_filters"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
                         android:text="Limpiar"
                         android:layout_marginStart="8dp"
-                        android:background="@android:color/transparent"
-                        android:textColor="#2996EB" />
+                        app:cornerRadius="28dp"
+                        app:strokeColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimary"
+                        android:textAllCaps="false"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
