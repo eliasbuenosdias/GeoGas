@@ -37,12 +37,16 @@ jobs:
         env:
           GITLAB_TOKEN: ${{ secrets.GEOGAS }}
           GITLAB_PROJECT_ID: "77120516"  # ID numérico de tu proyecto en GitLab
-          TAG_NAME: "v1.0.0"
-          GITHUB_APK_URL: "https://github.com/eliasbuenosdias/GeoGas/releases/download/v1.0.0/GeoGas-1.0.0.apk"
         run: |
+          # Obtener el último tag dinámicamente
+          TAG_NAME=$(git describe --tags --abbrev=0)
+          VERSION_NAME=${TAG_NAME#v}
+          GITHUB_APK_URL="https://github.com/eliasbuenosdias/GeoGas/releases/download/${TAG_NAME}/GeoGas-${VERSION_NAME}.apk"
+          
           API="https://gitlab.com/api/v4/projects/${GITLAB_PROJECT_ID}"
 
           echo "Creando/actualizando release ${TAG_NAME} en GitLab..."
+
 
           # Crear release (si no existe)
           curl --silent --show-error --fail \
