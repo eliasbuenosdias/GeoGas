@@ -71,7 +71,7 @@ public class GasStationViewModel extends ViewModel {
     public void loadData(com.eliasbuenosdias.geogas.api.MitecoApiService apiService) {
         isLoading.setValue(true);
         progress.setValue(10);
-        statusMessage.setValue("Conectando con servidor...");
+        statusMessage.setValue("Cargando gasolineras...");
 
         apiService.obtenerGasolineras().enqueue(new retrofit2.Callback<com.google.gson.JsonElement>() {
             @Override
