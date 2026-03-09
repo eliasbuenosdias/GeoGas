@@ -35,7 +35,7 @@ jobs:
 
       - name: Build with Gradle
         env:
-          KEYSTORE_FILE_PATH: "geogas-release.jks"
+          KEYSTORE_FILE_PATH: "../geogas-release.jks"
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
