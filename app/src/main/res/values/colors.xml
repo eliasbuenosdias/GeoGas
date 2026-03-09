@@ -11,9 +11,19 @@
     <color name="colorPrimaryDark">#1A6FC4</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <!-- Colores de superficie y fondo -->
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="surfaceColor">#FFFFFF</color>
+    
+    <!-- Colores de texto -->
+    <color name="textColorPrimary">#1A1A1A</color>
+    <color name="textColorSecondary">#666666</color>
+    <color name="textColorAccent">#2996EB</color>
+
     <!-- Colores adicionales útiles -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
     <color name="gray_light">#F5F5F5</color>
     <color name="gray_dark">#333333</color>
 

@@ -12,7 +12,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@color/surfaceColor">
+
 
         <!-- CABECERA SIMPLE SIN BOTÓN DE FILTROS -->
         <LinearLayout
@@ -63,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ubicación"
-                    android:textColor="#2996EB"
+                    android:textColor="@color/textColorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
@@ -77,8 +78,8 @@
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="#2996EB"
-                    app:hintTextColor="#2996EB">
+                    app:boxStrokeColor="@color/textColorAccent"
+                    app:hintTextColor="@color/textColorAccent">
 
                     <AutoCompleteTextView
                         android:id="@+id/filter_provincia"
@@ -99,8 +100,8 @@
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="#2996EB"
-                    app:hintTextColor="#2996EB">
+                    app:boxStrokeColor="@color/textColorAccent"
+                    app:hintTextColor="@color/textColorAccent">
 
                     <AutoCompleteTextView
                         android:id="@+id/filter_municipio"
@@ -118,7 +119,7 @@
                     android:layout_height="wrap_content"
 
                     android:text="Gasolinera"
-                    android:textColor="#2996EB"
+                    android:textColor="@color/textColorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
@@ -132,8 +133,8 @@
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="#2996EB"
-                    app:hintTextColor="#2996EB">
+                    app:boxStrokeColor="@color/textColorAccent"
+                    app:hintTextColor="@color/textColorAccent">
 
                     <AutoCompleteTextView
                         android:id="@+id/filter_gasolinera"
@@ -154,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Combustibles"
-                    android:textColor="#2996EB"
+                    android:textColor="@color/textColorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
@@ -202,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Servicios"
-                    android:textColor="#2996EB"
+                    android:textColor="@color/textColorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
@@ -232,7 +233,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Precios Máximos"
-                    android:textColor="#2996EB"
+                    android:textColor="@color/textColorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
@@ -245,8 +246,8 @@
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxStrokeColor="#2996EB"
-                    app:hintTextColor="#2996EB">
+                    app:boxStrokeColor="@color/textColorAccent"
+                    app:hintTextColor="@color/textColorAccent">
 
                     <EditText
                         android:id="@+id/filter_precio_max_gasolina95"
@@ -291,8 +292,9 @@
                         android:layout_weight="1"
                         android:text="Aplicar"
                         android:layout_marginEnd="8dp"
-                        android:background="#2996EB"
+                        android:background="@color/textColorAccent"
                         android:textColor="@android:color/white" />
+
 
                     <Button
                         android:id="@+id/btn_clear_filters"
@@ -314,7 +316,7 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="0 gasolineras encontradas"
-                    android:textColor="#666666"
+                    android:textColor="@color/textColorSecondary"
                     android:textSize="12sp" />
 
             </LinearLayout>

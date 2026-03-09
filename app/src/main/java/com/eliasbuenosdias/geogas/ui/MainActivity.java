@@ -61,10 +61,13 @@ import java.util.Set;
 import retrofit2.Call;
 
 /**
- * Actividad principal de la aplicación GeoGas que gestiona el mapa interactivo de gasolineras.
- * Proporciona funcionalidades de visualización de estaciones de servicio, filtrado por múltiples criterios,
+ * Actividad principal de la aplicación GeoGas que gestiona el mapa interactivo
+ * de gasolineras.
+ * Proporciona funcionalidades de visualización de estaciones de servicio,
+ * filtrado por múltiples criterios,
  * gestión de favoritos y navegación en el mapa con ubicación GPS.
- * Utiliza OSMDroid para la representación cartográfica y Retrofit para la obtención de datos de la API de Miteco.
+ * Utiliza OSMDroid para la representación cartográfica y Retrofit para la
+ * obtención de datos de la API de Miteco.
  *
  * @author Elías Prieto Parrilla
  * @version 1.0
@@ -111,11 +114,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean datosCargados = false;
     /**
-     * Límite máximo de gasolineras visibles simultáneamente en el mapa para evitar saturación.
+     * Límite máximo de gasolineras visibles simultáneamente en el mapa para evitar
+     * saturación.
      */
     private static final int MAX_GASOLINERAS_VISIBLES = 20000; // Límite para no saturar el mapa
     /**
-     * Último viewport del mapa para evitar recargas innecesarias cuando no cambia significativamente.
+     * Último viewport del mapa para evitar recargas innecesarias cuando no cambia
+     * significativamente.
      */
     private org.osmdroid.util.BoundingBox ultimoViewport; // Para evitar recargas innecesarias
     /**
@@ -204,11 +209,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private EditText filterPrecioMaxGasolina95, filterPrecioMaxDiesel;
     /**
-     * Botón para aplicar los filtros seleccionados, Botón limpiar todos los filtros.
+     * Botón para aplicar los filtros seleccionados, Botón limpiar todos los
+     * filtros.
      */
     private Button btnApplyFilters, btnClearFilters;
     /**
-     * TextView que muestra el número de resultados encontrados con los filtros actuales.
+     * TextView que muestra el número de resultados encontrados con los filtros
+     * actuales.
      */
     private TextView filterResultsCount;
     /**
@@ -249,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
      * Spinner de carga en el splash screen.
      */
     private ProgressBar splashSpinner;
+
     /**
      * Añade las atribuciones legales obligatorias:
      * - OpenStreetMap (licencia ODbL)
@@ -262,8 +270,9 @@ public class MainActivity extends AppCompatActivity {
             // Crear TextView con AMBAS atribuciones
             TextView copyright = new TextView(this);
             copyright.setText("© OpenStreetMap\nDatos: MITECO - Gobierno de España");
-            copyright.setTextColor(Color.BLACK);
-            copyright.setBackgroundColor(Color.argb(220, 255, 255, 255));
+            copyright.setTextColor(ContextCompat.getColor(this, R.color.textColorPrimary));
+            copyright.setBackgroundColor(ContextCompat.getColor(this, R.color.surfaceColor));
+
             copyright.setPadding(dpToPx(3), dpToPx(1), dpToPx(3), dpToPx(1));
             copyright.setTextSize(5); // Reducido a 8sp para que quepa
             copyright.setElevation(10);
@@ -272,8 +281,7 @@ public class MainActivity extends AppCompatActivity {
             // Layout params
             android.widget.FrameLayout.LayoutParams params = new android.widget.FrameLayout.LayoutParams(
                     android.widget.FrameLayout.LayoutParams.WRAP_CONTENT,
-                    android.widget.FrameLayout.LayoutParams.WRAP_CONTENT
-            );
+                    android.widget.FrameLayout.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
             params.setMargins(0, 0, dpToPx(0), dpToPx(0));
 
@@ -284,11 +292,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     // Clases auxiliares para organizar datos
 
     /**
-     * Clase auxiliar interna para representar un item de precio con su nombre y valor.
+     * Clase auxiliar interna para representar un item de precio con su nombre y
+     * valor.
      */
     private static class PrecioItem {
         /**
@@ -311,8 +319,10 @@ public class MainActivity extends AppCompatActivity {
             this.precio = precio;
         }
     }
+
     /**
-     * Clase auxiliar interna para representar un item de información con su nombre y valor.
+     * Clase auxiliar interna para representar un item de información con su nombre
+     * y valor.
      */
     private static class InfoItem {
         /**
@@ -340,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Añade un item de precio a la lista si el precio es válido y no está vacío.
      *
-     * @param lista lista donde añadir el item
+     * @param lista  lista donde añadir el item
      * @param nombre nombre del tipo de combustible
      * @param precio precio del combustible
      */
@@ -349,22 +359,25 @@ public class MainActivity extends AppCompatActivity {
             lista.add(new PrecioItem(nombre, precio + "€"));
         }
     }
+
     /**
-     * Añade un item de información a la lista si el valor es válido y no está vacío.
+     * Añade un item de información a la lista si el valor es válido y no está
+     * vacío.
      *
-     * @param lista lista donde añadir el item
+     * @param lista  lista donde añadir el item
      * @param nombre nombre del campo de información
-     * @param valor valor del campo
+     * @param valor  valor del campo
      */
     private void addInfoSiExiste(List<InfoItem> lista, String nombre, String valor) {
         if (valor != null && !valor.isEmpty() && !valor.equals("N/A")) {
             lista.add(new InfoItem(nombre, valor));
         }
     }
+
     /**
      * Añade una fila de precio a una tabla con formato visual específico.
      *
-     * @param table tabla donde añadir la fila
+     * @param table  tabla donde añadir la fila
      * @param nombre nombre del combustible
      * @param precio precio del combustible
      */
@@ -373,7 +386,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvNombre = new TextView(this);
         tvNombre.setText(nombre);
-        tvNombre.setTextColor(Color.BLACK);
+        tvNombre.setTextColor(ContextCompat.getColor(this, R.color.textColorPrimary));
+
         tvNombre.setTextSize(14); // Tamaño en sp
         tvNombre.setPadding(dpToPx(8), dpToPx(8), dpToPx(8), dpToPx(8));
 
@@ -389,25 +403,28 @@ public class MainActivity extends AppCompatActivity {
         row.addView(tvPrecio);
         table.addView(row);
     }
+
     /**
      * Añade una fila de información a una tabla con formato visual específico.
      *
-     * @param table tabla donde añadir la fila
+     * @param table  tabla donde añadir la fila
      * @param nombre nombre del campo de información
-     * @param valor valor del campo
+     * @param valor  valor del campo
      */
     private void addFilaInfo(TableLayout table, String nombre, String valor) {
         TableRow row = new TableRow(this);
 
         TextView tvNombre = new TextView(this);
         tvNombre.setText(nombre);
-        tvNombre.setTextColor(Color.BLACK);
+        tvNombre.setTextColor(ContextCompat.getColor(this, R.color.textColorPrimary));
+
         tvNombre.setTextSize(14); // Tamaño en sp
         tvNombre.setPadding(dpToPx(8), dpToPx(8), dpToPx(8), dpToPx(8));
 
         TextView tvValor = new TextView(this);
         tvValor.setText(valor);
-        tvValor.setTextColor(Color.DKGRAY);
+        tvValor.setTextColor(ContextCompat.getColor(this, R.color.textColorSecondary));
+
         tvValor.setGravity(Gravity.END);
         tvValor.setTextSize(14); // Tamaño en sp
         tvValor.setPadding(dpToPx(8), dpToPx(8), dpToPx(8), dpToPx(8));
@@ -416,10 +433,11 @@ public class MainActivity extends AppCompatActivity {
         row.addView(tvValor);
         table.addView(row);
     }
+
     /**
      * Añade una fila indicando que no hay datos disponibles.
      *
-     * @param table tabla donde añadir la fila
+     * @param table   tabla donde añadir la fila
      * @param mensaje mensaje a mostrar
      */
     private void addFilaSinDatos(TableLayout table, String mensaje) {
@@ -427,20 +445,21 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvMensaje = new TextView(this);
         tvMensaje.setText(mensaje);
-        tvMensaje.setTextColor(Color.GRAY);
+        tvMensaje.setTextColor(ContextCompat.getColor(this, R.color.textColorSecondary));
+
         tvMensaje.setGravity(Gravity.CENTER);
         tvMensaje.setTextSize(14); // Tamaño en sp
         tvMensaje.setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16));
 
         TableRow.LayoutParams params = new TableRow.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT
-        );
+                TableRow.LayoutParams.WRAP_CONTENT);
         tvMensaje.setLayoutParams(params);
 
         row.addView(tvMensaje);
         table.addView(row);
     }
+
     /**
      * Convierte unidades dp (density-independent pixels) a píxeles reales.
      *
@@ -451,6 +470,7 @@ public class MainActivity extends AppCompatActivity {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
+
     /**
      * Runnable que se ejecuta cuando cambia el viewport del mapa.
      * Actualiza las gasolineras mostradas aplicando los filtros activos.
@@ -460,7 +480,8 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             if (filtrosManager != null && filtrosManager.tieneFiltrosActivos()) {
                 // Si hay filtros activos, usar la lista filtrada
-                List<GasolineraAPI> gasolinerasFiltradas = filtrosManager.aplicarFiltros(todasLasGasolineras,favoritosManager);
+                List<GasolineraAPI> gasolinerasFiltradas = filtrosManager.aplicarFiltros(todasLasGasolineras,
+                        favoritosManager);
                 mostrarGasolinerasParaViewportActual(gasolinerasFiltradas);
             } else {
                 // Si no hay filtros, usar todas las gasolineras
@@ -468,8 +489,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
     /**
-     * Inicializa la actividad, configurando el mapa, los managers, los paneles y solicitando permisos.
+     * Inicializa la actividad, configurando el mapa, los managers, los paneles y
+     * solicitando permisos.
      *
      * @param savedInstanceState estado guardado de la instancia anterior
      */
@@ -495,7 +518,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("GeoGas", "✅ Botón de filtros en cabecera configurado");
         }
 
-
         // Inicializar componentes en ORDEN CORRECTO
         initializeSplashScreen();
 
@@ -514,7 +536,8 @@ public class MainActivity extends AppCompatActivity {
         iconosManager = new IconosManager(this, favoritosManager);
         filtrosManager = new FiltrosManager();
 
-        // ✅ SOLO inicializar el panel de filtros - los autocompletes se configuran DENTRO
+        // ✅ SOLO inicializar el panel de filtros - los autocompletes se configuran
+        // DENTRO
         initializeFiltersPanel();
 
         // SOLO verificar permisos - la carga de datos se hará después
@@ -539,6 +562,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("GeoGas", "❌ toolbarFiltersButton es null");
         }
     }
+
     /**
      * Inicializa el panel de filtros.
      */
@@ -558,6 +582,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GeoGas", "✅ Panel de filtros inicializado");
     }
+
     /**
      * Inicializa las vistas del panel de filtros.
      */
@@ -597,6 +622,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(lista); // Ordenar alfabéticamente
         return lista;
     }
+
     /**
      * Configura el autocompletado para el filtro de gasolineras.
      */
@@ -609,8 +635,7 @@ public class MainActivity extends AppCompatActivity {
         // ✅ ADAPTADOR COMPATIBLE CON API 26
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_dropdown_item_1line
-        ) {
+                android.R.layout.simple_dropdown_item_1line) {
             @Override
             public Filter getFilter() {
                 return new Filter() {
@@ -666,10 +691,12 @@ public class MainActivity extends AppCompatActivity {
         // ✅ COMPORTAMIENTO CRÍTICO: TextWatcher para actualizar en tiempo real
         autoCompleteGasolinera.addTextChangedListener(new android.text.TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(android.text.Editable s) {
@@ -743,8 +770,7 @@ public class MainActivity extends AppCompatActivity {
         // Adaptador compatible con API 26
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_dropdown_item_1line
-        ) {
+                android.R.layout.simple_dropdown_item_1line) {
             @Override
             public Filter getFilter() {
                 return new Filter() {
@@ -762,7 +788,8 @@ public class MainActivity extends AppCompatActivity {
                                 if (item.toLowerCase().startsWith(filterPattern)) {
                                     suggestions.add(item);
                                 }
-                                if (suggestions.size() >= 10) break;
+                                if (suggestions.size() >= 10)
+                                    break;
                             }
                         }
 
@@ -792,10 +819,12 @@ public class MainActivity extends AppCompatActivity {
         // TextWatcher para actualizar en tiempo real
         autoCompleteProvincia.addTextChangedListener(new android.text.TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(android.text.Editable s) {
@@ -822,7 +851,6 @@ public class MainActivity extends AppCompatActivity {
                     adapter.clear();
                     adapter.notifyDataSetChanged();
 
-
                 }
 
                 aplicarFiltrosAutomaticos();
@@ -833,7 +861,6 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteProvincia.setOnItemClickListener((parent, view, position, id) -> {
             String provinciaSeleccionada = (String) parent.getItemAtPosition(position);
             filtrosManager.setProvincia(provinciaSeleccionada);
-
 
             aplicarFiltrosAutomaticos();
         });
@@ -854,6 +881,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GeoGas", "✅ AutoComplete Provincia configurado con " + provinciasUnicas.size() + " provincias");
     }
+
     /**
      * Obtiene municipios por provincia.
      *
@@ -872,6 +900,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(lista);
         return lista;
     }
+
     /**
      * Configura el autocompletado para el filtro de municipios.
      */
@@ -884,7 +913,7 @@ public class MainActivity extends AppCompatActivity {
         // ✅ CAMBIADO: Igual que provincia - SIN pasar lista al constructor
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_dropdown_item_1line  // Sin lista aquí
+                android.R.layout.simple_dropdown_item_1line // Sin lista aquí
         ) {
             @Override
             public Filter getFilter() {
@@ -903,7 +932,8 @@ public class MainActivity extends AppCompatActivity {
                                 if (item.toLowerCase().startsWith(filterPattern)) {
                                     suggestions.add(item);
                                 }
-                                if (suggestions.size() >= 10) break;
+                                if (suggestions.size() >= 10)
+                                    break;
                             }
                         }
 
@@ -933,10 +963,12 @@ public class MainActivity extends AppCompatActivity {
         // TextWatcher para actualizar en tiempo real - IGUAL QUE PROVINCIA
         autoCompleteMunicipio.addTextChangedListener(new android.text.TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(android.text.Editable s) {
@@ -991,6 +1023,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GeoGas", "✅ AutoComplete Municipio configurado con " + municipiosCompletos.size() + " municipios");
     }
+
     /**
      * Aplica los filtros automáticamente.
      */
@@ -1009,6 +1042,7 @@ public class MainActivity extends AppCompatActivity {
         // Actualizar icono del botón de filtros
         updateFilterButtonIcon();
     }
+
     /**
      * Obtiene provincias únicas.
      *
@@ -1025,6 +1059,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(lista);
         return lista; // ✅ QUITAR el límite de 10
     }
+
     /**
      * Obtiene municipios únicos.
      *
@@ -1062,6 +1097,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(lista);
         return lista; // ✅ QUITAR el límite de 10
     }
+
     /**
      * Alterna la visibilidad del panel de filtros.
      */
@@ -1072,6 +1108,7 @@ public class MainActivity extends AppCompatActivity {
             showFiltersPanel();
         }
     }
+
     /**
      * Muestra el panel de filtros.
      */
@@ -1085,6 +1122,7 @@ public class MainActivity extends AppCompatActivity {
         // ✅ NUEVO: Quitar el foco automático de cualquier campo
         clearAutoCompleteFocus();
     }
+
     /**
      * Limpia el foco de los campos autocompletables.
      */
@@ -1111,6 +1149,7 @@ public class MainActivity extends AppCompatActivity {
         // Dar foco al panel principal para que ningún campo lo tenga
         filtersPanel.requestFocus();
     }
+
     /**
      * Oculta el panel de filtros.
      */
@@ -1121,6 +1160,7 @@ public class MainActivity extends AppCompatActivity {
                 .withEndAction(() -> filtersPanel.setVisibility(View.GONE))
                 .start();
     }
+
     /**
      * Aplica los filtros seleccionados.
      */
@@ -1186,6 +1226,7 @@ public class MainActivity extends AppCompatActivity {
         // Ocultar panel después de aplicar
         hideFiltersPanel();
     }
+
     /**
      * Limpia todos los filtros.
      */
@@ -1194,14 +1235,11 @@ public class MainActivity extends AppCompatActivity {
         filterProvincia.setText("");
         filterMunicipio.setText("");
 
-
-
         // ✅ NUEVO: Limpiar el campo de marca
         AutoCompleteTextView filterMarca = findViewById(R.id.filter_gasolinera);
         filterMarca.setText("");
 
         // ELIMINAR el código de chips:
-
 
         filterGasolina95.setChecked(false);
         filterGasolina98.setChecked(false);
@@ -1232,7 +1270,8 @@ public class MainActivity extends AppCompatActivity {
      * @param gasolineras lista de gasolineras a mostrar
      */
     private void actualizarMapaConFiltros(List<GasolineraAPI> gasolineras) {
-        if (map == null) return;
+        if (map == null)
+            return;
 
         // Obtener el viewport actual
         org.osmdroid.util.BoundingBox viewportActual = map.getBoundingBox();
@@ -1245,6 +1284,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GeoGas", "✅ Filtros aplicados - " + gasolinerasViewport.size() + " gasolineras en viewport");
     }
+
     /**
      * Actualiza el icono del botón de filtros.
      */
@@ -1263,6 +1303,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Inicializa el splash screen nativo
      */
@@ -1287,11 +1328,12 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d("GeoGas", "✅ Splash screen con barra de progreso iniciado");
     }
+
     /**
      * Actualiza el progreso del splash screen con un mensaje
      *
      * @param progress progreso de 0 a 100
-     * @param message mensaje a mostrar
+     * @param message  mensaje a mostrar
      */
     private void updateSplashProgress(int progress, String message) {
         runOnUiThread(() -> {
@@ -1314,11 +1356,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Incrementa el progreso gradualmente con animación
      *
      * @param increment incremento del progreso
-     * @param message mensaje a mostrar
+     * @param message   mensaje a mostrar
      */
     private void incrementSplashProgress(int increment, String message) {
         splashHandler.postDelayed(() -> {
@@ -1326,11 +1369,12 @@ public class MainActivity extends AppCompatActivity {
             updateSplashProgress(newProgress, message);
         }, 100); // Pequeño delay para que se vea la animación
     }
+
     /**
      * Establece el progreso directamente
      *
      * @param progress progreso de 0 a 100
-     * @param message mensaje a mostrar
+     * @param message  mensaje a mostrar
      */
     private void setSplashProgress(int progress, String message) {
         splashHandler.post(() -> {
@@ -1338,17 +1382,18 @@ public class MainActivity extends AppCompatActivity {
             updateSplashProgress(progress, message);
         });
     }
+
     /**
      * Verifica permisos y carga datos
      */
     private void checkPermissionsAndLoadData() {
-        //updateLoadingText("Verificando permisos...");
+        // updateLoadingText("Verificando permisos...");
         setSplashProgress(10, "Verificando permisos...");
 
         // Solicitar permisos de ubicación
         if (!hasLocationPermissions()) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{
+                    new String[] {
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION
                     },
@@ -1358,9 +1403,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQ_PERMISSIONS) {
             boolean granted = true;
@@ -1380,6 +1425,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Callback cuando los permisos han sido verificados.
      */
@@ -1391,6 +1437,7 @@ public class MainActivity extends AppCompatActivity {
         loadRealData();
         checkIfShouldHideSplash();
     }
+
     /**
      * Marca el mapa como listo
      */
@@ -1400,6 +1447,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("GeoGas", "✅ Mapa listo");
         checkIfShouldHideSplash();
     }
+
     /**
      * Marca los datos como cargados
      */
@@ -1410,7 +1458,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Mostrar botón de filtros ahora que tenemos datos
         runOnUiThread(() -> {
-            //btnFilters.setVisibility(View.VISIBLE);
+            // btnFilters.setVisibility(View.VISIBLE);
 
             // ✅ CONFIGURAR AUTOC0MPLETES SOLO CUANDO HAY DATOS
             if (!todasLasGasolineras.isEmpty()) {
@@ -1442,9 +1490,10 @@ public class MainActivity extends AppCompatActivity {
             }, 800);
         } else {
             updateLoadingMessage();
-            //updateLoadingText();
+            // updateLoadingText();
         }
     }
+
     /**
      * Actualiza el mensaje de carga según el estado.
      */
@@ -1459,12 +1508,14 @@ public class MainActivity extends AppCompatActivity {
             updateSplashProgress(splashProgress, "Obteniendo datos de gasolineras...");
         }
     }
+
     /**
      * Actualiza el texto de carga automáticamente según el estado
      */
     private void updateLoadingText() {
         updateLoadingText(getCurrentLoadingMessage());
     }
+
     /**
      * Actualiza el texto de carga con un mensaje específico
      *
@@ -1478,6 +1529,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Determina el mensaje de carga según el estado actual
      */
@@ -1494,6 +1546,7 @@ public class MainActivity extends AppCompatActivity {
             return "¡Listo!";
         }
     }
+
     /**
      * Oculta el splash screen con animación de desvanecimiento
      */
@@ -1530,10 +1583,12 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onAnimationCancel(Animator animation) {}
+                        public void onAnimationCancel(Animator animation) {
+                        }
 
                         @Override
-                        public void onAnimationRepeat(Animator animation) {}
+                        public void onAnimationRepeat(Animator animation) {
+                        }
                     })
                     .start();
         });
@@ -1546,6 +1601,7 @@ public class MainActivity extends AppCompatActivity {
             splashHandler.removeCallbacksAndMessages(null);
         }
     }
+
     /**
      * Muestra los controles del mapa.
      */
@@ -1562,10 +1618,10 @@ public class MainActivity extends AppCompatActivity {
                         .start();
             }
 
-
             Log.d("GeoGas", "🎮 Controles del mapa mostrados (solo ubicación)");
         });
     }
+
     /**
      * Oculta los controles del mapa.
      */
@@ -1576,6 +1632,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Inicializa el panel de detalles.
      */
@@ -1597,6 +1654,7 @@ public class MainActivity extends AppCompatActivity {
 
         inicializarSecciones();
     }
+
     /**
      * Inicializa las secciones del panel de detalles.
      */
@@ -1608,11 +1666,12 @@ public class MainActivity extends AppCompatActivity {
         setupSectionTitle(R.id.section_alternativos, "Combustibles Alternativos");
         setupSectionTitle(R.id.section_adicional, "Información Adicional");
     }
+
     /**
      * Configura el título de una sección.
      *
      * @param sectionId ID de la sección
-     * @param title título de la sección
+     * @param title     título de la sección
      */
     private void setupSectionTitle(int sectionId, String title) {
         View section = detailPanel.findViewById(sectionId);
@@ -1623,6 +1682,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Muestra los detalles de una gasolinera.
      *
@@ -1646,6 +1706,7 @@ public class MainActivity extends AppCompatActivity {
         // 4. MOSTRAR PANEL
         showDetailPanel();
     }
+
     /**
      * Actualiza la información básica de la gasolinera.
      *
@@ -1677,6 +1738,7 @@ public class MainActivity extends AppCompatActivity {
             horarioContainer.setVisibility(View.GONE);
         }
     }
+
     /**
      * Actualiza los precios de gasolina.
      *
@@ -1701,6 +1763,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Actualiza los precios de diésel.
      *
@@ -1725,6 +1788,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Actualiza los combustibles alternativos.
      *
@@ -1751,6 +1815,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Actualiza la información adicional.
      *
@@ -1775,6 +1840,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Actualiza el botón de favorito.
      */
@@ -1797,6 +1863,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * Alterna el estado de favorito de la gasolinera actual.
      */
@@ -1810,7 +1877,6 @@ public class MainActivity extends AppCompatActivity {
             boolean ahoraEsFavorita = favoritosManager.esFavorita(gasolineraActual.getId());
             Log.d("Favoritos", "Después de toggle - Es favorita: " + ahoraEsFavorita);
             Log.d("Favoritos", "Favoritos después: " + favoritosManager.getFavoritos().toString());
-
 
             if (ahoraEsFavorita) {
                 Toast.makeText(this, "Añadido a favoritos", Toast.LENGTH_SHORT).show();
@@ -1828,7 +1894,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Actualiza todos los marcadores de gasolineras cuando cambia el estado de favoritos
+     * Actualiza todos los marcadores de gasolineras cuando cambia el estado de
+     * favoritos
      * Manteniendo el tamaño de icono según la densidad y zoom actual
      */
     private void actualizarMarcadoresFavoritos() {
@@ -1884,12 +1951,14 @@ public class MainActivity extends AppCompatActivity {
     private void showDetailPanel() {
         detailPanel.setVisibility(View.VISIBLE);
     }
+
     /**
      * Oculta el panel de detalles.
      */
     private void hideDetailPanel() {
         detailPanel.setVisibility(View.GONE);
     }
+
     /**
      * Inicializa el mapa OSMDroid.
      */
@@ -1898,8 +1967,6 @@ public class MainActivity extends AppCompatActivity {
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(false); // Usaremos nuestros controles
-
-
 
         // Vista inicial (Madrid)
         GeoPoint startPoint = new GeoPoint(40.4168, -3.7038);
@@ -1921,7 +1988,8 @@ public class MainActivity extends AppCompatActivity {
      * para que quede por encima de los marcadores
      */
     private void addCompassOverlay() {
-        if (map == null) return;
+        if (map == null)
+            return;
 
         // Crear y configurar la brújula
         CompassOverlay compassOverlay = new CompassOverlay(this,
@@ -1938,7 +2006,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Configura el listener para detectar cuando el usuario mueve o hace zoom en el mapa
+     * Configura el listener para detectar cuando el usuario mueve o hace zoom en el
+     * mapa
      */
     private void setupMapChangeListener() {
         map.addMapListener(new org.osmdroid.events.MapListener() {
@@ -1958,6 +2027,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Configura la interfaz de usuario.
      */
@@ -1976,6 +2046,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     /**
      * Carga los datos reales de la API.
      */
@@ -1983,7 +2054,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSplashProgress(30, "Conectando con servidor...");
 
-        //updateLoadingText("Conectando con servidor...");
+        // updateLoadingText("Conectando con servidor...");
         MitecoApiService apiService = ApiClient.getClient().create(MitecoApiService.class);
 
         Call<JsonElement> call = apiService.obtenerGasolineras();
@@ -1998,7 +2069,8 @@ public class MainActivity extends AppCompatActivity {
                     // Verifica si es array directo u objeto
                     if (jsonElement.isJsonArray()) {
                         Log.d("GeoGas", "✓ La API devuelve un ARRAY JSON directamente");
-                        Log.d("GeoGas", "Primeros 500 caracteres: " + jsonElement.toString().substring(0, Math.min(500, jsonElement.toString().length())));
+                        Log.d("GeoGas", "Primeros 500 caracteres: "
+                                + jsonElement.toString().substring(0, Math.min(500, jsonElement.toString().length())));
 
                         // Parsear como lista directa
                         parseJsonArray(jsonElement);
@@ -2015,7 +2087,7 @@ public class MainActivity extends AppCompatActivity {
                     onDataLoaded();
                 } else {
                     Log.e("GeoGas", "Error en respuesta: " + response.message());
-                    //updateLoadingText("Error en servidor - continuando...");
+                    // updateLoadingText("Error en servidor - continuando...");
                     incrementSplashProgress(20, "Error en servidor - continuando...");
                     onDataLoaded(); // Aún así marcar como cargado
                 }
@@ -2025,11 +2097,12 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 Log.e("GeoGas", "Error de conexión: " + t.getMessage());
                 incrementSplashProgress(20, "Sin conexión - usando datos locales");
-                //updateLoadingText("Sin conexión - usando datos locales");
+                // updateLoadingText("Sin conexión - usando datos locales");
                 onDataLoaded(); // Aún así marcar como cargado
             }
         });
     }
+
     /**
      * Muestra las gasolineras para el viewport actual
      * Versión básica sin cache espacial - solo evita repintado completo
@@ -2058,6 +2131,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GeoGas", "🔄 Viewport cambiado - " + gasolinerasViewport.size() + " gasolineras");
     }
+
     /**
      * Parsea un array JSON de gasolineras.
      *
@@ -2066,7 +2140,8 @@ public class MainActivity extends AppCompatActivity {
     private void parseJsonArray(JsonElement jsonElement) {
         try {
             com.google.gson.Gson gson = new com.google.gson.Gson();
-            java.lang.reflect.Type listType = new com.google.gson.reflect.TypeToken<List<GasolineraAPI>>(){}.getType();
+            java.lang.reflect.Type listType = new com.google.gson.reflect.TypeToken<List<GasolineraAPI>>() {
+            }.getType();
             List<GasolineraAPI> gasolineras = gson.fromJson(jsonElement, listType);
 
             if (gasolineras != null && !gasolineras.isEmpty()) {
@@ -2083,6 +2158,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("GeoGas", "Error parseando array: " + e.getMessage());
         }
     }
+
     /**
      * Filtra las gasolineras para mostrar solo las del viewport actual
      * Usa un algoritmo simple de distancia para no saturar el mapa
@@ -2092,10 +2168,11 @@ public class MainActivity extends AppCompatActivity {
      * Ahora recibe la lista a filtrar como parámetro
      *
      * @param gasolineras lista completa de gasolineras
-     * @param viewport área visible del mapa
+     * @param viewport    área visible del mapa
      * @return lista filtrada de gasolineras
      */
-    private List<GasolineraAPI> filtrarGasolinerasParaViewport(List<GasolineraAPI> gasolineras, org.osmdroid.util.BoundingBox viewport) {
+    private List<GasolineraAPI> filtrarGasolinerasParaViewport(List<GasolineraAPI> gasolineras,
+            org.osmdroid.util.BoundingBox viewport) {
         List<PuntuadorGasolineras.GasolineraPuntuada> gasolinerasPuntuadas = new ArrayList<>();
 
         if (gasolineras.isEmpty()) {
@@ -2135,7 +2212,8 @@ public class MainActivity extends AppCompatActivity {
         // Log informativo
         if (!gasolinerasPuntuadas.isEmpty()) {
             double mejorPuntuacion = gasolinerasPuntuadas.get(0).puntuacion;
-            double peorPuntuacion = gasolinerasPuntuadas.get(Math.min(limite-1, gasolinerasPuntuadas.size()-1)).puntuacion;
+            double peorPuntuacion = gasolinerasPuntuadas
+                    .get(Math.min(limite - 1, gasolinerasPuntuadas.size() - 1)).puntuacion;
             Log.d("GeoGas", String.format("Puntuaciones - Mejor: %.2f, Peor seleccionada: %.2f",
                     mejorPuntuacion, peorPuntuacion));
         }
@@ -2145,12 +2223,14 @@ public class MainActivity extends AppCompatActivity {
 
         return gasolinerasFiltradas;
     }
+
     /**
      * Usa todas las gasolineras por defecto
      */
     private void mostrarGasolinerasParaViewportActual() {
         mostrarGasolinerasParaViewportActual(todasLasGasolineras);
     }
+
     /**
      * Parsea un objeto JSON buscando el array de gasolineras.
      *
@@ -2158,7 +2238,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void parseJsonObject(com.google.gson.JsonObject jsonObject) {
         // Buscar el campo que contiene las gasolineras
-        String[] possibleFieldNames = {"ListaEESSPrecio", "listaEESSPrecio", "data", "result", "estaciones", "gasolineras"};
+        String[] possibleFieldNames = { "ListaEESSPrecio", "listaEESSPrecio", "data", "result", "estaciones",
+                "gasolineras" };
 
         for (String fieldName : possibleFieldNames) {
             if (jsonObject.has(fieldName) && jsonObject.get(fieldName).isJsonArray()) {
@@ -2169,13 +2250,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Si no encontramos el campo
-        Log.e("GeoGas", "No se encontró el campo con la lista de gasolineras. Campos disponibles: " + jsonObject.keySet());
-        //loadSampleData();
+        Log.e("GeoGas",
+                "No se encontró el campo con la lista de gasolineras. Campos disponibles: " + jsonObject.keySet());
+        // loadSampleData();
     }
 
     /**
-     * Muestra las gasolineras en el mapa de forma optimizada, evitando el repintado completo
-     * Solo actualiza los marcadores que cambiaron en lugar de eliminar y recrear todos
+     * Muestra las gasolineras en el mapa de forma optimizada, evitando el repintado
+     * completo
+     * Solo actualiza los marcadores que cambiaron en lugar de eliminar y recrear
+     * todos
      *
      * @param gasolinerasAPI Lista de gasolineras a mostrar en el viewport actual
      */
@@ -2246,17 +2330,18 @@ public class MainActivity extends AppCompatActivity {
         Log.d("GeoGas", String.format("🔄 Densidad: %d gasolineras, Zoom: %.1f, Iconos: %s",
                 totalGasolineras, zoomActual, modoIcono));
     }
+
     /**
      * Actualiza un marcador existente para que use el icono correspondiente
      * a la densidad y zoom actual - FORZANDO consistencia
      *
-     * @param marker Marcador existente a actualizar
-     * @param gasolinera Datos de la gasolinera
+     * @param marker           Marcador existente a actualizar
+     * @param gasolinera       Datos de la gasolinera
      * @param totalGasolineras Número total de gasolineras para determinar densidad
-     * @param zoom Nivel de zoom actual del mapa
+     * @param zoom             Nivel de zoom actual del mapa
      */
     private void actualizarMarcadorPorDensidad(Marker marker, GasolineraAPI gasolinera,
-                                               int totalGasolineras, double zoom) {
+            int totalGasolineras, double zoom) {
         try {
             // Siempre actualizamos el icono según la densidad y zoom actual
             boolean esFavorita = favoritosManager.esFavorita(gasolinera.getId());
@@ -2284,13 +2369,14 @@ public class MainActivity extends AppCompatActivity {
             Log.e("GeoGas", "Error actualizando marcador por densidad: " + gasolinera.getRotulo());
         }
     }
+
     /**
      * Crea un nuevo marcador para una gasolinera, usando el icono según
      * la densidad y zoom actual
      *
-     * @param gasolinera Datos de la gasolinera
+     * @param gasolinera       Datos de la gasolinera
      * @param totalGasolineras Número total de gasolineras para determinar densidad
-     * @param zoom Nivel de zoom actual del mapa
+     * @param zoom             Nivel de zoom actual del mapa
      * @return Nuevo marcador creado
      */
     private Marker crearMarcadorConDensidad(GasolineraAPI gasolinera, int totalGasolineras, double zoom) {
@@ -2336,8 +2422,10 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
     /**
-     * Limpia solo los marcadores de gasolineras, manteniendo los overlays especiales
+     * Limpia solo los marcadores de gasolineras, manteniendo los overlays
+     * especiales
      * (ubicación del usuario, brújula, escala, etc.)
      * Se usa cuando no hay gasolineras para mostrar en el viewport actual
      */
@@ -2348,18 +2436,20 @@ public class MainActivity extends AppCompatActivity {
         // Recorrer todos los overlays actuales
         for (org.osmdroid.views.overlay.Overlay overlay : map.getOverlays()) {
             // Conservar solo los overlays especiales (no marcadores de gasolineras)
-            if (overlay instanceof MyLocationNewOverlay ||           // Ubicación del usuario
-                    overlay instanceof CompassOverlay ||                 // Brújula
+            if (overlay instanceof MyLocationNewOverlay || // Ubicación del usuario
+                    overlay instanceof CompassOverlay || // Brújula
                     overlay instanceof org.osmdroid.views.overlay.ScaleBarOverlay) { // Escala
                 overlaysToKeep.add(overlay);
             }
-            // Los marcadores de gasolineras no se añaden a overlaysToKeep, por lo que se eliminarán
+            // Los marcadores de gasolineras no se añaden a overlaysToKeep, por lo que se
+            // eliminarán
         }
 
         // Limpiar todos los overlays y restaurar solo los especiales
         map.getOverlays().clear();
         map.getOverlays().addAll(overlaysToKeep);
     }
+
     /**
      * Centra el mapa en la ubicación actual del usuario.
      */
@@ -2370,8 +2460,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Usar el LocationManager para obtener la última ubicación conocida
-        android.location.LocationManager locationManager =
-                (android.location.LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        android.location.LocationManager locationManager = (android.location.LocationManager) getSystemService(
+                Context.LOCATION_SERVICE);
 
         try {
             Location lastKnownLocation = null;
@@ -2380,8 +2470,10 @@ public class MainActivity extends AppCompatActivity {
                 lastKnownLocation = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
             }
 
-            if (lastKnownLocation == null && locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER)) {
-                lastKnownLocation = locationManager.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER);
+            if (lastKnownLocation == null
+                    && locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER)) {
+                lastKnownLocation = locationManager
+                        .getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER);
             }
 
             if (lastKnownLocation != null) {
@@ -2397,24 +2489,28 @@ public class MainActivity extends AppCompatActivity {
             Log.e("GeoGas", "Error de permisos en centerOnMyLocation: " + e.getMessage());
         }
     }
+
     /**
      * Verifica si la aplicación tiene permisos de ubicación.
      *
      * @return true si tiene permisos, false en caso contrario
      */
     private boolean hasLocationPermissions() {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (map != null) map.onResume();
+        if (map != null)
+            map.onResume();
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        if (map != null) map.onPause();
+        if (map != null)
+            map.onPause();
     }
 }

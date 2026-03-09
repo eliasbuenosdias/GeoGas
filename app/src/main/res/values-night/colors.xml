@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores principales para Material Components -->
+    <color name="colorPrimary">#2996EB</color>
+    <color name="colorPrimaryDark">#111111</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!-- Colores de superficie y fondo en modo oscuro -->
+    <color name="backgroundColor">#121212</color>
+    <color name="surfaceColor">#1E1E1E</color>
+    
+    <!-- Colores de texto en modo oscuro -->
+    <color name="textColorPrimary">#E1E1E1</color>
+    <color name="textColorSecondary">#A0A0A0</color>
+    <color name="textColorAccent">#4AA9FF</color>
+
+    <!-- Colores para los botones en modo oscuro -->
+    <color name="button_background">#1E1E1E</color>
+    <color name="button_stroke">#333333</color>
+</resources>

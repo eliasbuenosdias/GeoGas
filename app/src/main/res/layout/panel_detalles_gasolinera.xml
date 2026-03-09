@@ -11,7 +11,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@color/surfaceColor">
+
 
         <!-- CABECERA FIJA CON GRADIENTE -->
         <LinearLayout
@@ -85,9 +86,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Nombre Gasolinera"
-                            android:textColor="#1A1A1A"
+                            android:textColor="@color/textColorPrimary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
+
 
                         <TextView
                             android:id="@+id/tv_station_address"
@@ -95,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Dirección de la gasolinera"
-                            android:textColor="#666666"
+                            android:textColor="@color/textColorSecondary"
                             android:textSize="14sp" />
 
                         <LinearLayout
@@ -110,14 +112,14 @@
                                 android:layout_height="16dp"
                                 android:layout_marginEnd="8dp"
                                 android:src="@drawable/ic_location"
-                                app:tint="#666666" />
+                                app:tint="@color/textColorSecondary" />
 
                             <TextView
                                 android:id="@+id/tv_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Localidad, Municipio, Provincia"
-                                android:textColor="#666666"
+                                android:textColor="@color/textColorSecondary"
                                 android:textSize="12sp" />
 
                         </LinearLayout>
@@ -137,14 +139,14 @@
                                 android:layout_height="16dp"
                                 android:layout_marginEnd="8dp"
                                 android:src="@drawable/ic_clock"
-                                app:tint="#666666" />
+                                app:tint="@color/textColorSecondary" />
 
                             <TextView
                                 android:id="@+id/tv_horario"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Horario"
-                                android:textColor="#666666"
+                                android:textColor="@color/textColorSecondary"
                                 android:textSize="12sp" />
 
                         </LinearLayout>

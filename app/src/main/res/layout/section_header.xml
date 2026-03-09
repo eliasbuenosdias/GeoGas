@@ -9,16 +9,18 @@
     <View
         android:layout_width="4dp"
         android:layout_height="20dp"
-        android:background="#2996EB"
+        android:background="@color/textColorAccent"
         android:layout_marginEnd="12dp" />
+
 
     <TextView
         android:id="@+id/section_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sección"
-        android:textColor="#1A1A1A"
+        android:textColor="@color/textColorPrimary"
         android:textSize="16sp"
         android:textStyle="bold" />
+
 
 </LinearLayout>
