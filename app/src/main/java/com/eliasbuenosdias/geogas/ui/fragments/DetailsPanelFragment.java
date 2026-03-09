@@ -97,7 +97,7 @@ public class DetailsPanelFragment extends Fragment {
         }
     }
 
-    public void showGasolinera(GasolineraAPI gasolinera) {
+    public void setGasolinera(GasolineraAPI gasolinera) {
         this.gasolinera = gasolinera;
         if (getView() == null)
             return;
@@ -121,8 +121,14 @@ public class DetailsPanelFragment extends Fragment {
         if (gasolinera == null || favoritosManager == null || btnFavorite == null)
             return;
 
-        boolean isFav = favoritosManager.esFavorita(gasolinera.getIDEESS());
-        btnFavorite.setImageResource(isFav ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
+        boolean isFav = favoritosManager.esFavorita(gasolinera.getId());
+        if (isFav) {
+            btnFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+            btnFavorite.setColorFilter(Color.parseColor("#FFD700"));
+        } else {
+            btnFavorite.setImageResource(android.R.drawable.btn_star_big_off);
+            btnFavorite.setColorFilter(Color.parseColor("#CCCCCC"));
+        }
     }
 
     private void fillTables() {
@@ -131,26 +137,72 @@ public class DetailsPanelFragment extends Fragment {
         tableAlternativos.removeAllViews();
         tableAdicional.removeAllViews();
 
-        // Lógica simplificada de llenado de tablas (extraída de MainActivity)
-        // ... (Se implementaría la lógica de addFilaPrecio aquí o en un helper)
+        // Gasolina
+        addFilaPrecioSiExiste(tableGasolina, "Gasolina 95 E5", gasolinera.getPrecioGasolina95());
+        addFilaPrecioSiExiste(tableGasolina, "Gasolina 95 E10", gasolinera.getPrecioGasolina95E10());
+        addFilaPrecioSiExiste(tableGasolina, "Gasolina 98 E5", gasolinera.getPrecioGasolina98());
+        addFilaPrecioSiExiste(tableGasolina, "Gasolina 98 E10", gasolinera.getPrecioGasolina98E10());
+
+        // Diesel
+        addFilaPrecioSiExiste(tableDiesel, "Diésel Standard", gasolinera.getPrecioGasoleoA());
+        addFilaPrecioSiExiste(tableDiesel, "Diésel Premium", gasolinera.getPrecioGasoleoPremium());
+        addFilaPrecioSiExiste(tableDiesel, "Diésel Agrícola", gasolinera.getPrecioGasoleoB());
+
+        // Alternativos
+        addFilaPrecioSiExiste(tableAlternativos, "GLP", gasolinera.getPrecioGLP());
+        addFilaPrecioSiExiste(tableAlternativos, "GNC", gasolinera.getPrecioGNC());
+        addFilaPrecioSiExiste(tableAlternativos, "GNL", gasolinera.getPrecioGNL());
+        addFilaPrecioSiExiste(tableAlternativos, "Hidrógeno", gasolinera.getPrecioHidrogeno());
+
+        // Adicional
+        addFilaInfoSiExiste(tableAdicional, "Venta", gasolinera.getTipoVenta());
+        addFilaInfoSiExiste(tableAdicional, "Margen", gasolinera.getMargen());
+        addFilaInfoSiExiste(tableAdicional, "Actualizado", gasolinera.getFecha());
+    }
+
+    private void addFilaPrecioSiExiste(TableLayout table, String nombre, String precio) {
+        if (precio != null && !precio.isEmpty()) {
+            addFilaPrecio(table, nombre, precio + " €");
+        }
+    }
+
+    private void addFilaInfoSiExiste(TableLayout table, String nombre, String valor) {
+        if (valor != null && !valor.isEmpty()) {
+            addFilaInfo(table, nombre, valor);
+        }
     }
 
     private void addFilaPrecio(TableLayout table, String nombre, String precio) {
         TableRow row = new TableRow(getContext());
-        TextView tvNombre = new TextView(getContext());
-        tvNombre.setText(nombre);
-        tvNombre.setTextColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary));
-        tvNombre.setPadding(8, 8, 8, 8);
-
-        TextView tvPrecio = new TextView(getContext());
-        tvPrecio.setText(precio);
+        TextView tvNombre = createTextView(nombre, false);
+        TextView tvPrecio = createTextView(precio, true);
         tvPrecio.setTextColor(Color.parseColor("#388E3C"));
-        tvPrecio.setTypeface(null, Typeface.BOLD);
         tvPrecio.setGravity(Gravity.END);
-        tvPrecio.setPadding(8, 8, 8, 8);
 
         row.addView(tvNombre);
         row.addView(tvPrecio);
         table.addView(row);
     }
+
+    private void addFilaInfo(TableLayout table, String nombre, String valor) {
+        TableRow row = new TableRow(getContext());
+        TextView tvNombre = createTextView(nombre, false);
+        TextView tvValor = createTextView(valor, false);
+        tvValor.setGravity(Gravity.END);
+
+        row.addView(tvNombre);
+        row.addView(tvValor);
+        table.addView(row);
+    }
+
+    private TextView createTextView(String text, boolean bold) {
+        TextView tv = new TextView(getContext());
+        tv.setText(text);
+        tv.setTextColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary));
+        tv.setPadding(8, 8, 8, 8);
+        if (bold)
+            tv.setTypeface(null, Typeface.BOLD);
+        return tv;
+    }
+
 }

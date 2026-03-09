@@ -55,23 +55,24 @@
         android:layout_height="match_parent"
         android:layout_below="@id/custom_toolbar" />
 
-    <!-- PANEL DE DETALLES -->
-    <include
-        android:id="@+id/detail_panel"
-        layout="@layout/panel_detalles_gasolinera"
+    <!-- PANEL DE DETALLES (Fragment) -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/detail_panel_container"
+        android:name="com.eliasbuenosdias.geogas.ui.fragments.DetailsPanelFragment"
         android:layout_width="340dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:visibility="gone" />
 
-    <!-- PANEL DE FILTROS -->
-    <include
-        android:id="@+id/filters_panel"
-        layout="@layout/filters_panel"
+    <!-- PANEL DE FILTROS (Fragment) -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/filters_panel_container"
+        android:name="com.eliasbuenosdias.geogas.ui.fragments.FiltersFragment"
         android:layout_width="320dp"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:visibility="gone" />
+
 
     <!-- BOTÓN DE UBICACIÓN PROFESIONAL -->
     <LinearLayout

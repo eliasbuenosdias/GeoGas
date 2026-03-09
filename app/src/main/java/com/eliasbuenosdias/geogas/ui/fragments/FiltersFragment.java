@@ -35,6 +35,7 @@ public class FiltersFragment extends Fragment {
 
     private FiltrosManager filtrosManager;
     private FiltersListener listener;
+    private com.eliasbuenosdias.geogas.viewmodels.GasStationViewModel viewModel;
 
     private AutoCompleteTextView filterProvincia, filterMunicipio, filterGasolinera;
     private CheckBox filterGasolina95, filterGasolina98, filterDiesel, filterDieselPremium, filterGLP;
@@ -69,8 +70,27 @@ public class FiltersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity())
+                .get(com.eliasbuenosdias.geogas.viewmodels.GasStationViewModel.class);
         initializeViews(view);
         setupListeners();
+        observeViewModel();
+    }
+
+    private void observeViewModel() {
+        viewModel.getProvincias().observe(getViewLifecycleOwner(), list -> setupAdapter(filterProvincia, list));
+        viewModel.getMunicipios().observe(getViewLifecycleOwner(), list -> setupAdapter(filterMunicipio, list));
+        viewModel.getMarcas().observe(getViewLifecycleOwner(), list -> setupAdapter(filterGasolinera, list));
+        viewModel.getGasolinerasVisibles().observe(getViewLifecycleOwner(),
+                list -> setResultsCount(list != null ? list.size() : 0));
+    }
+
+    private void setupAdapter(AutoCompleteTextView view, List<String> data) {
+        if (getContext() == null || data == null)
+            return;
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line,
+                data);
+        view.setAdapter(adapter);
     }
 
     private void initializeViews(View view) {
@@ -125,13 +145,13 @@ public class FiltersFragment extends Fragment {
         filtrosManager.setMunicipio(filterMunicipio.getText().toString().trim());
         filtrosManager.setGasolinera(filterGasolinera.getText().toString().trim());
 
-        filtrosManager.setGasolina95(filterGasolina95.isChecked());
-        filtrosManager.setGasolina98(filterGasolina98.isChecked());
-        filtrosManager.setDiesel(filterDiesel.isChecked());
-        filtrosManager.setDieselPremium(filterDieselPremium.isChecked());
-        filtrosManager.setGlp(filterGLP.isChecked());
+        filtrosManager.setSoloGasolina95(filterGasolina95.isChecked());
+        filtrosManager.setSoloGasolina98(filterGasolina98.isChecked());
+        filtrosManager.setSoloDiesel(filterDiesel.isChecked());
+        filtrosManager.setSoloDieselPremium(filterDieselPremium.isChecked());
+        filtrosManager.setSoloGLP(filterGLP.isChecked());
 
-        filtrosManager.setSolo24h(filter24h.isChecked());
+        filtrosManager.setSolo24Horas(filter24h.isChecked());
         filtrosManager.setSoloFavoritas(filterFavoritas.isChecked());
 
         try {
