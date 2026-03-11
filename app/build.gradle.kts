@@ -37,19 +37,25 @@ android {
         includeInBundle = false
     }
 
+    val storeFilePathStr = System.getenv("KEYSTORE_FILE_PATH") ?: keystoreProperties["storeFile"] as String? ?: "../geogas-release.jks"
+    val storeFilePath = file(storeFilePathStr)
+
     signingConfigs {
         create("release") {
-            val storeFilePath = System.getenv("KEYSTORE_FILE_PATH") ?: keystoreProperties["storeFile"] as String? ?: "../geogas-release.jks"
-            storeFile = file(storeFilePath)
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: keystoreProperties["storePassword"] as String? ?: ""
-            keyAlias = System.getenv("KEY_ALIAS") ?: keystoreProperties["keyAlias"] as String? ?: ""
-            keyPassword = System.getenv("KEY_PASSWORD") ?: keystoreProperties["keyPassword"] as String? ?: ""
+            if (storeFilePath.exists()) {
+                storeFile = storeFilePath
+                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: keystoreProperties["storePassword"] as String? ?: ""
+                keyAlias = System.getenv("KEY_ALIAS") ?: keystoreProperties["keyAlias"] as String? ?: ""
+                keyPassword = System.getenv("KEY_PASSWORD") ?: keystoreProperties["keyPassword"] as String? ?: ""
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            if (storeFilePath.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
