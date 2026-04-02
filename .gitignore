@@ -28,3 +28,4 @@ fastlane/report.xml
 fastlane/README.md
 __pycache__/
 *.pyc
+plugins

@@ -55,10 +55,13 @@ jobs:
           files: GeoGas-${{ steps.get_version.outputs.VERSION_NAME }}.apk
           name: "GeoGas ${{ github.ref_name }}"
           body: |
-            ## 🚀 Novedades de esta versión
-            - **✨ Soporte automático para Modo Oscuro**: Ahora la aplicación se adapta automáticamente a la configuración de tu sistema móvil.
-            - **🎨 Colores Semánticos**: Mejoras en la legibilidad y contraste en interfaces oscuras.
-            - **⚙️ Correcciones menores**: Ajustes visuales en paneles y filtros para una mejor experiencia de usuario.
+            ## 🚀 Novedades v1.0.2 — Soporte Multi-idioma
+
+            - **🌐 Soporte Multi-idioma (ES/EN)**: Selector de idioma integrado con persistencia — la app recuerda tu preferencia.
+            - **🎨 Diálogo de idioma con estilo**: Panel personalizado que sigue la estética de la app (glassmorphism + gradiente).
+            - **🔄 Cambio sin reinicio**: Al cambiar de idioma, la interfaz se actualiza instantáneamente sin recargar datos.
+            - **📝 Traducción completa**: Todos los textos de la UI, filtros, detalles, mensajes de estado y hints traducidos.
+            - **♻️ Arquitectura limpia**: `LocaleManager` con SharedPreferences, siguiendo principios Clean Code y SRP.
           draft: false
           prerelease: false
         env:

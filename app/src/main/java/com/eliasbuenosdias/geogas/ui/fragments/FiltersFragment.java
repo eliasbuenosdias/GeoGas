@@ -211,7 +211,7 @@ public class FiltersFragment extends Fragment {
 
     public void setResultsCount(int count) {
         if (filterResultsCount != null) {
-            filterResultsCount.setText(count + " gasolineras encontradas");
+            filterResultsCount.setText(getString(R.string.results_count, count));
         }
     }
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_glass_panel">
+
+    <!-- Cabecera con gradiente igual que filtros -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:background="@drawable/header_gradient"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/language_picker_title"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌐"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+    <!-- Opciones de idioma -->
+    <RadioGroup
+        android:id="@+id/language_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp">
+
+        <RadioButton
+            android:id="@+id/radio_es"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingStart="8dp"
+            android:text="Español"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:buttonTint="@color/colorPrimary" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#15000000"
+            android:layout_marginVertical="2dp" />
+
+        <RadioButton
+            android:id="@+id/radio_en"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:paddingStart="8dp"
+            android:text="English"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:buttonTint="@color/colorPrimary" />
+
+    </RadioGroup>
+
+</LinearLayout>

@@ -71,7 +71,7 @@ public class GasStationViewModel extends ViewModel {
     public void loadData(com.eliasbuenosdias.geogas.api.MitecoApiService apiService) {
         isLoading.setValue(true);
         progress.setValue(10);
-        statusMessage.setValue("Cargando gasolineras...");
+        statusMessage.setValue("status_loading");
 
         apiService.obtenerGasolineras().enqueue(new retrofit2.Callback<com.google.gson.JsonElement>() {
             @Override
@@ -79,19 +79,19 @@ public class GasStationViewModel extends ViewModel {
                     retrofit2.Response<com.google.gson.JsonElement> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     progress.setValue(50);
-                    statusMessage.setValue("Procesando datos...");
+                    statusMessage.setValue("status_processing");
                     parseJson(response.body());
                     progress.setValue(100);
                     isLoading.setValue(false);
                 } else {
-                    statusMessage.setValue("Error en respuesta del servidor");
+                    statusMessage.setValue("status_error_server");
                     isLoading.setValue(false);
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<com.google.gson.JsonElement> call, Throwable t) {
-                statusMessage.setValue("Error de conexión: " + t.getMessage());
+                statusMessage.setValue("status_error_connection");
                 isLoading.setValue(false);
             }
         });
@@ -126,7 +126,7 @@ public class GasStationViewModel extends ViewModel {
                 actualizarListasAutocompletado(lista);
             }
         } catch (Exception e) {
-            statusMessage.postValue("Error al procesar datos");
+            statusMessage.postValue("status_error_parsing");
         }
     }
 

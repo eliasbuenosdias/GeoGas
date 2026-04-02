@@ -60,4 +60,17 @@ public class SplashHelper {
             }
         }).start();
     }
+
+    /**
+     * Instantly hides the splash screen without animation.
+     * Used when the Activity is recreated due to a locale change.
+     */
+    public void forceHide() {
+        if (splashScreen != null) {
+            splashScreen.setVisibility(View.GONE);
+        }
+        if (postSplashControl != null) {
+            postSplashControl.setVisibility(View.VISIBLE);
+        }
+    }
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoGas</string>
+    <string name="section_title">Section</string>
+    <string name="filters_title">Filters</string>
+    <string name="filters_location">Location</string>
+    <string name="filters_province">Province</string>
+    <string name="filters_municipality">Municipality</string>
+    <string name="filters_gas_station">Gas Station</string>
+    <string name="filters_gas_station_name">Gas Station Name</string>
+    <string name="filters_fuels">Fuels</string>
+    <string name="filters_gasoline_95">Gasoline 95</string>
+    <string name="filters_gasoline_98">Gasoline 98</string>
+    <string name="filters_diesel_standard">Standard Diesel</string>
+    <string name="filters_diesel_premium">Premium Diesel</string>
+    <string name="filters_glp">LPG</string>
+    <string name="filters_services">Services</string>
+    <string name="filters_24_hours_only">24 hours only</string>
+    <string name="filters_favorites_only">Favorites only</string>
+    <string name="filters_max_prices">Max Prices</string>
+    <string name="filters_max_price_gasoline_95">Max Price Gasoline 95</string>
+    <string name="filters_max_price_diesel">Max Price Diesel</string>
+    <string name="filters_apply">Apply</string>
+    <string name="filters_clear">Clear</string>
+    <string name="filters_0_gas_stations_found">0 gas stations found</string>
+    
+    <string name="details_general_info">General Information</string>
+    <string name="details_gas_station_name">Gas Station Name</string>
+    <string name="details_gas_station_address">Gas Station Address</string>
+    <string name="details_gas_station_location">Location, Municipality, Province</string>
+    <string name="details_schedule">Schedule</string>
+    <string name="details_gasoline_prices">Gasoline Prices</string>
+    <string name="details_diesel_prices">Diesel Prices</string>
+    <string name="details_alternative_fuels">Alternative Fuels</string>
+    <string name="details_additional_info">Additional Information</string>
+
+    <string name="splash_emoji">⛽</string>
+    <string name="splash_percentage">0%</string>
+    <string name="splash_initializing">Initializing...</string>
+    <string name="splash_version">v1.0.2</string>
+    <string name="error_location_not_found">Could not retrieve location</string>
+
+    <!-- Fuel labels (Details panel) -->
+    <string name="fuel_gasoline_95_e5">Gasoline 95 E5</string>
+    <string name="fuel_gasoline_95_e10">Gasoline 95 E10</string>
+    <string name="fuel_gasoline_98_e5">Gasoline 98 E5</string>
+    <string name="fuel_gasoline_98_e10">Gasoline 98 E10</string>
+    <string name="fuel_diesel_standard">Standard Diesel</string>
+    <string name="fuel_diesel_premium">Premium Diesel</string>
+    <string name="fuel_diesel_agro">Agricultural Diesel</string>
+    <string name="fuel_gnc">CNG</string>
+    <string name="fuel_gnl">LNG</string>
+    <string name="fuel_hydrogen">Hydrogen</string>
+
+    <!-- Additional info labels -->
+    <string name="info_sale_type">Sale Type</string>
+    <string name="info_margin">Margin</string>
+    <string name="info_updated">Updated</string>
+
+    <!-- Status / Loading messages -->
+    <string name="status_loading">Loading gas stations...</string>
+    <string name="status_processing">Processing data...</string>
+    <string name="status_error_server">Server response error</string>
+    <string name="status_error_parsing">Error processing data</string>
+    <string name="status_error_connection">Connection error</string>
+
+    <!-- Results count -->
+    <string name="results_count">%d gas stations found</string>
+
+    <!-- Language picker -->
+    <string name="language_picker_title">Select language</string>
+    <string name="content_desc_filters">Filters</string>
+    <string name="content_desc_location">My location</string>
+
+    <!-- Hints -->
+    <string name="hint_select">Type or select…</string>
+    <string name="hint_search_brand">Search by brand…</string>
+    <string name="hint_example_95">E.g.: 1.65</string>
+    <string name="hint_example_diesel">E.g.: 1.50</string>
+</resources>

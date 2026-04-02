@@ -92,7 +92,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Información General"
+                        android:text="@string/details_general_info"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -115,7 +115,7 @@
                             android:id="@+id/tv_station_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Nombre Gasolinera"
+                            android:text="@string/details_gas_station_name"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -126,7 +126,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Dirección de la gasolinera"
+                            android:text="@string/details_gas_station_address"
                             android:textColor="@color/textColorSecondary"
                             android:textSize="14sp" />
 
@@ -148,7 +148,7 @@
                                 android:id="@+id/tv_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Localidad, Municipio, Provincia"
+                                android:text="@string/details_gas_station_location"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="12sp" />
 
@@ -175,7 +175,7 @@
                                 android:id="@+id/tv_horario"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Horario"
+                                android:text="@string/details_schedule"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="12sp" />
 
@@ -204,7 +204,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Precios Gasolina"
+                        android:text="@string/details_gasoline_prices"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -245,7 +245,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Precios Diésel"
+                        android:text="@string/details_diesel_prices"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -286,7 +286,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Combustibles Alternativos"
+                        android:text="@string/details_alternative_fuels"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -327,7 +327,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Información Adicional"
+                        android:text="@string/details_additional_info"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp"
                         android:textStyle="bold" />

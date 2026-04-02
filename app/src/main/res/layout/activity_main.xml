@@ -21,11 +21,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="GeoGas"
+            android:text="@string/app_name"
             android:textColor="@color/white"
 
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <!-- Botón de idiomas a la derecha -->
+        <LinearLayout
+            android:id="@+id/toolbar_lang_container"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/btn_circle_background_small"
+            android:gravity="center"
+            android:elevation="4dp">
+
+            <TextView
+                android:id="@+id/toolbar_lang_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌐"
+                android:gravity="center"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <!-- Botón de filtros a la derecha -->
         <LinearLayout
@@ -42,7 +61,7 @@
                 android:layout_height="32dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_filter_pro"
-                android:contentDescription="Filtros"
+                android:contentDescription="@string/content_desc_filters"
                 android:scaleType="centerInside"
                 app:tint="@color/white" />
 
@@ -99,7 +118,7 @@
             android:layout_height="32dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_location_pro"
-            android:contentDescription="Mi ubicación"
+            android:contentDescription="@string/content_desc_location"
             android:scaleType="centerInside" />
 
     </LinearLayout>

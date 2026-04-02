@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.eliasbuenosdias.geogas.ui.helpers.SplashHelper;
 import com.eliasbuenosdias.geogas.utils.FavoritosManager;
 import com.eliasbuenosdias.geogas.utils.FiltrosManager;
 import com.eliasbuenosdias.geogas.utils.IconosManager;
+import com.eliasbuenosdias.geogas.utils.LocaleManager;
 import com.eliasbuenosdias.geogas.utils.PuntuadorGasolineras;
 import com.eliasbuenosdias.geogas.viewmodels.GasStationViewModel;
 
@@ -53,12 +55,18 @@ public class MainActivity extends AppCompatActivity {
     private FavoritosManager favoritosManager;
     private FiltrosManager filtrosManager;
     private final Handler handler = new Handler();
+    private static final String KEY_LOCALE_CHANGE = "locale_change_pending";
 
     private final Runnable viewportChangeRunnable = () -> {
         if (viewModel != null && mapHelper != null) {
             viewModel.setViewport(((MapView) findViewById(R.id.map)).getBoundingBox());
         }
     };
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleManager.applyLocale(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +79,21 @@ public class MainActivity extends AppCompatActivity {
         initializeViewModel();
         initializeUI();
         setupFragments();
-        checkPermissionsAndLoadData();
+
+        // If the Activity was recreated due to a locale change, skip splash & data
+        // reload
+        boolean isLocaleChange = getPreferences(MODE_PRIVATE).getBoolean(KEY_LOCALE_CHANGE, false);
+        if (isLocaleChange) {
+            getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_LOCALE_CHANGE, false).apply();
+            splashHelper.forceHide();
+            // Re-trigger viewport to show existing data
+            MapView mapView = findViewById(R.id.map);
+            if (mapView != null) {
+                viewModel.setViewport(mapView.getBoundingBox());
+            }
+        } else {
+            checkPermissionsAndLoadData();
+        }
     }
 
     private void setupOsmdroidConfig() {
@@ -89,12 +111,34 @@ public class MainActivity extends AppCompatActivity {
         viewModel.setPuntuador(new PuntuadorGasolineras(favoritosManager));
 
         viewModel.getGasolinerasVisibles().observe(this, list -> mapHelper.updateMarkers(list));
-        viewModel.getProgress().observe(this,
-                p -> splashHelper.updateStatus(p, viewModel.getStatusMessage().getValue()));
+        viewModel.getProgress().observe(this, p -> {
+            String key = viewModel.getStatusMessage().getValue();
+            String msg = resolveStatusMessage(key);
+            splashHelper.updateStatus(p, msg);
+        });
         viewModel.getIsLoading().observe(this, loading -> {
             if (!loading && viewModel.getProgress().getValue() >= 100)
                 splashHelper.hide();
         });
+    }
+
+    private String resolveStatusMessage(String key) {
+        if (key == null)
+            return "";
+        switch (key) {
+            case "status_loading":
+                return getString(R.string.status_loading);
+            case "status_processing":
+                return getString(R.string.status_processing);
+            case "status_error_server":
+                return getString(R.string.status_error_server);
+            case "status_error_parsing":
+                return getString(R.string.status_error_parsing);
+            case "status_error_connection":
+                return getString(R.string.status_error_connection);
+            default:
+                return key; // fallback: show raw if unknown
+        }
     }
 
     private void initializeUI() {
@@ -126,6 +170,11 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_my_location).setOnClickListener(v -> centerOnMyLocation());
         View filterBtnContainer = findViewById(R.id.toolbar_filters_container);
         toolbarFiltersButton = findViewById(R.id.toolbar_filters_button);
+
+        View langBtnContainer = findViewById(R.id.toolbar_lang_container);
+        if (langBtnContainer != null) {
+            langBtnContainer.setOnClickListener(v -> showLanguagePicker());
+        }
 
         View.OnClickListener filterToggleListener = v -> {
             Log.d("GeoGas", "Filtros click - Toggling panel");
@@ -275,9 +324,45 @@ public class MainActivity extends AppCompatActivity {
                 ((MapView) findViewById(R.id.map)).getController()
                         .animateTo(new GeoPoint(loc.getLatitude(), loc.getLongitude()));
             else
-                Toast.makeText(this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.error_location_not_found), Toast.LENGTH_SHORT).show();
         } catch (SecurityException ignored) {
         }
+    }
+
+    private void showLanguagePicker() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_language_picker, null);
+        android.widget.RadioGroup radioGroup = dialogView.findViewById(R.id.language_radio_group);
+        android.widget.RadioButton radioEs = dialogView.findViewById(R.id.radio_es);
+        android.widget.RadioButton radioEn = dialogView.findViewById(R.id.radio_en);
+
+        String currentLang = LocaleManager.getLanguage(this);
+        if ("en".equals(currentLang)) {
+            radioEn.setChecked(true);
+        } else {
+            radioEs.setChecked(true);
+        }
+
+        android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            String selectedLang = (checkedId == R.id.radio_en) ? "en" : "es";
+            if (!selectedLang.equals(currentLang)) {
+                dialog.dismiss();
+                LocaleManager.setLanguage(this, selectedLang);
+                getPreferences(MODE_PRIVATE).edit().putBoolean(KEY_LOCALE_CHANGE, true).apply();
+                recreate();
+            } else {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     @Override

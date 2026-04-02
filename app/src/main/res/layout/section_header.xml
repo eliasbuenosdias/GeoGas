@@ -17,7 +17,7 @@
         android:id="@+id/section_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sección"
+        android:text="@string/section_title"
         android:textColor="@color/textColorPrimary"
         android:textSize="16sp"
         android:textStyle="bold" />

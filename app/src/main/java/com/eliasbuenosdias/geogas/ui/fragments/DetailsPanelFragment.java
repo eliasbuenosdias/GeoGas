@@ -138,26 +138,29 @@ public class DetailsPanelFragment extends Fragment {
         tableAdicional.removeAllViews();
 
         // Gasolina
-        addFilaPrecioSiExiste(tableGasolina, "Gasolina 95 E5", gasolinera.getPrecioGasolina95());
-        addFilaPrecioSiExiste(tableGasolina, "Gasolina 95 E10", gasolinera.getPrecioGasolina95E10());
-        addFilaPrecioSiExiste(tableGasolina, "Gasolina 98 E5", gasolinera.getPrecioGasolina98());
-        addFilaPrecioSiExiste(tableGasolina, "Gasolina 98 E10", gasolinera.getPrecioGasolina98E10());
+        addFilaPrecioSiExiste(tableGasolina, getString(R.string.fuel_gasoline_95_e5), gasolinera.getPrecioGasolina95());
+        addFilaPrecioSiExiste(tableGasolina, getString(R.string.fuel_gasoline_95_e10),
+                gasolinera.getPrecioGasolina95E10());
+        addFilaPrecioSiExiste(tableGasolina, getString(R.string.fuel_gasoline_98_e5), gasolinera.getPrecioGasolina98());
+        addFilaPrecioSiExiste(tableGasolina, getString(R.string.fuel_gasoline_98_e10),
+                gasolinera.getPrecioGasolina98E10());
 
         // Diesel
-        addFilaPrecioSiExiste(tableDiesel, "Diésel Standard", gasolinera.getPrecioGasoleoA());
-        addFilaPrecioSiExiste(tableDiesel, "Diésel Premium", gasolinera.getPrecioGasoleoPremium());
-        addFilaPrecioSiExiste(tableDiesel, "Diésel Agrícola", gasolinera.getPrecioGasoleoB());
+        addFilaPrecioSiExiste(tableDiesel, getString(R.string.fuel_diesel_standard), gasolinera.getPrecioGasoleoA());
+        addFilaPrecioSiExiste(tableDiesel, getString(R.string.fuel_diesel_premium),
+                gasolinera.getPrecioGasoleoPremium());
+        addFilaPrecioSiExiste(tableDiesel, getString(R.string.fuel_diesel_agro), gasolinera.getPrecioGasoleoB());
 
         // Alternativos
-        addFilaPrecioSiExiste(tableAlternativos, "GLP", gasolinera.getPrecioGLP());
-        addFilaPrecioSiExiste(tableAlternativos, "GNC", gasolinera.getPrecioGNC());
-        addFilaPrecioSiExiste(tableAlternativos, "GNL", gasolinera.getPrecioGNL());
-        addFilaPrecioSiExiste(tableAlternativos, "Hidrógeno", gasolinera.getPrecioHidrogeno());
+        addFilaPrecioSiExiste(tableAlternativos, getString(R.string.filters_glp), gasolinera.getPrecioGLP());
+        addFilaPrecioSiExiste(tableAlternativos, getString(R.string.fuel_gnc), gasolinera.getPrecioGNC());
+        addFilaPrecioSiExiste(tableAlternativos, getString(R.string.fuel_gnl), gasolinera.getPrecioGNL());
+        addFilaPrecioSiExiste(tableAlternativos, getString(R.string.fuel_hydrogen), gasolinera.getPrecioHidrogeno());
 
         // Adicional
-        addFilaInfoSiExiste(tableAdicional, "Venta", gasolinera.getTipoVenta());
-        addFilaInfoSiExiste(tableAdicional, "Margen", gasolinera.getMargen());
-        addFilaInfoSiExiste(tableAdicional, "Actualizado", gasolinera.getFecha());
+        addFilaInfoSiExiste(tableAdicional, getString(R.string.info_sale_type), gasolinera.getTipoVenta());
+        addFilaInfoSiExiste(tableAdicional, getString(R.string.info_margin), gasolinera.getMargen());
+        addFilaInfoSiExiste(tableAdicional, getString(R.string.info_updated), gasolinera.getFecha());
     }
 
     private void addFilaPrecioSiExiste(TableLayout table, String nombre, String precio) {
