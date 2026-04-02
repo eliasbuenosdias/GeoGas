@@ -17,3 +17,14 @@ local.properties
 # Secrets
 *.jks
 keystore.properties
+
+# Output and debug artifacts
+app/release/
+/test*.txt
+/view*.xml
+/*.png
+/*.b64
+fastlane/report.xml
+fastlane/README.md
+__pycache__/
+*.pyc
