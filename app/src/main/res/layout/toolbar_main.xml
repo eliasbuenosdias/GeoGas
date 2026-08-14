@@ -38,13 +38,15 @@
             android:gravity="center"
             android:elevation="2dp">
 
-            <TextView
+            <ImageView
                 android:id="@+id/toolbar_lang_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🌐"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_language"
+                app:tint="@color/white"
+                android:contentDescription="@string/content_desc_language"
                 android:gravity="center"
-                android:textSize="18sp" />
+                android:scaleType="centerInside" />
         </LinearLayout>
 
         <!-- Botón de filtros a la derecha -->

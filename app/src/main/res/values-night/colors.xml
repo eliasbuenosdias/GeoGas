@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Nord (Dark Theme) -->
-    <color name="colorPrimary">#88C0D0</color> <!-- Frost Blue -->
-    <color name="colorPrimaryDark">#2E3440</color> <!-- Nord0 -->
-    <color name="colorAccent">#EBCB8B</color> <!-- Gold/Gold -->
+    <!-- Overrides del modo oscuro (Slate oscuro) -->
+    <color name="colorPrimary">#60A5FA</color> <!-- brand_400 -->
+    <color name="colorPrimaryDark">#1E293B</color> <!-- slate_800 -->
+    <color name="colorAccent">#FBBF24</color> <!-- amber_400 -->
 
     <!-- Backgrounds & Surfaces -->
-    <color name="backgroundColor">#2E3440</color> <!-- Nord0 -->
-    <color name="surfaceColor">#3B4252</color> <!-- Nord1 -->
-    <color name="surfaceColorGlass">#E63B4252</color> <!-- 90% Nord1 -->
-    <color name="fieldBackgroundColor">#1A88C0D0</color> <!-- 10% Frozen Blue -->
-    
+    <color name="backgroundColor">#0F172A</color> <!-- slate_900 -->
+    <color name="surfaceColor">#1E293B</color> <!-- slate_800 -->
+    <color name="surfaceColorGlass">#E61E293B</color> <!-- 90% slate_800 -->
+    <color name="fieldBackgroundColor">#1A60A5FA</color> <!-- 10% brand_400 -->
+
     <!-- Text Colors -->
-    <color name="textColorPrimary">#D8DEE9</color> <!-- Nord4 -->
-    <color name="textColorSecondary">#94A3B8</color> <!-- Custom grey or Nord5 -->
-    <color name="textColorAccent">#88C0D0</color>
+    <color name="textColorPrimary">#F1F5F9</color> <!-- slate_100 -->
+    <color name="textColorSecondary">#94A3B8</color> <!-- slate_400 -->
+    <color name="textColorAccent">#60A5FA</color> <!-- brand_400 -->
+
+    <!-- Divisores -->
+    <color name="neutral_200">#334155</color> <!-- slate_700 -->
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-
-    <!-- Colores para los botones en modo oscuro -->
-    <color name="button_background">#1E1E1E</color>
-    <color name="button_stroke">#333333</color>
 </resources>

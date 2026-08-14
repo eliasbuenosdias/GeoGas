@@ -1,4 +1,3 @@
-// En FiltrosManager.java - REEMPLAZA completamente la clase:
 package com.eliasbuenosdias.geogas.utils;
 
 import com.eliasbuenosdias.geogas.models.GasolineraAPI;
@@ -66,7 +65,7 @@ public class FiltrosManager {
      *
      * @param gasolinera el nombre de la gasolinera a filtrar
      */
-    public void setGasolinera(String gasolinera) { this.gasolinera = gasolinera; } // Cambiado
+    public void setGasolinera(String gasolinera) { this.gasolinera = gasolinera; }
     /**
      * Verifica si el filtro de Gasolina 95 está activo.
      *
@@ -206,7 +205,7 @@ public class FiltrosManager {
      */
     private boolean cumpleFiltros(GasolineraAPI gasolinera, FavoritosManager favoritosManager) {
         return cumpleFiltroUbicacion(gasolinera) &&
-                cumpleFiltroGasolinera(gasolinera) && // Actualizado
+                cumpleFiltroGasolinera(gasolinera) &&
                 cumpleFiltroCombustibles(gasolinera) &&
                 cumpleFiltroServicios(gasolinera, favoritosManager) &&
                 cumpleFiltroPrecios(gasolinera);
@@ -331,7 +330,7 @@ public class FiltrosManager {
     public void limpiarFiltros() {
         provincia = null;
         municipio = null;
-        gasolinera = null; // Actualizado
+        gasolinera = null;
         soloGasolina95 = false;
         soloGasolina98 = false;
         soloDiesel = false;
@@ -350,7 +349,7 @@ public class FiltrosManager {
     public boolean tieneFiltrosActivos() {
         return (provincia != null && !provincia.isEmpty()) ||
                 (municipio != null && !municipio.isEmpty()) ||
-                (gasolinera != null && !gasolinera.isEmpty()) || // Actualizado
+                (gasolinera != null && !gasolinera.isEmpty()) ||
                 soloGasolina95 ||
                 soloGasolina98 ||
                 soloDiesel ||
@@ -360,5 +359,120 @@ public class FiltrosManager {
                 soloFavoritas ||
                 precioMaxGasolina95 != null ||
                 precioMaxDiesel != null;
+    }
+
+    /**
+     * Captura el estado actual de los filtros como snapshot inmutable.
+     *
+     * @return un {@link FiltrosEstado} con todos los criterios configurados
+     */
+    public FiltrosEstado snapshot() {
+        return FiltrosEstado.from(this);
+    }
+
+    /**
+     * Restaura el estado de los filtros a partir de un snapshot.
+     *
+     * @param estado el estado a aplicar
+     */
+    public void restore(FiltrosEstado estado) {
+        estado.aplicarA(this);
+    }
+
+    /**
+     * Constructor fluido de {@link FiltrosManager}.
+     * <p>
+     * Aplica los criterios de forma encadenada sobre una instancia y valida el
+     * resultado en {@link #build()}, evitando una cascada de setters.
+     * </p>
+     */
+    public static class Builder {
+
+        private final FiltrosManager filtros;
+
+        /**
+         * Construye un builder sobre la instancia destino.
+         *
+         * @param filtros la instancia de {@link FiltrosManager} a configurar
+         */
+        public Builder(FiltrosManager filtros) {
+            this.filtros = filtros;
+        }
+
+        public Builder provincia(String provincia) {
+            filtros.provincia = provincia;
+            return this;
+        }
+
+        public Builder municipio(String municipio) {
+            filtros.municipio = municipio;
+            return this;
+        }
+
+        public Builder gasolinera(String gasolinera) {
+            filtros.gasolinera = gasolinera;
+            return this;
+        }
+
+        public Builder soloGasolina95(boolean soloGasolina95) {
+            filtros.soloGasolina95 = soloGasolina95;
+            return this;
+        }
+
+        public Builder soloGasolina98(boolean soloGasolina98) {
+            filtros.soloGasolina98 = soloGasolina98;
+            return this;
+        }
+
+        public Builder soloDiesel(boolean soloDiesel) {
+            filtros.soloDiesel = soloDiesel;
+            return this;
+        }
+
+        public Builder soloDieselPremium(boolean soloDieselPremium) {
+            filtros.soloDieselPremium = soloDieselPremium;
+            return this;
+        }
+
+        public Builder soloGLP(boolean soloGLP) {
+            filtros.soloGLP = soloGLP;
+            return this;
+        }
+
+        public Builder solo24Horas(boolean solo24Horas) {
+            filtros.solo24Horas = solo24Horas;
+            return this;
+        }
+
+        public Builder soloFavoritas(boolean soloFavoritas) {
+            filtros.soloFavoritas = soloFavoritas;
+            return this;
+        }
+
+        public Builder precioMaxGasolina95(Double precioMaxGasolina95) {
+            filtros.precioMaxGasolina95 = precioMaxGasolina95;
+            return this;
+        }
+
+        public Builder precioMaxDiesel(Double precioMaxDiesel) {
+            filtros.precioMaxDiesel = precioMaxDiesel;
+            return this;
+        }
+
+        /**
+         * Valida el estado final y devuelve la instancia configurada.
+         *
+         * @return el {@link FiltrosManager} configurado
+         * @throws IllegalArgumentException si algún precio máximo es negativo
+         */
+        public FiltrosManager build() {
+            if (filtros.precioMaxGasolina95 != null && filtros.precioMaxGasolina95 < 0) {
+                throw new IllegalArgumentException("precioMaxGasolina95 no puede ser negativo");
+            }
+            if (filtros.precioMaxDiesel != null && filtros.precioMaxDiesel < 0) {
+                throw new IllegalArgumentException("precioMaxDiesel no puede ser negativo");
+            }
+            return filtros;
+        }
     }
 }

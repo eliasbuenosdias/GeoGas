@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <!-- Brand Primary (Azul Gasolineras) -->
+    <color name="brand_50">#EFF6FF</color>
+    <color name="brand_100">#DBEAFE</color>
+    <color name="brand_500">#3B82F6</color>
+    <color name="brand_600">#2563EB</color>
+    <color name="brand_700">#1D4ED8</color>
 
-    <!-- Catppuccin Latte (Light Theme) -->
-    <color name="colorPrimary">#1E66F5</color> <!-- Blue -->
-    <color name="colorPrimaryDark">#179294</color> <!-- Teal/Darker -->
-    <color name="colorAccent">#DF8E1D</color> <!-- Yellow (Perfect for Gold/Fuel) -->
+    <!-- Neutros Tintados (Slate) -->
+    <color name="neutral_50">#F8FAFC</color>
+    <color name="neutral_100">#F1F5F9</color>
+    <color name="neutral_200">#E2E8F0</color>
+    <color name="neutral_500">#64748B</color>
+    <color name="neutral_700">#334155</color>
+    <color name="neutral_900">#0F172A</color>
+
+    <!-- Estados Semánticos de Precio -->
+    <color name="price_cheap">#10B981</color>
+    <color name="price_cheap_bg">#D1FAE5</color>
+    <color name="price_medium">#F59E0B</color>
+    <color name="price_medium_bg">#FEF3C7</color>
+    <color name="price_expensive">#EF4444</color>
+    <color name="price_expensive_bg">#FEE2E2</color>
+
+    <!-- Asignaciones Semánticas -->
+    <color name="colorPrimary">@color/brand_600</color>
+    <color name="colorPrimaryDark">@color/brand_700</color>
+    <color name="colorAccent">@color/price_medium</color>
 
     <!-- Backgrounds & Surfaces -->
-    <color name="backgroundColor">#EFF1F5</color> <!-- Base -->
-    <color name="surfaceColor">#E6E9EF</color> <!-- Mantle -->
-    <color name="surfaceColorGlass">#E6EFF1F5</color> <!-- 90% Base -->
-    <color name="fieldBackgroundColor">#121E66F5</color> <!-- 7% Primary Blue -->
-    
+    <color name="backgroundColor">@color/neutral_50</color>
+    <color name="surfaceColor">@color/white</color>
+    <color name="surfaceColorGlass">#E6F8FAFC</color> <!-- 90% neutral_50 -->
+    <color name="fieldBackgroundColor">#122563EB</color> <!-- 7% brand_600 -->
+
     <!-- Text Colors -->
-    <color name="textColorPrimary">#4C4F69</color> <!-- Text color -->
-    <color name="textColorSecondary">#6C6F85</color> <!-- Subtext -->
-    <color name="textColorAccent">#1E66F5</color>
+    <color name="textColorPrimary">@color/neutral_900</color>
+    <color name="textColorSecondary">@color/neutral_500</color>
+    <color name="textColorAccent">@color/brand_500</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-
-    <color name="gray_light">#F5F5F5</color>
-    <color name="gray_dark">#333333</color>
-
-    <!-- Colores para los botones -->
-    <color name="button_background">#FFFFFF</color>
-    <color name="button_stroke">#E0E0E0</color>
-    <color name="button_active_background">#FFF5E6</color>
-    <color name="button_active_stroke">#FF9800</color>
-    <color name="primary_blue">#2996EB</color>
-
 </resources>

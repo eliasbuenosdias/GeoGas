@@ -29,3 +29,4 @@ fastlane/README.md
 __pycache__/
 *.pyc
 plugins
+node_modules/

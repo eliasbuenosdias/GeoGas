@@ -149,6 +149,60 @@ private boolean cumpleFiltros(GasolineraAPI g, FavoritosManager fm) {
 
 ---
 
+## ✨ Patrones implementados durante la refactorización (agosto 2026)
+
+> Los patrones de abajo se añadieron tras aplicar el plan derivado de [`recomendaciones_patrones_geogas6.md`](recomendaciones_patrones_geogas6.md).
+
+### 8. Builder — `FiltrosManager.Builder`
+**Archivo**: [`FiltrosManager.java`](../app/src/main/java/com/eliasbuenosdias/geogas/utils/FiltrosManager.java) (clase interna `Builder`)
+
+```java
+new FiltrosManager.Builder(filtros)
+    .provincia(...).municipio(...).soloGasolina95(...)
+    .precioMaxGasolina95(...)
+    .build(); // valida precios negativos y devuelve la instancia configurada
+```
+
+**Diagnóstico**: Evita la cascada de 12 setters. `build()` valida el estado final (lanza `IllegalArgumentException` si un precio máximo es negativo).
+
+### 9. Command — `AplicarFiltroCommand` con historial de undo
+**Archivos**: [`Command.java`](../app/src/main/java/com/eliasbuenosdias/geogas/utils/command/Command.java), [`AplicarFiltroCommand.java`](../app/src/main/java/com/eliasbuenosdias/geogas/utils/command/AplicarFiltroCommand.java), [`GasStationViewModel.java`](../app/src/main/java/com/eliasbuenosdias/geogas/viewmodels/GasStationViewModel.java)
+
+```java
+public class AplicarFiltroCommand implements Command {
+    private final FiltrosEstado estadoAnterior; // snapshot capturado antes de ejecutar
+    @Override public void execute() { ... }
+    @Override public void undo()    { ... }
+}
+```
+
+**Diagnóstico**: Cada aplicación de filtros encapsula su estado previo (`FiltrosEstado.snapshot()`). El ViewModel mantiene una cola `Deque` de comandos (máx. 10) y expone `aplicarFiltros()`, `deshacerUltimoFiltro()` y `puedeDeshacer()`. El botón "Deshacer último cambio" del panel de filtros lo consume.
+
+### 10. State — `LoadState` para el ciclo de carga
+**Archivo**: [`LoadState.java`](../app/src/main/java/com/eliasbuenosdias/geogas/viewmodels/LoadState.java)
+
+```java
+public final class LoadState {
+    enum Status { LOADING, LOADED, ERROR }
+    // + progress + statusKey, inmutables
+}
+```
+
+**Diagnóstico**: Fusiona los antiguos `isLoading` + `progress` + `statusMessage` (booleans/ints dispersos) en un único objeto de estado cohesivo expuesto como `LiveData<LoadState>` (`getLoadState()`). `MainActivity` reacciona a `state.isLoaded()` para ocultar la splash.
+
+### 11. Flyweight — `IconFlyweightFactory`
+**Archivo**: [`IconFlyweightFactory.java`](../app/src/main/java/com/eliasbuenosdias/geogas/utils/IconFlyweightFactory.java)
+
+```java
+public static Drawable get(Context ctx, int resId) {
+    return cache.computeIfAbsent(resId, id -> ContextCompat.getDrawable(ctx, id));
+}
+```
+
+**Diagnóstico**: Cache de los 6 drawables de iconos posibles (normal/small/tiny × favorita/normal). `MapHelper.updateMarker()` reutiliza la misma instancia en lugar de crear un `Drawable` nuevo por marcador (hasta 200 en RAM).
+
+---
+
 ## 📐 Arquitectura: MVVM (patrón arquitectónico)
 
 Aunque MVVM no es un patrón GoF, es el patrón arquitectónico dominante del proyecto:
@@ -172,3 +226,7 @@ Aunque MVVM no es un patrón GoF, es el patrón arquitectónico dominante del pr
 | 5 | **Strategy** | Comportamiento | `PuntuadorGasolineras` |
 | 6 | **Observer** (callback) | Comportamiento | `FiltersListener`, `DetailsListener` |
 | 7 | **Template Method** | Comportamiento | `FiltrosManager.cumpleFiltros` |
+| 8 | **Builder** | Creacional | `FiltrosManager.Builder` |
+| 9 | **Command** | Comportamiento | `AplicarFiltroCommand` + `GasStationViewModel` |
+| 10 | **State** | Comportamiento | `LoadState` |
+| 11 | **Flyweight** | Estructural | `IconFlyweightFactory` |

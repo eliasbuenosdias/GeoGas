@@ -1,6 +1,6 @@
 package com.eliasbuenosdias.geogas.ui.fragments;
 
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -21,23 +21,48 @@ import com.eliasbuenosdias.geogas.R;
 import com.eliasbuenosdias.geogas.models.GasolineraAPI;
 import com.eliasbuenosdias.geogas.utils.FavoritosManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Fragmento que gestiona el panel de detalles de una gasolinera.
  * Encapsula la lógica de visualización de precios y datos adicionales.
  */
 public class DetailsPanelFragment extends Fragment {
 
+    private static final double PRECIO_BAJO = 1.55;
+    private static final double PRECIO_ALTO = 1.75;
+
     private TextView tvStationName, tvStationAddress, tvLocation, tvHorario;
     private View horarioContainer;
     private ImageButton btnFavorite, btnClose;
     private TableLayout tableGasolina, tableDiesel, tableAlternativos, tableAdicional;
+    private TextView tvMainPrice, tvPriceBadge;
 
     private FavoritosManager favoritosManager;
     private DetailsListener listener;
     private GasolineraAPI gasolinera;
+
+    private enum PriceClass {
+        CHEAP(R.color.price_cheap, R.color.price_cheap_bg, R.string.price_class_cheap),
+        MEDIUM(R.color.price_medium, R.color.price_medium_bg, R.string.price_class_medium),
+        EXPENSIVE(R.color.price_expensive, R.color.price_expensive_bg, R.string.price_class_expensive);
+
+        final int textColor;
+        final int bgColor;
+        final int label;
+
+        PriceClass(int textColor, int bgColor, int label) {
+            this.textColor = textColor;
+            this.bgColor = bgColor;
+            this.label = label;
+        }
+
+        static PriceClass from(double precio) {
+            if (precio <= PRECIO_BAJO)
+                return CHEAP;
+            if (precio <= PRECIO_ALTO)
+                return MEDIUM;
+            return EXPENSIVE;
+        }
+    }
 
     public interface DetailsListener {
         void onCloseDetails();
@@ -74,6 +99,8 @@ public class DetailsPanelFragment extends Fragment {
         horarioContainer = view.findViewById(R.id.horario_container);
         btnFavorite = view.findViewById(R.id.btn_favorite);
         btnClose = view.findViewById(R.id.btn_close_panel);
+        tvMainPrice = view.findViewById(R.id.tv_main_price);
+        tvPriceBadge = view.findViewById(R.id.tv_price_badge);
 
         tableGasolina = view.findViewById(R.id.table_gasolina);
         tableDiesel = view.findViewById(R.id.table_diesel);
@@ -114,6 +141,7 @@ public class DetailsPanelFragment extends Fragment {
         }
 
         updateFavoriteIcon();
+        updateHeroPrice();
         fillTables();
     }
 
@@ -123,12 +151,57 @@ public class DetailsPanelFragment extends Fragment {
 
         boolean isFav = favoritosManager.esFavorita(gasolinera.getId());
         if (isFav) {
-            btnFavorite.setImageResource(android.R.drawable.btn_star_big_on);
-            btnFavorite.setColorFilter(Color.parseColor("#FFD700"));
+            btnFavorite.setImageResource(R.drawable.ic_star_filled);
+            btnFavorite.setColorFilter(ContextCompat.getColor(getContext(), R.color.price_medium));
         } else {
-            btnFavorite.setImageResource(android.R.drawable.btn_star_big_off);
-            btnFavorite.setColorFilter(Color.parseColor("#CCCCCC"));
+            btnFavorite.setImageResource(R.drawable.ic_star_outline);
+            btnFavorite.setColorFilter(ContextCompat.getColor(getContext(), R.color.textColorSecondary));
         }
+    }
+
+    private void updateHeroPrice() {
+        if (gasolinera == null || tvMainPrice == null || tvPriceBadge == null)
+            return;
+
+        String precioStr = obtenerPrecioDestacado(gasolinera);
+        if (precioStr == null) {
+            tvMainPrice.setText("-- €/L");
+            tvMainPrice.setTextColor(ContextCompat.getColor(getContext(), R.color.textColorSecondary));
+            tvPriceBadge.setVisibility(View.GONE);
+            return;
+        }
+
+        double precio = parsePrecio(precioStr);
+        PriceClass priceClass = PriceClass.from(precio);
+
+        tvMainPrice.setText(precioStr + " €/L");
+        tvMainPrice.setTextColor(ContextCompat.getColor(getContext(), priceClass.textColor));
+        tvPriceBadge.setText(getString(priceClass.label));
+        tvPriceBadge.setTextColor(ContextCompat.getColor(getContext(), priceClass.textColor));
+        tvPriceBadge.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), priceClass.bgColor)));
+        tvPriceBadge.setVisibility(View.VISIBLE);
+    }
+
+    private String obtenerPrecioDestacado(GasolineraAPI gasolinera) {
+        if (isValido(gasolinera.getPrecioGasolina95()))
+            return gasolinera.getPrecioGasolina95();
+        if (isValido(gasolinera.getPrecioGasoleoA()))
+            return gasolinera.getPrecioGasoleoA();
+        if (isValido(gasolinera.getPrecioGasolina98()))
+            return gasolinera.getPrecioGasolina98();
+        if (isValido(gasolinera.getPrecioGasoleoPremium()))
+            return gasolinera.getPrecioGasoleoPremium();
+        if (isValido(gasolinera.getPrecioGLP()))
+            return gasolinera.getPrecioGLP();
+        return null;
+    }
+
+    private boolean isValido(String precio) {
+        return precio != null && !precio.isEmpty();
+    }
+
+    private double parsePrecio(String precio) {
+        return Double.parseDouble(precio.replace(",", "."));
     }
 
     private void fillTables() {
@@ -179,7 +252,7 @@ public class DetailsPanelFragment extends Fragment {
         TableRow row = new TableRow(getContext());
         TextView tvNombre = createTextView(nombre, false);
         TextView tvPrecio = createTextView(precio, true);
-        tvPrecio.setTextColor(Color.parseColor("#388E3C"));
+        tvPrecio.setTextColor(ContextCompat.getColor(getContext(), R.color.price_cheap));
         tvPrecio.setGravity(Gravity.END);
 
         row.addView(tvNombre);

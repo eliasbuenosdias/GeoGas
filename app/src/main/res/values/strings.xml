@@ -21,6 +21,8 @@
     <string name="filters_max_price_diesel">Precio max. Diésel</string>
     <string name="filters_apply">Aplicar</string>
     <string name="filters_clear">Limpiar</string>
+    <string name="filters_undo">Deshacer último cambio</string>
+    <string name="filters_nothing_to_undo">No hay cambios que deshacer</string>
     <string name="filters_0_gas_stations_found">0 gasolineras encontradas</string>
     
     <string name="details_general_info">Información General</string>
@@ -32,6 +34,11 @@
     <string name="details_diesel_prices">Precios Diésel</string>
     <string name="details_alternative_fuels">Combustibles Alternativos</string>
     <string name="details_additional_info">Información Adicional</string>
+    <string name="details_featured_price">Precio destacado</string>
+
+    <string name="price_class_cheap">MÁS BARATA</string>
+    <string name="price_class_medium">PRECIO MEDIO</string>
+    <string name="price_class_expensive">PRECIO ELEVADO</string>
 
     <string name="splash_emoji">⛽</string>
     <string name="splash_percentage">0%</string>
@@ -70,6 +77,8 @@
     <string name="language_picker_title">Seleccionar idioma</string>
     <string name="content_desc_filters">Filtros</string>
     <string name="content_desc_location">Mi ubicación</string>
+    <string name="content_desc_favorite">Añadir a favoritos</string>
+    <string name="content_desc_language">Cambiar idioma</string>
 
     <!-- Hints -->
     <string name="hint_select">Escribe o selecciona…</string>

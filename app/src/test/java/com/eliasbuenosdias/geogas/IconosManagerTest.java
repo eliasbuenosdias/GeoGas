@@ -6,13 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
-import android.util.Log;
+import android.content.Context;
 
 /**
  * PRUEBAS UNITARIAS PARA: IconosManager
@@ -25,7 +23,7 @@ import android.util.Log;
 public class IconosManagerTest {
 
     @Mock
-    private android.content.Context mockContext; // Mock del contexto Android
+    private Context mockContext; // Mock del contexto Android
 
     @Mock
     private FavoritosManager mockFavoritosManager; // Mock del gestor de favoritos
@@ -46,16 +44,9 @@ public class IconosManagerTest {
      */
     @Test
     public void testObtenerIconoGasolinera_NoRetornaCero() {
-        // 🔹 WRAP THE ENTIRE TEST LOGIC
-        try (MockedStatic<Log> mockedLog = mockStatic(Log.class)) {
-            mockedLog.when(() -> Log.d(anyString(), anyString())).thenReturn(0);
+        int iconoResId = iconosManager.obtenerIconoGasolinera(true, 10, 15.0);
 
-            // ACT: This call internally uses Log.d
-            int iconoResId = iconosManager.obtenerIconoGasolinera(true, 10, 15.0);
-
-            // Your assertions here...
-            // assertTrue("Método debería ejecutarse sin errores", true);
-        }
+        assertNotEquals("No debería retornar un ID de recurso inválido", 0, iconoResId);
     }
 
     /**
@@ -63,21 +54,9 @@ public class IconosManagerTest {
      */
     @Test
     public void testObtenerIconoGasolinera_ValoresLimite() {
-        // 🔹 SOLUCIÓN: Crear un MockedStatic para la clase Log
-        try (MockedStatic<Log> mockedLog = mockStatic(Log.class)) {
-            // Configura el mock para que cualquier llamada a Log.d no haga nada
-            // Esto evita la excepción "not mocked"
-            mockedLog.when(() -> Log.d(anyString(), anyString())).thenReturn(0);
-
-            // Ahora puedes ejecutar el código que usa Log.d sin errores
-            iconosManager.obtenerIconoGasolinera(true, 1, 20.0);
-            iconosManager.obtenerIconoGasolinera(false, 1000, 5.0);
-            iconosManager.obtenerIconoGasolinera(false, 0, 10.0);
-
-            // (Opcional) Verifica que se llamó a Log.d
-            mockedLog.verify(() -> Log.d(anyString(), anyString()), atLeastOnce());
-        }
-        // Al salir del bloque 'try', el mock estático se libera automáticamente
+        iconosManager.obtenerIconoGasolinera(true, 1, 20.0);
+        iconosManager.obtenerIconoGasolinera(false, 1000, 5.0);
+        iconosManager.obtenerIconoGasolinera(false, 0, 10.0);
     }
 
     /**

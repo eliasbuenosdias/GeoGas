@@ -6,7 +6,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.eliasbuenosdias.geogas.R;
@@ -26,6 +30,7 @@ import com.eliasbuenosdias.geogas.ui.helpers.MapHelper;
 import com.eliasbuenosdias.geogas.ui.helpers.PermissionHelper;
 import com.eliasbuenosdias.geogas.ui.helpers.SplashHelper;
 import com.eliasbuenosdias.geogas.utils.FavoritosManager;
+import com.eliasbuenosdias.geogas.utils.FiltrosEstado;
 import com.eliasbuenosdias.geogas.utils.FiltrosManager;
 import com.eliasbuenosdias.geogas.utils.IconosManager;
 import com.eliasbuenosdias.geogas.utils.LocaleManager;
@@ -56,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
     private FiltrosManager filtrosManager;
     private final Handler handler = new Handler();
     private static final String KEY_LOCALE_CHANGE = "locale_change_pending";
+    private static final int PANEL_ANIMATION_DURATION_MS = 300;
+    private static final int VIEWPORT_DEBOUNCE_DELAY_MS = 300;
+    private static final int FALLBACK_PANEL_WIDTH_DP = 360;
+    private static final int MAX_PANEL_WIDTH_DP = 400;
+    private static final float PANEL_WIDTH_SCREEN_FACTOR = 0.9f;
 
     private final Runnable viewportChangeRunnable = () -> {
         if (viewModel != null && mapHelper != null) {
@@ -111,13 +121,9 @@ public class MainActivity extends AppCompatActivity {
         viewModel.setPuntuador(new PuntuadorGasolineras(favoritosManager));
 
         viewModel.getGasolinerasVisibles().observe(this, list -> mapHelper.updateMarkers(list));
-        viewModel.getProgress().observe(this, p -> {
-            String key = viewModel.getStatusMessage().getValue();
-            String msg = resolveStatusMessage(key);
-            splashHelper.updateStatus(p, msg);
-        });
-        viewModel.getIsLoading().observe(this, loading -> {
-            if (!loading && viewModel.getProgress().getValue() >= 100)
+        viewModel.getLoadState().observe(this, state -> {
+            splashHelper.updateStatus(state.getProgress(), resolveStatusMessage(state.getStatusKey()));
+            if (state.isLoaded())
                 splashHelper.hide();
         });
     }
@@ -144,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
     private void initializeUI() {
         btnLocationContainer = findViewById(R.id.btn_location_container);
         splashHelper = new SplashHelper(findViewById(android.R.id.content), btnLocationContainer);
+
+        applySystemBarInsets();
 
         MapView mapView = findViewById(R.id.map);
         mapHelper = new MapHelper(mapView, new IconosManager(this, favoritosManager), favoritosManager);
@@ -187,14 +195,40 @@ public class MainActivity extends AppCompatActivity {
             toolbarFiltersButton.setOnClickListener(filterToggleListener);
     }
 
+    private void applySystemBarInsets() {
+        View toolbar = findViewById(R.id.custom_toolbar);
+        if (toolbar != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(toolbar, (v, insets) -> {
+                int top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+                v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+                return insets;
+            });
+        }
+
+        if (btnLocationContainer != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(btnLocationContainer, (v, insets) -> {
+                int bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+                int spacingDp = Math.round(TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                lp.bottomMargin = bottom + spacingDp;
+                v.setLayoutParams(lp);
+                return insets;
+            });
+        }
+    }
+
     private void triggerViewportUpdate() {
         handler.removeCallbacks(viewportChangeRunnable);
-        handler.postDelayed(viewportChangeRunnable, 300);
+        handler.postDelayed(viewportChangeRunnable, VIEWPORT_DEBOUNCE_DELAY_MS);
     }
 
     private void setupFragments() {
         filtersContainer = findViewById(R.id.filters_panel_container);
         detailsContainer = findViewById(R.id.detail_panel_container);
+
+        capPanelWidth(filtersContainer);
+        capPanelWidth(detailsContainer);
 
         filtersFragment = (FiltersFragment) getSupportFragmentManager().findFragmentById(R.id.filters_panel_container);
         detailsFragment = (DetailsPanelFragment) getSupportFragmentManager()
@@ -204,22 +238,48 @@ public class MainActivity extends AppCompatActivity {
         setupDetailsListener();
     }
 
+    private void capPanelWidth(View container) {
+        if (container == null)
+            return;
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int maxByFactor = (int) (screenWidth * PANEL_WIDTH_SCREEN_FACTOR);
+        int maxByDp = (int) (MAX_PANEL_WIDTH_DP * getResources().getDisplayMetrics().density);
+        int width = Math.min(maxByFactor, maxByDp);
+        ViewGroup.LayoutParams lp = container.getLayoutParams();
+        if (lp != null && lp.width != width) {
+            lp.width = width;
+            container.setLayoutParams(lp);
+        }
+    }
+
     private void setupFiltersListener() {
         if (filtersFragment == null)
             return;
+        viewModel.setFiltrosManager(filtrosManager);
         filtersFragment.setFiltrosManager(filtrosManager);
         filtersFragment.setFiltersListener(new FiltersFragment.FiltersListener() {
             @Override
-            public void onFiltersApplied() {
-                viewModel.applyFilters(filtrosManager, favoritosManager);
+            public void onFiltersApplied(FiltrosEstado estado) {
+                viewModel.aplicarFiltros(estado, favoritosManager);
                 hideFiltersPanel();
                 updateFilterButtonIcon();
             }
 
             @Override
             public void onFiltersCleared() {
-                viewModel.applyFilters(filtrosManager, favoritosManager);
+                viewModel.aplicarFiltros(FiltrosEstado.sinFiltros(), favoritosManager);
                 updateFilterButtonIcon();
+            }
+
+            @Override
+            public void onUndoFilters() {
+                if (viewModel.deshacerUltimoFiltro(favoritosManager)) {
+                    filtersFragment.refreshFromManager();
+                    updateFilterButtonIcon();
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.filters_nothing_to_undo),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -261,10 +321,10 @@ public class MainActivity extends AppCompatActivity {
         filtersContainer.setVisibility(View.VISIBLE);
         int width = filtersContainer.getWidth();
         if (width <= 0)
-            width = (int) (360 * getResources().getDisplayMetrics().density); // Fallback size
+            width = (int) (FALLBACK_PANEL_WIDTH_DP * getResources().getDisplayMetrics().density);
 
         filtersContainer.setTranslationX(-width);
-        filtersContainer.animate().translationX(0).setDuration(300).start();
+        filtersContainer.animate().translationX(0).setDuration(PANEL_ANIMATION_DURATION_MS).start();
     }
 
     private void hideFiltersPanel() {
@@ -272,10 +332,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         int width = filtersContainer.getWidth();
         if (width <= 0)
-            width = (int) (360 * getResources().getDisplayMetrics().density);
+            width = (int) (FALLBACK_PANEL_WIDTH_DP * getResources().getDisplayMetrics().density);
 
         filtersContainer.animate().translationX(-width)
-                .setDuration(300).withEndAction(() -> filtersContainer.setVisibility(View.GONE)).start();
+                .setDuration(PANEL_ANIMATION_DURATION_MS).withEndAction(() -> filtersContainer.setVisibility(View.GONE)).start();
     }
 
     private void showDetailPanel() {
@@ -325,7 +385,8 @@ public class MainActivity extends AppCompatActivity {
                         .animateTo(new GeoPoint(loc.getLatitude(), loc.getLongitude()));
             else
                 Toast.makeText(this, getString(R.string.error_location_not_found), Toast.LENGTH_SHORT).show();
-        } catch (SecurityException ignored) {
+        } catch (SecurityException e) {
+            Log.w("GeoGas", "No permission to get location", e);
         }
     }
 

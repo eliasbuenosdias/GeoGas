@@ -5,9 +5,17 @@
 
 ---
 
+> ## ✅ Estado de implementación
+>
+> **Todas las recomendaciones de este documento ya están implementadas (agosto 2026).**
+> Se mantiene el documento original como referencia de la justificación de cada patrón.
+> Ver [`patrones_geogas6.md`](patrones_geogas6.md) § "Patrones implementados durante la refactorización".
+
+---
+
 ## ⭐ Alta Prioridad
 
-### 1. Builder — Construcción de `FiltrosManager`
+### 1. Builder — Construcción de `FiltrosManager` ✅ *Implementado*
 **Problema en el código actual**: [`FiltersFragment.java:161-191`](file:///Users/elias/Documents/GeoGas%206/app/src/main/java/com/eliasbuenosdias/geogas/ui/fragments/FiltersFragment.java#L161-L191)
 
 ```java
@@ -38,9 +46,11 @@ FiltrosManager filtros = new FiltrosManager.Builder()
 
 **Esfuerzo**: Bajo. Solo refactorizar `FiltrosManager`, sin cambiar la lógica de filtrado.
 
+> **Nota de implementación**: La clase interna `FiltrosManager.Builder` aplica los criterios de forma encadenada sobre una instancia y valida en `build()`. Además se creó el DTO inmutable `FiltrosEstado` (con su propio `Builder`) para transportar el estado entre UI y ViewModel.
+
 ---
 
-### 2. Command — Historial de filtros con Undo
+### 2. Command — Historial de filtros con Undo ✅ *Implementado*
 **Problema en el código actual**: [`MainActivity.java:214-223`](file:///Users/elias/Documents/GeoGas%206/app/src/main/java/com/eliasbuenosdias/geogas/ui/MainActivity.java#L214-L223)
 
 ```java
@@ -74,11 +84,13 @@ public class AplicarFiltroCommand implements FilterCommand {
 
 **Esfuerzo**: Medio. Requiere una cola de commands en el ViewModel.
 
+> **Nota de implementación**: `AplicarFiltroCommand` captura un `FiltrosEstado.snapshot()` antes de ejecutar y lo restaura en `undo()`. El ViewModel mantiene una cola `Deque` (máx. 10) con `aplicarFiltros()` / `deshacerUltimoFiltro()` / `puedeDeshacer()`. UI: botón "Deshacer último cambio" en el panel de filtros. `FiltersFragment` dejó de mutar el gestor y transporta el estado; `refreshFromManager()` sincroniza los widgets tras un undo.
+
 ---
 
 ## 🔶 Prioridad Media
 
-### 3. State — Comportamiento del mapa según estado de carga
+### 3. State — Comportamiento del mapa según estado de carga ✅ *Implementado*
 **Problema en el código actual**: [`MainActivity.java:119-122`](file:///Users/elias/Documents/GeoGas%206/app/src/main/java/com/eliasbuenosdias/geogas/ui/MainActivity.java#L119-L122) + [`GasStationViewModel.java:72-97`](file:///Users/elias/Documents/GeoGas%206/app/src/main/java/com/eliasbuenosdias/geogas/viewmodels/GasStationViewModel.java#L72-L97)
 
 ```java
@@ -115,9 +127,11 @@ class ErrorState implements AppState { ... }
 
 **Esfuerzo**: Medio-alto. Refactoriza la comunicación ViewModel ↔ UI.
 
+> **Nota de implementación**: Se optó por una versión del patrón State centrada en un objeto de estado inmutable (`LoadState` con `Status` LOADING/LOADED/ERROR + `progress` + `statusKey`) en lugar de una jerarquía de clases de estado. Los antiguos `isLoading`/`progress`/`statusMessage` quedaron fusionados en `LiveData<LoadState>` (`getLoadState()`); `MainActivity` usa `state.isLoaded()` para ocultar la splash.
+
 ---
 
-### 4. Flyweight — Optimización de marcadores en el mapa
+### 4. Flyweight — Optimización de marcadores en el mapa ✅ *Implementado*
 **Problema en el código actual**: [`MapHelper.java:63-81`](file:///Users/elias/Documents/GeoGas%206/app/src/main/java/com/eliasbuenosdias/geogas/ui/helpers/MapHelper.java#L63-L81)
 
 ```java
@@ -152,6 +166,8 @@ m.setIcon(IconFlyweightFactory.get(context, icon)); // Reutiliza el mismo objeto
 
 **Esfuerzo**: Muy bajo. Una clase estática de 10 líneas, sin tocar la arquitectura.
 
+> **Nota de implementación**: `IconFlyweightFactory.get(context, resId)` cachea los drawables con `computeIfAbsent`. `MapHelper.updateMarker()` lo usa para reutilizar la instancia del icono en lugar de crear un `Drawable` por marcador. `IconosManager` quedó sin el `Log.d` de depuración y sin los umbrales/constantes duplicadas (ahora constantes reales: `ZOOM_ALTO`, umbrales 15/25 y 40/80).
+
 ---
 
 ## ❌ Patrones que NO recomiendo
@@ -174,3 +190,5 @@ Semana 2 — Builder para FiltrosManager (2h, mejora legibilidad)
 Semana 3 — Command para historial de filtros (4h, nueva feature de UX)
 Semana 4 — State para el ciclo de vida de carga (4h, arquitectura más sólida)
 ```
+
+> ✅ **Completada en su totalidad** (agosto 2026). Los cuatro patrones están integrados y verificados con `./gradlew assembleDebug test`.

@@ -2,14 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/filters_panel"
-    android:layout_width="360dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentStart="true"
     app:cardBackgroundColor="@color/surfaceColorGlass"
     app:cardCornerRadius="16dp"
     app:cardElevation="16dp"
-    app:cardUseCompatPadding="true"
-    android:layout_margin="8dp">
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -206,61 +204,66 @@
 
                 <!-- SECCIÓN: COMBUSTIBLES -->
                 <TextView
+                    style="@style/TextAppearance.GeoGas.Section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/filters_fuels"
                     android:textColor="@color/textColorAccent"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
 
-                <LinearLayout
+                <com.google.android.material.chip.ChipGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    app:chipSpacingHorizontal="8dp"
+                    app:chipSpacingVertical="8dp"
+                    app:singleSelection="false">
 
-                    <CheckBox
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/filter_gasolina95"
-                        android:layout_width="match_parent"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filters_gasoline_95"
-                        android:textColor="@color/textColorPrimary"
-                        app:buttonTint="@color/colorPrimary" />
+                        app:chipBackgroundColor="@color/chip_background_selector"
+                        android:textColor="@color/chip_text_selector" />
 
-                    <CheckBox
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/filter_gasolina98"
-                        android:layout_width="match_parent"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filters_gasoline_98"
-                        android:textColor="@color/textColorPrimary"
-                        app:buttonTint="@color/colorPrimary" />
+                        app:chipBackgroundColor="@color/chip_background_selector"
+                        android:textColor="@color/chip_text_selector" />
 
-                    <CheckBox
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/filter_diesel"
-                        android:layout_width="match_parent"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filters_diesel_standard"
-                        android:textColor="@color/textColorPrimary"
-                        app:buttonTint="@color/colorPrimary" />
+                        app:chipBackgroundColor="@color/chip_background_selector"
+                        android:textColor="@color/chip_text_selector" />
 
-                    <CheckBox
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/filter_diesel_premium"
-                        android:layout_width="match_parent"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filters_diesel_premium"
-                        android:textColor="@color/textColorPrimary"
-                        app:buttonTint="@color/colorPrimary" />
+                        app:chipBackgroundColor="@color/chip_background_selector"
+                        android:textColor="@color/chip_text_selector" />
 
-                    <CheckBox
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/filter_glp"
-                        android:layout_width="match_parent"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filters_glp"
-                        android:textColor="@color/textColorPrimary"
-                        app:buttonTint="@color/colorPrimary" />
+                        app:chipBackgroundColor="@color/chip_background_selector"
+                        android:textColor="@color/chip_text_selector" />
 
-                </LinearLayout>
+                </com.google.android.material.chip.ChipGroup>
 
                 <!-- SECCIÓN: SERVICIOS -->
                 <TextView
@@ -414,6 +417,17 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
+
+                <!-- DESHACER ÚLTIMO CAMBIO -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_undo_filters"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/filters_undo"
+                    android:textColor="@color/textColorSecondary"
+                    android:textAllCaps="false" />
 
                 <!-- CONTADOR DE RESULTADOS -->
                 <TextView

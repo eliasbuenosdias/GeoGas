@@ -4,12 +4,32 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.eliasbuenosdias.geogas.api.MitecoApiService;
 import com.eliasbuenosdias.geogas.models.GasolineraAPI;
 import com.eliasbuenosdias.geogas.utils.FavoritosManager;
+import com.eliasbuenosdias.geogas.utils.FiltrosEstado;
 import com.eliasbuenosdias.geogas.utils.FiltrosManager;
+import com.eliasbuenosdias.geogas.utils.PuntuadorGasolineras;
+import com.eliasbuenosdias.geogas.utils.command.AplicarFiltroCommand;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import org.osmdroid.util.BoundingBox;
+
+import java.lang.reflect.Type;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * ViewModel que gestiona el estado de las gasolineras y filtros.
@@ -17,34 +37,34 @@ import java.util.List;
  */
 public class GasStationViewModel extends ViewModel {
 
+    private static final int MAX_VISIBLE_MARKERS = 200;
+    private static final int MAX_HISTORIAL_UNDO = 10;
+
     private final MutableLiveData<List<GasolineraAPI>> todasLasGasolineras = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<GasolineraAPI>> gasolinerasVisibles = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
-    private final MutableLiveData<Integer> progress = new MutableLiveData<>(0);
+    private final MutableLiveData<LoadState> loadState = new MutableLiveData<>(new LoadState(LoadState.Status.LOADING, 0, ""));
 
     private List<GasolineraAPI> masterList = new ArrayList<>();
     private List<GasolineraAPI> filteredList = new ArrayList<>();
     private final MutableLiveData<List<String>> provincias = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<String>> municipios = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<String>> marcas = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<String> statusMessage = new MutableLiveData<>("");
-    private final MutableLiveData<org.osmdroid.util.BoundingBox> currentViewport = new MutableLiveData<>();
-    private com.eliasbuenosdias.geogas.utils.PuntuadorGasolineras puntuador;
+    private final MutableLiveData<BoundingBox> currentViewport = new MutableLiveData<>();
+    private PuntuadorGasolineras puntuador;
+    private FiltrosManager filtrosManager;
+    private final Deque<AplicarFiltroCommand> historialUndo = new ArrayDeque<>();
+    private int currentProgress = 0;
+
+    public void setFiltrosManager(FiltrosManager filtrosManager) {
+        this.filtrosManager = filtrosManager;
+    }
 
     public LiveData<List<GasolineraAPI>> getGasolinerasVisibles() {
         return gasolinerasVisibles;
     }
 
-    public LiveData<Boolean> getIsLoading() {
-        return isLoading;
-    }
-
-    public LiveData<Integer> getProgress() {
-        return progress;
-    }
-
-    public LiveData<String> getStatusMessage() {
-        return statusMessage;
+    public LiveData<LoadState> getLoadState() {
+        return loadState;
     }
 
     public LiveData<List<String>> getProvincias() {
@@ -59,59 +79,52 @@ public class GasStationViewModel extends ViewModel {
         return marcas;
     }
 
-    public void setPuntuador(com.eliasbuenosdias.geogas.utils.PuntuadorGasolineras puntuador) {
+    public void setPuntuador(PuntuadorGasolineras puntuador) {
         this.puntuador = puntuador;
     }
 
-    public void setViewport(org.osmdroid.util.BoundingBox viewport) {
+    public void setViewport(BoundingBox viewport) {
         currentViewport.setValue(viewport);
         updateVisibleGasStations();
     }
 
-    public void loadData(com.eliasbuenosdias.geogas.api.MitecoApiService apiService) {
-        isLoading.setValue(true);
-        progress.setValue(10);
-        statusMessage.setValue("status_loading");
+    public void loadData(MitecoApiService apiService) {
+        updateState(LoadState.Status.LOADING, 10, "status_loading");
 
-        apiService.obtenerGasolineras().enqueue(new retrofit2.Callback<com.google.gson.JsonElement>() {
+        apiService.obtenerGasolineras().enqueue(new Callback<JsonElement>() {
             @Override
-            public void onResponse(retrofit2.Call<com.google.gson.JsonElement> call,
-                    retrofit2.Response<com.google.gson.JsonElement> response) {
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    progress.setValue(50);
-                    statusMessage.setValue("status_processing");
+                    updateState(LoadState.Status.LOADING, 50, "status_processing");
                     parseJson(response.body());
-                    progress.setValue(100);
-                    isLoading.setValue(false);
+                    updateState(LoadState.Status.LOADED, 100, "");
                 } else {
-                    statusMessage.setValue("status_error_server");
-                    isLoading.setValue(false);
+                    updateState(LoadState.Status.ERROR, "status_error_server");
                 }
             }
 
             @Override
-            public void onFailure(retrofit2.Call<com.google.gson.JsonElement> call, Throwable t) {
-                statusMessage.setValue("status_error_connection");
-                isLoading.setValue(false);
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                updateState(LoadState.Status.ERROR, "status_error_connection");
             }
         });
     }
 
-    private void parseJson(com.google.gson.JsonElement json) {
+    private void parseJson(JsonElement json) {
         try {
-            com.google.gson.Gson gson = new com.google.gson.Gson();
+            Gson gson = new Gson();
             List<GasolineraAPI> lista = new ArrayList<>();
 
             if (json.isJsonArray()) {
-                java.lang.reflect.Type listType = new com.google.gson.reflect.TypeToken<List<GasolineraAPI>>() {
+                Type listType = new TypeToken<List<GasolineraAPI>>() {
                 }.getType();
                 lista = gson.fromJson(json, listType);
             } else if (json.isJsonObject()) {
-                com.google.gson.JsonObject obj = json.getAsJsonObject();
+                JsonObject obj = json.getAsJsonObject();
                 String[] fields = { "ListaEESSPrecio", "listaEESSPrecio", "data" };
                 for (String field : fields) {
                     if (obj.has(field) && obj.get(field).isJsonArray()) {
-                        java.lang.reflect.Type listType = new com.google.gson.reflect.TypeToken<List<GasolineraAPI>>() {
+                        Type listType = new TypeToken<List<GasolineraAPI>>() {
                         }.getType();
                         lista = gson.fromJson(obj.get(field), listType);
                         break;
@@ -126,13 +139,13 @@ public class GasStationViewModel extends ViewModel {
                 actualizarListasAutocompletado(lista);
             }
         } catch (Exception e) {
-            statusMessage.postValue("status_error_parsing");
+            updateState(LoadState.Status.ERROR, "status_error_parsing");
         }
     }
 
     private void updateVisibleGasStations() {
         List<GasolineraAPI> dataToFilter = filteredList;
-        org.osmdroid.util.BoundingBox viewport = currentViewport.getValue();
+        BoundingBox viewport = currentViewport.getValue();
 
         if (dataToFilter == null)
             return;
@@ -153,10 +166,10 @@ public class GasStationViewModel extends ViewModel {
         }
 
         if (puntuador != null) {
-            List<com.eliasbuenosdias.geogas.utils.PuntuadorGasolineras.GasolineraPuntuada> puntuadas = puntuador
+            List<PuntuadorGasolineras.GasolineraPuntuada> puntuadas = puntuador
                     .ordenarPorPuntuacion(resultList);
             List<GasolineraAPI> result = new ArrayList<>();
-            int limit = Math.min(200, puntuadas.size());
+            int limit = Math.min(MAX_VISIBLE_MARKERS, puntuadas.size());
             for (int i = 0; i < limit; i++)
                 result.add(puntuadas.get(i).gasolinera);
             gasolinerasVisibles.postValue(result);
@@ -166,9 +179,9 @@ public class GasStationViewModel extends ViewModel {
     }
 
     private void actualizarListasAutocompletado(List<GasolineraAPI> lista) {
-        java.util.Set<String> setProvincias = new java.util.HashSet<>();
-        java.util.Set<String> setMunicipios = new java.util.HashSet<>();
-        java.util.Set<String> setMarcas = new java.util.HashSet<>();
+        Set<String> setProvincias = new HashSet<>();
+        Set<String> setMunicipios = new HashSet<>();
+        Set<String> setMarcas = new HashSet<>();
 
         for (GasolineraAPI g : lista) {
             if (g.getProvincia() != null && !g.getProvincia().isEmpty())
@@ -183,9 +196,9 @@ public class GasStationViewModel extends ViewModel {
         List<String> listM = new ArrayList<>(setMunicipios);
         List<String> listR = new ArrayList<>(setMarcas);
 
-        java.util.Collections.sort(listP);
-        java.util.Collections.sort(listM);
-        java.util.Collections.sort(listR);
+        Collections.sort(listP);
+        Collections.sort(listM);
+        Collections.sort(listR);
 
         provincias.postValue(listP);
         municipios.postValue(listM);
@@ -193,6 +206,35 @@ public class GasStationViewModel extends ViewModel {
     }
 
     public void applyFilters(FiltrosManager filtrosManager, FavoritosManager favoritosManager) {
+        this.filtrosManager = filtrosManager;
+        refiltrar(favoritosManager);
+    }
+
+    public void aplicarFiltros(FiltrosEstado estadoNuevo, FavoritosManager favoritosManager) {
+        if (filtrosManager == null)
+            return;
+        AplicarFiltroCommand comando = new AplicarFiltroCommand(filtrosManager, estadoNuevo,
+                () -> refiltrar(favoritosManager));
+        comando.execute();
+        historialUndo.push(comando);
+        if (historialUndo.size() > MAX_HISTORIAL_UNDO) {
+            historialUndo.removeLast();
+        }
+    }
+
+    public boolean deshacerUltimoFiltro(FavoritosManager favoritosManager) {
+        AplicarFiltroCommand comando = historialUndo.poll();
+        if (comando == null)
+            return false;
+        comando.undo();
+        return true;
+    }
+
+    public boolean puedeDeshacer() {
+        return !historialUndo.isEmpty();
+    }
+
+    private void refiltrar(FavoritosManager favoritosManager) {
         if (filtrosManager == null || !filtrosManager.tieneFiltrosActivos()) {
             filteredList = new ArrayList<>(masterList);
         } else {
@@ -201,11 +243,12 @@ public class GasStationViewModel extends ViewModel {
         updateVisibleGasStations();
     }
 
-    public void setLoading(boolean loading) {
-        isLoading.setValue(loading);
+    private void updateState(LoadState.Status status, String statusKey) {
+        updateState(status, currentProgress, statusKey);
     }
 
-    public void setProgress(int p) {
-        progress.setValue(p);
+    private void updateState(LoadState.Status status, int progress, String statusKey) {
+        currentProgress = progress;
+        loadState.setValue(new LoadState(status, progress, statusKey));
     }
 }

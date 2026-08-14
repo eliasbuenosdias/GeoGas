@@ -1,10 +1,10 @@
 package com.eliasbuenosdias.geogas.ui.helpers;
 
 import android.content.Context;
-import androidx.core.content.ContextCompat;
 import com.eliasbuenosdias.geogas.R;
 import com.eliasbuenosdias.geogas.models.GasolineraAPI;
 import com.eliasbuenosdias.geogas.utils.FavoritosManager;
+import com.eliasbuenosdias.geogas.utils.IconFlyweightFactory;
 import com.eliasbuenosdias.geogas.utils.IconosManager;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -23,13 +23,17 @@ import java.util.Map;
  */
 public class MapHelper {
 
+    private static final double DEFAULT_ZOOM = 15.0;
+    private static final double MADRID_LAT = 40.4168;
+    private static final double MADRID_LON = -3.7038;
+
     private final MapView map;
     private final Context context;
     private final IconosManager iconosManager;
     private final FavoritosManager favoritosManager;
     private OnMarkerClickListener markerListener;
     private int lastGasStationCount = 0;
-    private double lastZoomLevel = 15.0;
+    private double lastZoomLevel = DEFAULT_ZOOM;
 
     public interface OnMarkerClickListener {
         void onMarkerClick(GasolineraAPI gasolinera);
@@ -47,8 +51,8 @@ public class MapHelper {
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(false); // Eliminamos botones +/-
-        map.getController().setZoom(15.0);
-        map.getController().setCenter(new GeoPoint(40.4168, -3.7038));
+        map.getController().setZoom(DEFAULT_ZOOM);
+        map.getController().setCenter(new GeoPoint(MADRID_LAT, MADRID_LON));
 
         CompassOverlay compassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
                 map);
@@ -113,7 +117,7 @@ public class MapHelper {
     private void updateMarker(Marker m, GasolineraAPI g, int density, double zoom) {
         boolean fav = favoritosManager.esFavorita(g.getId());
         int icon = iconosManager.obtenerIconoGasolinera(fav, density, zoom);
-        m.setIcon(ContextCompat.getDrawable(context, icon));
+        m.setIcon(IconFlyweightFactory.get(context, icon));
         m.setTitle((fav ? "★ " : "") + g.getRotulo());
     }
 

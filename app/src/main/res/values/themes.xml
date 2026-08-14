@@ -59,6 +59,30 @@
 
     <style name="Theme.GeoGas" parent="Base.Theme.GeoGas" />
 
+    <!-- Estilos de texto estándar -->
+    <style name="TextAppearance.GeoGas.Title" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.GeoGas.Subtitle" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/textColorSecondary</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="TextAppearance.GeoGas.Section" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="android:textColor">@color/textColorSecondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <style name="TextAppearance.GeoGas.Price" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Tema de inicio para evitar el doble logo en Android 12+ -->
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/colorPrimaryDark</item>

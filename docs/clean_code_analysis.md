@@ -4,6 +4,28 @@ Basado en los principios de Robert C. Martin tras revisar los archivos reales de
 
 ---
 
+## ✅ Estado de implementación
+
+> Actualizado tras la refactorización (agosto 2026). Todas las acciones del checklist inferior están aplicadas, por lo que este documento queda como registro histórico de la auditoría.
+
+| # | Problema | Estado | Implementado en |
+|---|----------|--------|-----------------|
+| 1 | Comentarios que mienten (pesos 20/40/40) | ✅ | `PuntuadorGasolineras.java` (comentarios corregidos a 20/40/40) |
+| 2 | Comentario de instrucción en L1 | ✅ | `FiltrosManager.java` (eliminado) |
+| 3 | Comentario inline en getters (L212) | ✅ | `PuntuadorGasolineras.java` (reubicado sobre el bloque de getters) |
+| 4 | Magic `200` | ✅ | `GasStationViewModel.MAX_VISIBLE_MARKERS` |
+| 5 | Magic `15.0` / Madrid | ✅ | `MapHelper.DEFAULT_ZOOM`, `MADRID_LAT`, `MADRID_LON` |
+| 6 | Magic `300` duplicado | ✅ | `MainActivity.PANEL_ANIMATION_DURATION_MS`, `VIEWPORT_DEBOUNCE_DELAY_MS` |
+| 7 | Fallback `360` | ✅ | `MainActivity.FALLBACK_PANEL_WIDTH_DP` (+ `MAX_PANEL_WIDTH_DP` responsivo) |
+| 8 | Indentación `GasolineraAPI` | ✅ | `GasolineraAPI.java` (reformateado) |
+| 9 | `SecurityException` silenciada | ✅ | `MainActivity.centerOnMyLocation()` (`Log.w`) |
+| 10 | `setLoading()`/`setProgress()` públicos | ✅ | Eliminados; sustituidos por el objeto inmutable `LoadState` (patrón State) |
+| 11 | Imports inline en ViewModel | ✅ | `GasStationViewModel.java` (bloque de imports limpio) |
+
+Además se eliminaron los residuos `// Cambiado` / `// Actualizado` (`FiltrosManager`) y se limpiaron los imports de `GasStationViewModel` y `FiltersFragment` (Fase 1.3).
+
+---
+
 ## ✅ Lo que ya está bien
 
 El proyecto tiene una buena base. Antes de los problemas, hay que reconocer lo que funciona:

@@ -19,9 +19,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.eliasbuenosdias.geogas.R;
+import com.eliasbuenosdias.geogas.utils.FiltrosEstado;
 import com.eliasbuenosdias.geogas.utils.FiltrosManager;
+import com.eliasbuenosdias.geogas.viewmodels.GasStationViewModel;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +39,21 @@ public class FiltersFragment extends Fragment {
 
     private FiltrosManager filtrosManager;
     private FiltersListener listener;
-    private com.eliasbuenosdias.geogas.viewmodels.GasStationViewModel viewModel;
+    private GasStationViewModel viewModel;
 
     private AutoCompleteTextView filterProvincia, filterMunicipio, filterGasolinera;
-    private CheckBox filterGasolina95, filterGasolina98, filterDiesel, filterDieselPremium, filterGLP;
+    private Chip filterGasolina95, filterGasolina98, filterDiesel, filterDieselPremium, filterGLP;
     private CheckBox filter24h, filterFavoritas;
     private EditText filterPrecioMaxGasolina95, filterPrecioMaxDiesel;
-    private Button btnApplyFilters, btnClearFilters;
+    private Button btnApplyFilters, btnClearFilters, btnUndoFilters;
     private TextView filterResultsCount;
 
     public interface FiltersListener {
-        void onFiltersApplied();
+        void onFiltersApplied(FiltrosEstado estado);
 
         void onFiltersCleared();
+
+        void onUndoFilters();
 
         void onCloseFilters();
     }
@@ -70,8 +76,8 @@ public class FiltersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new androidx.lifecycle.ViewModelProvider(requireActivity())
-                .get(com.eliasbuenosdias.geogas.viewmodels.GasStationViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity())
+                .get(GasStationViewModel.class);
         initializeViews(view);
         setupListeners();
         observeViewModel();
@@ -108,6 +114,7 @@ public class FiltersFragment extends Fragment {
         filterPrecioMaxDiesel = view.findViewById(R.id.filter_precio_max_diesel);
         btnApplyFilters = view.findViewById(R.id.btn_apply_filters);
         btnClearFilters = view.findViewById(R.id.btn_clear_filters);
+        btnUndoFilters = view.findViewById(R.id.btn_undo_filters);
         filterResultsCount = view.findViewById(R.id.filter_results_count);
 
         ImageButton btnCloseFilters = view.findViewById(R.id.btn_close_filters);
@@ -143,9 +150,7 @@ public class FiltersFragment extends Fragment {
 
         if (btnApplyFilters != null) {
             btnApplyFilters.setOnClickListener(v -> {
-                updateFiltrosFromUI();
-                if (listener != null)
-                    listener.onFiltersApplied();
+                listener.onFiltersApplied(buildEstadoDesdeUI());
             });
         }
 
@@ -156,37 +161,58 @@ public class FiltersFragment extends Fragment {
                     listener.onFiltersCleared();
             });
         }
+
+        if (btnUndoFilters != null) {
+            btnUndoFilters.setOnClickListener(v -> {
+                if (listener != null)
+                    listener.onUndoFilters();
+            });
+        }
     }
 
-    private void updateFiltrosFromUI() {
+    private FiltrosEstado buildEstadoDesdeUI() {
+        return new FiltrosEstado.Builder()
+                .provincia(filterProvincia.getText().toString().trim())
+                .municipio(filterMunicipio.getText().toString().trim())
+                .gasolinera(filterGasolinera.getText().toString().trim())
+                .soloGasolina95(filterGasolina95.isChecked())
+                .soloGasolina98(filterGasolina98.isChecked())
+                .soloDiesel(filterDiesel.isChecked())
+                .soloDieselPremium(filterDieselPremium.isChecked())
+                .soloGLP(filterGLP.isChecked())
+                .solo24Horas(filter24h.isChecked())
+                .soloFavoritas(filterFavoritas.isChecked())
+                .precioMaxGasolina95(parsePrecio(filterPrecioMaxGasolina95.getText().toString()))
+                .precioMaxDiesel(parsePrecio(filterPrecioMaxDiesel.getText().toString()))
+                .build();
+    }
+
+    public void refreshFromManager() {
         if (filtrosManager == null)
             return;
+        filterProvincia.setText(filtrosManager.getProvincia() == null ? "" : filtrosManager.getProvincia());
+        filterMunicipio.setText(filtrosManager.getMunicipio() == null ? "" : filtrosManager.getMunicipio());
+        filterGasolinera.setText(filtrosManager.getGasolinera() == null ? "" : filtrosManager.getGasolinera());
+        filterGasolina95.setChecked(filtrosManager.isSoloGasolina95());
+        filterGasolina98.setChecked(filtrosManager.isSoloGasolina98());
+        filterDiesel.setChecked(filtrosManager.isSoloDiesel());
+        filterDieselPremium.setChecked(filtrosManager.isSoloDieselPremium());
+        filterGLP.setChecked(filtrosManager.isSoloGLP());
+        filter24h.setChecked(filtrosManager.isSolo24Horas());
+        filterFavoritas.setChecked(filtrosManager.isSoloFavoritas());
+        filterPrecioMaxGasolina95.setText(
+                filtrosManager.getPrecioMaxGasolina95() == null ? "" : String.valueOf(filtrosManager.getPrecioMaxGasolina95()));
+        filterPrecioMaxDiesel.setText(
+                filtrosManager.getPrecioMaxDiesel() == null ? "" : String.valueOf(filtrosManager.getPrecioMaxDiesel()));
+    }
 
-        filtrosManager.setProvincia(filterProvincia.getText().toString().trim());
-        filtrosManager.setMunicipio(filterMunicipio.getText().toString().trim());
-        filtrosManager.setGasolinera(filterGasolinera.getText().toString().trim());
-
-        filtrosManager.setSoloGasolina95(filterGasolina95.isChecked());
-        filtrosManager.setSoloGasolina98(filterGasolina98.isChecked());
-        filtrosManager.setSoloDiesel(filterDiesel.isChecked());
-        filtrosManager.setSoloDieselPremium(filterDieselPremium.isChecked());
-        filtrosManager.setSoloGLP(filterGLP.isChecked());
-
-        filtrosManager.setSolo24Horas(filter24h.isChecked());
-        filtrosManager.setSoloFavoritas(filterFavoritas.isChecked());
-
+    private Double parsePrecio(String text) {
+        if (text == null || text.trim().isEmpty())
+            return null;
         try {
-            String p95 = filterPrecioMaxGasolina95.getText().toString();
-            filtrosManager.setPrecioMaxGasolina95(p95.isEmpty() ? null : Double.parseDouble(p95));
+            return Double.parseDouble(text.trim());
         } catch (NumberFormatException e) {
-            filtrosManager.setPrecioMaxGasolina95(null);
-        }
-
-        try {
-            String pd = filterPrecioMaxDiesel.getText().toString();
-            filtrosManager.setPrecioMaxDiesel(pd.isEmpty() ? null : Double.parseDouble(pd));
-        } catch (NumberFormatException e) {
-            filtrosManager.setPrecioMaxDiesel(null);
+            return null;
         }
     }
 
@@ -203,10 +229,6 @@ public class FiltersFragment extends Fragment {
         filterFavoritas.setChecked(false);
         filterPrecioMaxGasolina95.setText("");
         filterPrecioMaxDiesel.setText("");
-
-        if (filtrosManager != null) {
-            filtrosManager.limpiarFiltros();
-        }
     }
 
     public void setResultsCount(int count) {

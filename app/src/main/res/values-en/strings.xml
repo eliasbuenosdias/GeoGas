@@ -22,6 +22,8 @@
     <string name="filters_max_price_diesel">Max Price Diesel</string>
     <string name="filters_apply">Apply</string>
     <string name="filters_clear">Clear</string>
+    <string name="filters_undo">Undo last change</string>
+    <string name="filters_nothing_to_undo">Nothing to undo</string>
     <string name="filters_0_gas_stations_found">0 gas stations found</string>
     
     <string name="details_general_info">General Information</string>
@@ -33,6 +35,11 @@
     <string name="details_diesel_prices">Diesel Prices</string>
     <string name="details_alternative_fuels">Alternative Fuels</string>
     <string name="details_additional_info">Additional Information</string>
+    <string name="details_featured_price">Featured price</string>
+
+    <string name="price_class_cheap">CHEAPEST</string>
+    <string name="price_class_medium">AVERAGE</string>
+    <string name="price_class_expensive">HIGH</string>
 
     <string name="splash_emoji">⛽</string>
     <string name="splash_percentage">0%</string>
@@ -71,6 +78,8 @@
     <string name="language_picker_title">Select language</string>
     <string name="content_desc_filters">Filters</string>
     <string name="content_desc_location">My location</string>
+    <string name="content_desc_favorite">Add to favorites</string>
+    <string name="content_desc_language">Change language</string>
 
     <!-- Hints -->
     <string name="hint_select">Type or select…</string>

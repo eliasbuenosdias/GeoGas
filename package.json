@@ -1,0 +1,28 @@
+{
+  "name": "geogas-6",
+  "version": "1.0.0",
+  "description": "[<img src=\"https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png\" height=\"80\" alt=\"Get it at IzzyOnDroid\">](https://apt.izzysoft.de/packages/com.eliasbuenosdias.geogas)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eliasbuenosdias/GeoGas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/eliasbuenosdias/GeoGas/issues"
+  },
+  "homepage": "https://github.com/eliasbuenosdias/GeoGas#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

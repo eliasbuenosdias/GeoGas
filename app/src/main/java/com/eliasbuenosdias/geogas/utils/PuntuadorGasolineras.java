@@ -23,9 +23,9 @@ public class PuntuadorGasolineras {
     private FavoritosManager favoritosManager;
 
     // Pesos configurables para los criterios
-    private double pesoPrecios = 0.2;      // 60% para precios
-    private double pesoVariedad = 0.4;     // 20% para variedad
-    private double pesoFavoritos = 0.4;    // 20% para favoritos
+    private double pesoPrecios = 0.2;      // 20% para precios
+    private double pesoVariedad = 0.4;     // 40% para variedad
+    private double pesoFavoritos = 0.4;    // 40% para favoritos
 
     /**
      * Construye un nuevo puntuador de gasolineras.
@@ -204,12 +204,12 @@ public class PuntuadorGasolineras {
         return gasolinerasPuntuadas;
     }
 
+    // Getters y Setters para los pesos (por si queremos ajustarlos dinámicamente)
     /**
      * Obtiene el peso actual del criterio de precios.
      *
      * @return el peso de precios (0.0 a 1.0)
      */
-// Getters y Setters para los pesos (por si queremos ajustarlos dinámicamente)
     public double getPesoPrecios() { return pesoPrecios; }
 
     /**
