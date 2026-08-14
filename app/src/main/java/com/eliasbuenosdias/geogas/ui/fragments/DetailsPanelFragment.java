@@ -147,7 +147,7 @@ public class DetailsPanelFragment extends Fragment {
 
         tvStationName.setText(gasolinera.getRotulo());
         tvStationAddress.setText(gasolinera.getDireccion());
-        tvLocation.setText(gasolinera.getMunicipio() + ", " + gasolinera.getProvincia());
+        tvLocation.setText(getString(R.string.details_location_format, gasolinera.getMunicipio(), gasolinera.getProvincia()));
 
         if (gasolinera.getHorario() != null && !gasolinera.getHorario().isEmpty()) {
             tvHorario.setText(gasolinera.getHorario());
@@ -199,7 +199,7 @@ public class DetailsPanelFragment extends Fragment {
         double precio = parsePrecio(precioStr);
         PriceClass priceClass = PriceClass.from(precio);
 
-        tvMainPrice.setText(precioStr + " €/L");
+        tvMainPrice.setText(getString(R.string.details_price_per_liter, precioStr));
         tvMainPrice.setTextColor(ContextCompat.getColor(getContext(), priceClass.textColor));
         tvPriceBadge.setText(getString(priceClass.label));
         tvPriceBadge.setTextColor(ContextCompat.getColor(getContext(), priceClass.textColor));

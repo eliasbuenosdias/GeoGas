@@ -20,6 +20,15 @@ android {
         version = release(36)
     }
 
+    lint {
+        // Versiones fijadas deliberadamente: los bumps mayores (AGP 9, Kotlin 2.4,
+        // retrofit 3, okhttp 5, compose 2026) requieren compileSdk 37 / AGP 9 y
+        // revierten degradaciones intencionadas. Se suprimen las comprobaciones.
+        disable += "GradleDependency"
+        disable += "NewerVersionAvailable"
+        disable += "AndroidGradlePluginVersion"
+    }
+
     defaultConfig {
         applicationId = "com.eliasbuenosdias.geogas"
         minSdk = 26

@@ -245,7 +245,7 @@ public class FiltersFragment extends Fragment {
 
     public void setResultsCount(int count) {
         if (filterResultsCount != null) {
-            filterResultsCount.setText(getString(R.string.results_count, count));
+            filterResultsCount.setText(getResources().getQuantityString(R.plurals.results_count, count, count));
             filterResultsCount.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.count_pop));
         }
     }

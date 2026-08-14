@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GeoGas</string>
-    <string name="section_title">Section</string>
     <string name="filters_title">Filters</string>
     <string name="filters_location">Location</string>
     <string name="filters_province">Province</string>
@@ -25,8 +24,7 @@
     <string name="filters_undo">Undo last change</string>
     <string name="filters_nothing_to_undo">Nothing to undo</string>
     <string name="filters_0_gas_stations_found">0 gas stations found</string>
-    
-    <string name="details_general_info">General Information</string>
+
     <string name="details_gas_station_name">Gas Station Name</string>
     <string name="details_gas_station_address">Gas Station Address</string>
     <string name="details_gas_station_location">Location, Municipality, Province</string>
@@ -43,8 +41,11 @@
 
     <string name="splash_emoji">⛽</string>
     <string name="splash_percentage">0%</string>
-    <string name="splash_initializing">Initializing...</string>
+    <string name="splash_initializing">Initializing…</string>
     <string name="splash_version">v1.0.2</string>
+    <string name="splash_progress_format">%1$d%%</string>
+    <string name="details_location_format">%1$s, %2$s</string>
+    <string name="details_price_per_liter">%1$s €/L</string>
     <string name="error_location_not_found">Could not retrieve location</string>
 
     <!-- Fuel labels (Details panel) -->
@@ -65,14 +66,17 @@
     <string name="info_updated">Updated</string>
 
     <!-- Status / Loading messages -->
-    <string name="status_loading">Loading gas stations...</string>
-    <string name="status_processing">Processing data...</string>
+    <string name="status_loading">Loading gas stations…</string>
+    <string name="status_processing">Processing data…</string>
     <string name="status_error_server">Server response error</string>
     <string name="status_error_parsing">Error processing data</string>
     <string name="status_error_connection">Connection error</string>
 
     <!-- Results count -->
-    <string name="results_count">%d gas stations found</string>
+    <plurals name="results_count">
+        <item quantity="one">%d gas station found</item>
+        <item quantity="other">%d gas stations found</item>
+    </plurals>
 
     <!-- Language picker -->
     <string name="language_picker_title">Select language</string>

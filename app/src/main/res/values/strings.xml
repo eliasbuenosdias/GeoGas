@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">GeoGas</string>
-    <string name="section_title">Sección</string>
     <string name="filters_title">Filtros</string>
     <string name="filters_location">Ubicación</string>
     <string name="filters_province">Provincia</string>
@@ -24,8 +23,7 @@
     <string name="filters_undo">Deshacer último cambio</string>
     <string name="filters_nothing_to_undo">No hay cambios que deshacer</string>
     <string name="filters_0_gas_stations_found">0 gasolineras encontradas</string>
-    
-    <string name="details_general_info">Información General</string>
+
     <string name="details_gas_station_name">Nombre Gasolinera</string>
     <string name="details_gas_station_address">Dirección de la gasolinera</string>
     <string name="details_gas_station_location">Localidad, Municipio, Provincia</string>
@@ -42,8 +40,11 @@
 
     <string name="splash_emoji">⛽</string>
     <string name="splash_percentage">0%</string>
-    <string name="splash_initializing">Inicializando...</string>
+    <string name="splash_initializing">Inicializando…</string>
     <string name="splash_version">v1.0.2</string>
+    <string name="splash_progress_format">%1$d%%</string>
+    <string name="details_location_format">%1$s, %2$s</string>
+    <string name="details_price_per_liter">%1$s €/L</string>
     <string name="error_location_not_found">No se pudo obtener la ubicación</string>
 
     <!-- Fuel labels (Details panel) -->
@@ -64,14 +65,17 @@
     <string name="info_updated">Actualizado</string>
 
     <!-- Status / Loading messages -->
-    <string name="status_loading">Cargando gasolineras...</string>
-    <string name="status_processing">Procesando datos...</string>
+    <string name="status_loading">Cargando gasolineras…</string>
+    <string name="status_processing">Procesando datos…</string>
     <string name="status_error_server">Error en respuesta del servidor</string>
     <string name="status_error_parsing">Error al procesar datos</string>
     <string name="status_error_connection">Error de conexión</string>
 
     <!-- Results count -->
-    <string name="results_count">%d gasolineras encontradas</string>
+    <plurals name="results_count">
+        <item quantity="one">%d gasolinera encontrada</item>
+        <item quantity="other">%d gasolineras encontradas</item>
+    </plurals>
 
     <!-- Language picker -->
     <string name="language_picker_title">Seleccionar idioma</string>

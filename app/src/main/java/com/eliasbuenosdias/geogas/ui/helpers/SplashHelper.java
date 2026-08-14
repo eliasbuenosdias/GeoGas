@@ -30,7 +30,8 @@ public class SplashHelper {
         if (progressBar != null)
             progressBar.setProgress(progress);
         if (progressText != null)
-            progressText.setText(progress + "%");
+            progressText.setText(progressText.getContext()
+                    .getString(R.string.splash_progress_format, progress));
         if (loadingText != null)
             loadingText.setText(message);
     }

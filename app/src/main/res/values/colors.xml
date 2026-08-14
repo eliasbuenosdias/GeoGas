@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Brand Primary (Azul Gasolineras) -->
-    <color name="brand_50">#EFF6FF</color>
-    <color name="brand_100">#DBEAFE</color>
     <color name="brand_500">#3B82F6</color>
     <color name="brand_600">#2563EB</color>
     <color name="brand_700">#1D4ED8</color>
 
     <!-- Neutros Tintados (Slate) -->
     <color name="neutral_50">#F8FAFC</color>
-    <color name="neutral_100">#F1F5F9</color>
     <color name="neutral_200">#E2E8F0</color>
     <color name="neutral_500">#64748B</color>
-    <color name="neutral_700">#334155</color>
     <color name="neutral_900">#0F172A</color>
 
     <!-- Estados Semánticos de Precio -->
@@ -40,5 +36,4 @@
     <color name="textColorAccent">@color/brand_500</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
 </resources>

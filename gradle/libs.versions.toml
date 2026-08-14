@@ -1,27 +1,27 @@
 [versions]
 # CORRIGE ESTAS VERSIONES:
 cardview = "1.0.0"
-constraintlayout = "2.2.1"
-converterGson = "2.9.0"  # ← Cambiado de "3.0.0"
-loggingInterceptor = "4.12.0"  # ← Cambiado de "5.2.1"
+constraintlayout = "2.2.2"
+converterGson = "2.9.0"  # ← Cambiado de "3.0.0" (deliberado: retrocompat. no subir a 3.x)
+loggingInterceptor = "4.12.0"  # ← Cambiado de "5.2.1" (deliberado: no subir a 5.x)
 material = "1.13.0"
-mockitoCore = "5.20.0"
-retrofit = "2.9.0"  # ← Cambiado de "3.0.0"
+mockitoCore = "5.23.0"
+retrofit = "2.9.0"  # ← Cambiado de "3.0.0" (deliberado: retrocompat. no subir a 3.x)
 mockito = "5.5.0" # Define the version once
 # (mantén el resto igual)
-agp = "8.13.2"
-kotlin = "2.0.21"
-coreKtx = "1.17.0"
+agp = "8.13.2"  # No subir a 9.x (major, riesgo)
+kotlin = "2.0.21"  # No subir a 2.4.x (major, riesgo)
+coreKtx = "1.17.0"  # 1.19.0 exige compileSdk 37 + AGP 9 (incompatible)
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.9.4"
-activityCompose = "1.11.0"
-composeBom = "2024.09.00"
+lifecycleRuntimeKtx = "2.9.4"  # 2.11.0 exige compileSdk 37 (incompatible)
+activityCompose = "1.11.0"  # 1.13.0 exige compileSdk 37 (incompatible)
+composeBom = "2024.09.00"  # No subir (salto de 2 años, riesgo)
 osmdroidAndroid = "6.1.20"
-splashscreen = "1.0.1"
- roomRuntime = "2.8.2"
-appcompat = "1.7.1"
+splashscreen = "1.2.0"
+ roomRuntime = "2.8.4"
+appcompat = "1.7.1"  # 1.8.0 exige compileSdk 37 (incompatible)
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

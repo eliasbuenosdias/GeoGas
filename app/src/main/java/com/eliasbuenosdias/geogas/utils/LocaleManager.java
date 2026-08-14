@@ -1,5 +1,6 @@
 package com.eliasbuenosdias.geogas.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -54,6 +55,7 @@ public class LocaleManager {
         return updateResources(context, language);
     }
 
+    @SuppressLint("AppBundleLocaleChanges")
     private static Context updateResources(Context context, String language) {
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
