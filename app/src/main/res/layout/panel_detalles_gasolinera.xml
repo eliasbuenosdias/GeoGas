@@ -36,6 +36,7 @@
                 android:padding="8dp"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
                 app:tint="@android:color/white"
+                android:contentDescription="@string/content_desc_close"
                 android:scaleType="centerInside" />
 
             <Space
@@ -104,6 +105,7 @@
                             android:layout_height="16dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/ic_location"
+                            android:importantForAccessibility="no"
                             app:tint="@color/textColorSecondary" />
 
                         <TextView
@@ -129,6 +131,7 @@
                             android:layout_height="16dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/ic_clock"
+                            android:importantForAccessibility="no"
                             app:tint="@color/textColorSecondary" />
 
                         <TextView
@@ -171,7 +174,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="-- €/L" />
+                            android:text="@string/price_placeholder" />
                     </LinearLayout>
 
                     <TextView

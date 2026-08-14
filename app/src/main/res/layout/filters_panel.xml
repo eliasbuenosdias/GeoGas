@@ -47,6 +47,7 @@
                 android:padding="8dp"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
                 app:tint="@android:color/white"
+                android:contentDescription="@string/content_desc_close"
                 android:scaleType="centerInside" />
 
         </LinearLayout>

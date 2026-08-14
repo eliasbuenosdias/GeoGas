@@ -79,6 +79,10 @@
     <string name="content_desc_location">Mi ubicación</string>
     <string name="content_desc_favorite">Añadir a favoritos</string>
     <string name="content_desc_language">Cambiar idioma</string>
+    <string name="content_desc_close">Cerrar</string>
+    <string name="price_placeholder">-- €/L</string>
+    <string name="language_es">Español</string>
+    <string name="language_en">English</string>
 
     <!-- Hints -->
     <string name="hint_select">Escribe o selecciona…</string>

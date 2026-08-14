@@ -80,6 +80,10 @@
     <string name="content_desc_location">My location</string>
     <string name="content_desc_favorite">Add to favorites</string>
     <string name="content_desc_language">Change language</string>
+    <string name="content_desc_close">Close</string>
+    <string name="price_placeholder">-- €/L</string>
+    <string name="language_es">Español</string>
+    <string name="language_en">English</string>
 
     <!-- Hints -->
     <string name="hint_select">Type or select…</string>

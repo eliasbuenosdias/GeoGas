@@ -51,7 +51,8 @@
             android:layout_height="wrap_content"
             android:paddingVertical="12dp"
             android:paddingStart="8dp"
-            android:text="Español"
+            android:paddingEnd="8dp"
+            android:text="@string/language_es"
             android:textColor="@color/textColorPrimary"
             android:textSize="16sp"
             android:buttonTint="@color/colorPrimary" />
@@ -68,7 +69,8 @@
             android:layout_height="wrap_content"
             android:paddingVertical="12dp"
             android:paddingStart="8dp"
-            android:text="English"
+            android:paddingEnd="8dp"
+            android:text="@string/language_en"
             android:textColor="@color/textColorPrimary"
             android:textSize="16sp"
             android:buttonTint="@color/colorPrimary" />

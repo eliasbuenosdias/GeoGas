@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.eliasbuenosdias.geogas.R;
 
+import java.util.Locale;
+
 /**
  * Gestor de iconos adaptativos para marcadores de gasolineras en el mapa.
  * <p>
@@ -80,7 +82,7 @@ public class IconosManager {
      * @return cadena con información de los umbrales configurados
      */
     public String obtenerInfoUmbrales() {
-        return String.format("Umbrales zoom alto: >%d (small), >%d (tiny); zoom bajo: >%d (small), >%d (tiny)",
+        return String.format(Locale.ROOT, "Umbrales zoom alto: >%d (small), >%d (tiny); zoom bajo: >%d (small), >%d (tiny)",
                 UMBRAL_ALTA_DENSIDAD_ZOOM_ALTO, UMBRAL_MUY_ALTA_DENSIDAD_ZOOM_ALTO,
                 UMBRAL_ALTA_DENSIDAD_ZOOM_BAJO, UMBRAL_MUY_ALTA_DENSIDAD_ZOOM_BAJO);
     }

@@ -3,6 +3,7 @@ package com.eliasbuenosdias.geogas.utils;
 import com.eliasbuenosdias.geogas.models.GasolineraAPI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Gestor de filtros para gasolineras.
@@ -246,7 +247,7 @@ public class FiltrosManager {
         String rotulo = gasolinera.getRotulo();
         if (rotulo == null) return false;
 
-        return rotulo.toLowerCase().startsWith(this.gasolinera.toLowerCase());
+        return rotulo.toLowerCase(Locale.ROOT).startsWith(this.gasolinera.toLowerCase(Locale.ROOT));
     }
     /**
      * Verifica si la gasolinera cumple los filtros de combustibles.
