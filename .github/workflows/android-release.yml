@@ -41,6 +41,19 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew assembleRelease
 
+      - name: Verify signing certificate
+        run: |
+          EXPECTED="1dd1c0ac17d1906d8f77024981bc5cd8192f7641c9b88c9c1c2455ed30b5942b"
+          APKSIGNER=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools" -name apksigner 2>/dev/null | sort -V | tail -1)
+          echo "apksigner: $APKSIGNER"
+          ACTUAL=$("$APKSIGNER" verify --print-certs app/build/outputs/apk/release/app-release.apk 2>/dev/null \
+            | grep "certificate SHA-256 digest" | awk '{print $NF}' | tr 'A-Z' 'a-z')
+          echo "Certificado SHA-256 del APK: $ACTUAL"
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "::error::La firma del APK no coincide con el keystore compartido. La store rechazará la actualización."
+            exit 1
+          fi
+          echo "Firma correcta (mismo keystore compartido que las releases anteriores)."
 
       - name: Get Version Name
         id: get_version
@@ -55,13 +68,13 @@ jobs:
           files: GeoGas-${{ steps.get_version.outputs.VERSION_NAME }}.apk
           name: "GeoGas ${{ github.ref_name }}"
           body: |
-            ## 🚀 Novedades v1.0.2 — Soporte Multi-idioma
+            ## 🚀 Novedades v1.0.3 — Refactor, microinteracciones y calidad
 
-            - **🌐 Soporte Multi-idioma (ES/EN)**: Selector de idioma integrado con persistencia — la app recuerda tu preferencia.
-            - **🎨 Diálogo de idioma con estilo**: Panel personalizado que sigue la estética de la app (glassmorphism + gradiente).
-            - **🔄 Cambio sin reinicio**: Al cambiar de idioma, la interfaz se actualiza instantáneamente sin recargar datos.
-            - **📝 Traducción completa**: Todos los textos de la UI, filtros, detalles, mensajes de estado y hints traducidos.
-            - **♻️ Arquitectura limpia**: `LocaleManager` con SharedPreferences, siguiendo principios Clean Code y SRP.
+            - **♻️ Filtros refactorizados**: Patrón Command con deshacer (undo) del último cambio aplicado.
+            - **✨ Microinteracciones**: Animación *pop* al marcar favorito y al actualizar el contador de resultados.
+            - **📐 Fix de insets (edge-to-edge)**: Headers de paneles y botón de ubicación correctamente posicionados sobre la barra de navegación.
+            - **🧹 Calidad de código**: Lint limpio (0 errores / 0 warnings), eliminación de recursos sin usar e icono de launcher optimizado (soporte monochrome).
+            - **🔏 Firma verificada**: Release firmada con el keystore compartido (misma identidad que las versiones anteriores).
           draft: false
           prerelease: false
         env:

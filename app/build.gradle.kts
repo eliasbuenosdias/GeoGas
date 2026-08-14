@@ -33,8 +33,8 @@ android {
         applicationId = "com.eliasbuenosdias.geogas"
         minSdk = 26
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.0.2"
+        versionCode = 6
+        versionName = "1.0.3"
 
 
 
