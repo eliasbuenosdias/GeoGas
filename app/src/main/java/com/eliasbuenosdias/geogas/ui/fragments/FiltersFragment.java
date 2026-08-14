@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -116,6 +119,15 @@ public class FiltersFragment extends Fragment {
         btnClearFilters = view.findViewById(R.id.btn_clear_filters);
         btnUndoFilters = view.findViewById(R.id.btn_undo_filters);
         filterResultsCount = view.findViewById(R.id.filter_results_count);
+
+        View filtersHeader = view.findViewById(R.id.filters_header);
+        if (filtersHeader != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(filtersHeader, (v, insets) -> {
+                int top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+                v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+                return insets;
+            });
+        }
 
         ImageButton btnCloseFilters = view.findViewById(R.id.btn_close_filters);
         if (btnCloseFilters != null) {
@@ -234,6 +246,7 @@ public class FiltersFragment extends Fragment {
     public void setResultsCount(int count) {
         if (filterResultsCount != null) {
             filterResultsCount.setText(getString(R.string.results_count, count));
+            filterResultsCount.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.count_pop));
         }
     }
 }

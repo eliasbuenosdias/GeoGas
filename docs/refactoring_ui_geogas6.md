@@ -281,7 +281,7 @@ En [colors.xml](file:///Users/elias/Documents/GeoGas%206/app/src/main/res/values
 
 ## 🚀 Plan de Acción Recomendado por Fases
 
-> ✅ Las Fases 1-3 están completadas (agosto 2026). La Fase 4 (microinteracciones) queda como trabajo futuro.
+> ✅ Las Fases 1-4 están completadas (agosto 2026).
 
 1. **Fase 1: Definición del Sistema de Diseño (1-2 días)** ✅
    - Limpiar `colors.xml` e implementar los tonos de gris tintado y la escala semántica de precios.
@@ -295,5 +295,6 @@ En [colors.xml](file:///Users/elias/Documents/GeoGas%206/app/src/main/res/values
    - Sustituir la cabecera e icono de idioma en [toolbar_main.xml](file:///Users/elias/Documents/GeoGas%206/app/src/main/res/layout/toolbar_main.xml).
    - Convertir selectores desplegables de filtros en `ChipGroup` interactivos en [filters_panel.xml](file:///Users/elias/Documents/GeoGas%206/app/src/main/res/layout/filters_panel.xml).
 
-4. **Fase 4: Microinteracciones y Polish (1 día)** ⏳ *Pendiente*
-   - Añadir animaciones de estado en el botón de favoritos y feedback al aplicar filtros.
+4. **Fase 4: Microinteracciones y Polish (1 día)** ✅
+   - Animación de estado en el botón de favoritos (pop con `star_pop.xml` + transición de color `ArgbEvaluator`).
+   - Feedback visual al aplicar filtros: pop del contador de resultados (`count_pop.xml`).

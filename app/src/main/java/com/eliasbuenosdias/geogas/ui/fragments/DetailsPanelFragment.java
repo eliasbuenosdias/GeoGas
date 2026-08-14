@@ -1,5 +1,7 @@
 package com.eliasbuenosdias.geogas.ui.fragments;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.eliasbuenosdias.geogas.R;
@@ -29,12 +34,14 @@ public class DetailsPanelFragment extends Fragment {
 
     private static final double PRECIO_BAJO = 1.55;
     private static final double PRECIO_ALTO = 1.75;
+    private static final int FAVORITE_ANIMATION_DURATION_MS = 250;
 
     private TextView tvStationName, tvStationAddress, tvLocation, tvHorario;
     private View horarioContainer;
     private ImageButton btnFavorite, btnClose;
     private TableLayout tableGasolina, tableDiesel, tableAlternativos, tableAdicional;
     private TextView tvMainPrice, tvPriceBadge;
+    private int favoriteColor = -1;
 
     private FavoritosManager favoritosManager;
     private DetailsListener listener;
@@ -107,6 +114,15 @@ public class DetailsPanelFragment extends Fragment {
         tableAlternativos = view.findViewById(R.id.table_alternativos);
         tableAdicional = view.findViewById(R.id.table_adicional);
 
+        View header = view.findViewById(R.id.header);
+        if (header != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(header, (v, insets) -> {
+                int top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+                v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+                return insets;
+            });
+        }
+
         if (btnClose != null) {
             btnClose.setOnClickListener(v -> {
                 if (listener != null)
@@ -150,13 +166,22 @@ public class DetailsPanelFragment extends Fragment {
             return;
 
         boolean isFav = favoritosManager.esFavorita(gasolinera.getId());
-        if (isFav) {
-            btnFavorite.setImageResource(R.drawable.ic_star_filled);
-            btnFavorite.setColorFilter(ContextCompat.getColor(getContext(), R.color.price_medium));
+        int targetColor = ContextCompat.getColor(getContext(),
+                isFav ? R.color.price_medium : R.color.textColorSecondary);
+        btnFavorite.setImageResource(isFav ? R.drawable.ic_star_filled : R.drawable.ic_star_outline);
+
+        int fromColor = (favoriteColor >= 0) ? favoriteColor : targetColor;
+        if (fromColor != targetColor) {
+            ValueAnimator colorAnim = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, targetColor);
+            colorAnim.setDuration(FAVORITE_ANIMATION_DURATION_MS);
+            colorAnim.addUpdateListener(a -> btnFavorite.setColorFilter((Integer) a.getAnimatedValue()));
+            colorAnim.start();
         } else {
-            btnFavorite.setImageResource(R.drawable.ic_star_outline);
-            btnFavorite.setColorFilter(ContextCompat.getColor(getContext(), R.color.textColorSecondary));
+            btnFavorite.setColorFilter(targetColor);
         }
+        favoriteColor = targetColor;
+
+        btnFavorite.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.star_pop));
     }
 
     private void updateHeroPrice() {
